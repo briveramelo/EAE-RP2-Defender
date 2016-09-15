@@ -13,7 +13,9 @@
             this.load.image('logo', './assets/ui/gameLogo.png');
             this.load.audio('click', './assets/sounds/click.ogg', true);
 
-            this.load.atlasJSONHash('level01-sprites', './assets/sprites/level01-sprites.png', './assets/sprites/level01-sprites.json');
+            this.load.image('GameBackground', './assets/sprites/GameBackground-pixel.jpg');
+            this.load.atlasJSONHash('Ship', './assets/sprites/Ship_1.png', './assets/sprites/Ship_1.json');
+            //this.load.atlasJSONHash('level01-sprites', './assets/sprites/level01-sprites.png', './assets/sprites/level01-sprites.json');
         }
 
         create() {

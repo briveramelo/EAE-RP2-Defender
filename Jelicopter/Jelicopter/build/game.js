@@ -29,40 +29,56 @@ var Jelicopter;
 (function (Jelicopter) {
     var Client;
     (function (Client) {
-        var Player = (function (_super) {
-            __extends(Player, _super);
-            function Player(game, x, y) {
-                _super.call(this, game, x, y, 'level01-sprites', 1);
+        var Ship = (function (_super) {
+            __extends(Ship, _super);
+            function Ship(game, x, y) {
+                _super.call(this, game, x, y, 'Ship', 1);
+                this.shipSpeed = new Phaser.Point(300, 300);
                 this.anchor.setTo(0.5);
-                this.animations.add('fly', [0, 1], 5, true);
+                this.pivot.set(64, 64);
+                this.animations.add('fly', [0, 1, 2, 3, 4, 5], 30, true);
                 game.add.existing(this);
                 game.physics.enable(this);
                 this.body.collideWorldBounds = true;
                 this.body.setCircle(20);
             }
-            Player.prototype.update = function () {
+            Ship.prototype.update = function () {
+                this.move();
+            };
+            Ship.prototype.move = function () {
                 this.body.velocity.x = 0;
-                if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-                    this.body.velocity.x = -50;
-                    this.animations.play('fly');
-                    if (this.scale.x === -1) {
-                        this.scale.x = 1;
+                this.body.velocity.y = 0;
+                if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
+                    this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) ||
+                    this.game.input.keyboard.isDown(Phaser.Keyboard.UP) ||
+                    this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+                    if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+                        this.body.velocity.x = -this.shipSpeed.x;
+                        if (this.scale.x === 1) {
+                            this.scale.x = -1;
+                        }
                     }
-                }
-                else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-                    this.body.velocity.x = 50;
-                    this.animations.play('fly');
-                    if (this.scale.x === 1) {
-                        this.scale.x = -1;
+                    else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+                        this.body.velocity.x = this.shipSpeed.x;
+                        if (this.scale.x === -1) {
+                            this.scale.x = 1;
+                        }
                     }
+                    if (this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+                        this.body.velocity.y = this.shipSpeed.y;
+                    }
+                    else if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+                        this.body.velocity.y = -this.shipSpeed.y;
+                    }
+                    this.animations.play('fly');
                 }
                 else {
                     this.animations.frame = 0;
                 }
             };
-            return Player;
+            return Ship;
         }(Phaser.Sprite));
-        Client.Player = Player;
+        Client.Ship = Ship;
     })(Client = Jelicopter.Client || (Jelicopter.Client = {}));
 })(Jelicopter || (Jelicopter = {}));
 var Jelicopter;
@@ -77,7 +93,7 @@ var Jelicopter;
             Boot.prototype.preload = function () {
             };
             Boot.prototype.create = function () {
-                this.stage.setBackgroundColor(0xFFFFFF);
+                this.stage.setBackgroundColor("0xFFFFFF");
                 this.input.maxPointers = 1;
                 this.stage.disableVisibilityChange = true;
                 if (this.game.device.desktop) {
@@ -110,10 +126,9 @@ var Jelicopter;
             }
             Level01.prototype.create = function () {
                 this.physics.startSystem(Phaser.Physics.ARCADE);
-                this.background = this.add.sprite(0, 0, 'level01-sprites', 'background');
-                this.player = new Client.Player(this.game, this.world.centerX, this.world.centerX);
+                this.background = this.add.sprite(0, 0, 'GameBackground');
+                this.player = new Client.Ship(this.game, this.world.centerX, this.world.centerX);
                 this.player.anchor.setTo(0, 5);
-                this.game.debug.text("Use Right and Left arrow keys to move the bat", 0, this.world.height, "red");
                 console.log("Created level 01");
             };
             return Level01;
@@ -169,7 +184,8 @@ var Jelicopter;
                 this.load.image('titlepage', './assets/ui/titlePage.png');
                 this.load.image('logo', './assets/ui/gameLogo.png');
                 this.load.audio('click', './assets/sounds/click.ogg', true);
-                this.load.atlasJSONHash('level01-sprites', './assets/sprites/level01-sprites.png', './assets/sprites/level01-sprites.json');
+                this.load.image('GameBackground', './assets/sprites/GameBackground-pixel.jpg');
+                this.load.atlasJSONHash('Ship', './assets/sprites/Ship_1.png', './assets/sprites/Ship_1.json');
             };
             Preloader.prototype.create = function () {
                 var tween = this.add.tween(this.loaderText).to({ alpha: 0 }, 2000, Phaser.Easing.Linear.None, true);
