@@ -1,21 +1,21 @@
 ﻿module Jelicopter.Client {
 
-    export class Ship extends Phaser.Sprite {
+    export class UFO extends Phaser.Sprite {
 
         constructor(game: Phaser.Game, x: number, y: number) {
-            super(game, x, y, 'Ship', 1);
+            super(game, x, y, 'UFO', 1);
             this.anchor.setTo(0.5);
             this.pivot.set(64, 64);
-            this.animations.add('fly', [0, 1, 2, 3, 4, 5], 30, true);
+            this.animations.add('ufo_fly', [0, 1, 2], 30, true);
             game.add.existing(this);
             // Physics
             game.physics.enable(this);
             this.body.collideWorldBounds = true;
             this.body.setCircle(20);
         }
-        
 
-        shipSpeed: Phaser.Point = new Phaser.Point(300,300);
+
+        shipSpeed: Phaser.Point = new Phaser.Point(300, 300);
 
         update() {
             this.move();
@@ -23,8 +23,8 @@
 
         move() {
             this.body.velocity.x = 0;
-            this.body.velocity.y = 0;            
-            
+            this.body.velocity.y = 0;
+
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
                 this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) ||
                 this.game.input.keyboard.isDown(Phaser.Keyboard.UP) ||
@@ -50,13 +50,8 @@
                     this.body.velocity.y = -this.shipSpeed.y;
                 }
 
-                this.animations.play('fly');
-            }
-            else {
-                this.animations.frame = 0;
-            }
-
-
+                this.animations.play('ufo_fly');
+            }            
         }
 
     }

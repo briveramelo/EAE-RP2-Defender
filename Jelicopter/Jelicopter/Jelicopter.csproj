@@ -41,7 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\game.ts" />
-    <TypeScriptCompile Include="src\gameObjects\player.ts" />
+    <TypeScriptCompile Include="src\gameObjects\ufo.ts" />
+    <TypeScriptCompile Include="src\gameObjects\ship.ts" />
+    <TypeScriptCompile Include="src\gameObjects\UFOSpawner.ts" />
     <TypeScriptCompile Include="src\gameStates\boot.ts" />
     <TypeScriptCompile Include="src\gameStates\level01.ts" />
     <TypeScriptCompile Include="src\gameStates\mainMenu.ts" />
@@ -51,6 +53,8 @@
     <TypeScriptCompile Include="tsDefinitions\pixi.comments.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="build\assets\sprites\Ship_1.json" />
+    <Content Include="build\assets\sprites\UFO_1.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

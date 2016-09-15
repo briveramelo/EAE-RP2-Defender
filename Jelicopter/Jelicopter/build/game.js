@@ -85,6 +85,73 @@ var Jelicopter;
 (function (Jelicopter) {
     var Client;
     (function (Client) {
+        var UFO = (function (_super) {
+            __extends(UFO, _super);
+            function UFO(game, x, y) {
+                _super.call(this, game, x, y, 'UFO', 1);
+                this.shipSpeed = new Phaser.Point(300, 300);
+                this.anchor.setTo(0.5);
+                this.pivot.set(64, 64);
+                this.animations.add('ufo_fly', [0, 1, 2], 30, true);
+                game.add.existing(this);
+                game.physics.enable(this);
+                this.body.collideWorldBounds = true;
+                this.body.setCircle(20);
+            }
+            UFO.prototype.update = function () {
+                this.move();
+            };
+            UFO.prototype.move = function () {
+                this.body.velocity.x = 0;
+                this.body.velocity.y = 0;
+                if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
+                    this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) ||
+                    this.game.input.keyboard.isDown(Phaser.Keyboard.UP) ||
+                    this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+                    if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+                        this.body.velocity.x = -this.shipSpeed.x;
+                        if (this.scale.x === 1) {
+                            this.scale.x = -1;
+                        }
+                    }
+                    else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+                        this.body.velocity.x = this.shipSpeed.x;
+                        if (this.scale.x === -1) {
+                            this.scale.x = 1;
+                        }
+                    }
+                    if (this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+                        this.body.velocity.y = this.shipSpeed.y;
+                    }
+                    else if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+                        this.body.velocity.y = -this.shipSpeed.y;
+                    }
+                    this.animations.play('ufo_fly');
+                }
+            };
+            return UFO;
+        }(Phaser.Sprite));
+        Client.UFO = UFO;
+    })(Client = Jelicopter.Client || (Jelicopter.Client = {}));
+})(Jelicopter || (Jelicopter = {}));
+var Jelicopter;
+(function (Jelicopter) {
+    var Client;
+    (function (Client) {
+        var UFOSpawner = (function (_super) {
+            __extends(UFOSpawner, _super);
+            function UFOSpawner() {
+                _super.apply(this, arguments);
+            }
+            return UFOSpawner;
+        }(Phaser.GameObjectFactory));
+        Client.UFOSpawner = UFOSpawner;
+    })(Client = Jelicopter.Client || (Jelicopter.Client = {}));
+})(Jelicopter || (Jelicopter = {}));
+var Jelicopter;
+(function (Jelicopter) {
+    var Client;
+    (function (Client) {
         var Boot = (function (_super) {
             __extends(Boot, _super);
             function Boot() {
@@ -128,6 +195,7 @@ var Jelicopter;
                 this.physics.startSystem(Phaser.Physics.ARCADE);
                 this.background = this.add.sprite(0, 0, 'GameBackground');
                 this.player = new Client.Ship(this.game, this.world.centerX, this.world.centerX);
+                this.ufo = new Client.UFO(this.game, 500, 500);
                 this.player.anchor.setTo(0, 5);
                 console.log("Created level 01");
             };
@@ -186,6 +254,7 @@ var Jelicopter;
                 this.load.audio('click', './assets/sounds/click.ogg', true);
                 this.load.image('GameBackground', './assets/sprites/GameBackground-pixel.jpg');
                 this.load.atlasJSONHash('Ship', './assets/sprites/Ship_1.png', './assets/sprites/Ship_1.json');
+                this.load.atlasJSONHash('UFO', './assets/sprites/UFO_1.png', './assets/sprites/UFO_1.json');
             };
             Preloader.prototype.create = function () {
                 var tween = this.add.tween(this.loaderText).to({ alpha: 0 }, 2000, Phaser.Easing.Linear.None, true);

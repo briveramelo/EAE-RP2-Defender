@@ -1,0 +1,6 @@
+C:\Users\u1089885\Documents\EAE_RapidProto\EAE-RP2\EAE-RP2-Defender\Jelicopter\Jelicopter\bin\Jelicopter.dll.config
+C:\Users\u1089885\Documents\EAE_RapidProto\EAE-RP2\EAE-RP2-Defender\Jelicopter\Jelicopter\bin\Jelicopter.dll
+C:\Users\u1089885\Documents\EAE_RapidProto\EAE-RP2\EAE-RP2-Defender\Jelicopter\Jelicopter\bin\Jelicopter.pdb
+C:\Users\u1089885\Documents\EAE_RapidProto\EAE-RP2\EAE-RP2-Defender\Jelicopter\Jelicopter\obj\Debug\Jelicopter.csprojResolveAssemblyReference.cache
+C:\Users\u1089885\Documents\EAE_RapidProto\EAE-RP2\EAE-RP2-Defender\Jelicopter\Jelicopter\obj\Debug\Jelicopter.dll
+C:\Users\u1089885\Documents\EAE_RapidProto\EAE-RP2\EAE-RP2-Defender\Jelicopter\Jelicopter\obj\Debug\Jelicopter.pdb
