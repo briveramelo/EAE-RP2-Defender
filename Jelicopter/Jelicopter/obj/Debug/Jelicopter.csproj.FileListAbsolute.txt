@@ -1,0 +1,5 @@
+C:\EAE\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\bin\Jelicopter.dll
+C:\EAE\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\bin\Jelicopter.pdb
+C:\EAE\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\obj\Debug\Jelicopter.csprojResolveAssemblyReference.cache
+C:\EAE\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\obj\Debug\Jelicopter.dll
+C:\EAE\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\obj\Debug\Jelicopter.pdb
