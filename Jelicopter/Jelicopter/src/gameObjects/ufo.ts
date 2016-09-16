@@ -12,46 +12,32 @@
             game.physics.enable(this);
             this.body.collideWorldBounds = true;
             this.body.setCircle(20);
+            game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight, this.move, this);
         }
 
 
-        shipSpeed: Phaser.Point = new Phaser.Point(300, 300);
+        shipSpeed: Phaser.Point = new Phaser.Point(100, 100);
+        timeToMoveStraight: number = 1;
+        timeMoving: number=0;
 
         update() {
-            this.move();
+            //this.move();
+            this.animations.play('ufo_fly');
         }
 
+        goStraight: boolean;
+
         move() {
-            this.body.velocity.x = 0;
-            this.body.velocity.y = 0;
+            this.goStraight = !this.goStraight;
 
-            if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
-                this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) ||
-                this.game.input.keyboard.isDown(Phaser.Keyboard.UP) ||
-                this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-
-                if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-                    this.body.velocity.x = -this.shipSpeed.x;
-                    if (this.scale.x === 1) {
-                        this.scale.x = -1;
-                    }
-                }
-                else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-                    this.body.velocity.x = this.shipSpeed.x;
-                    if (this.scale.x === -1) {
-                        this.scale.x = 1;
-                    }
-                }
-
-                if (this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-                    this.body.velocity.y = this.shipSpeed.y;
-                }
-                else if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-                    this.body.velocity.y = -this.shipSpeed.y;
-                }
-
-                this.animations.play('ufo_fly');
-            }            
+            if (this.goStraight) {
+                this.body.velocity.y = 0;
+                this.body.velocity.x = this.shipSpeed.x;
+            }
+            else{
+                this.body.velocity.y = (this.game.rnd.sign()) * this.shipSpeed.y;
+            }
+            this.game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight, this.move, this);
         }
 
     }

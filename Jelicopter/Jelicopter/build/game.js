@@ -89,7 +89,9 @@ var Jelicopter;
             __extends(UFO, _super);
             function UFO(game, x, y) {
                 _super.call(this, game, x, y, 'UFO', 1);
-                this.shipSpeed = new Phaser.Point(300, 300);
+                this.shipSpeed = new Phaser.Point(100, 100);
+                this.timeToMoveStraight = 1;
+                this.timeMoving = 0;
                 this.anchor.setTo(0.5);
                 this.pivot.set(64, 64);
                 this.animations.add('ufo_fly', [0, 1, 2], 30, true);
@@ -97,37 +99,21 @@ var Jelicopter;
                 game.physics.enable(this);
                 this.body.collideWorldBounds = true;
                 this.body.setCircle(20);
+                game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight, this.move, this);
             }
             UFO.prototype.update = function () {
-                this.move();
+                this.animations.play('ufo_fly');
             };
             UFO.prototype.move = function () {
-                this.body.velocity.x = 0;
-                this.body.velocity.y = 0;
-                if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
-                    this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) ||
-                    this.game.input.keyboard.isDown(Phaser.Keyboard.UP) ||
-                    this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-                    if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-                        this.body.velocity.x = -this.shipSpeed.x;
-                        if (this.scale.x === 1) {
-                            this.scale.x = -1;
-                        }
-                    }
-                    else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-                        this.body.velocity.x = this.shipSpeed.x;
-                        if (this.scale.x === -1) {
-                            this.scale.x = 1;
-                        }
-                    }
-                    if (this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-                        this.body.velocity.y = this.shipSpeed.y;
-                    }
-                    else if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-                        this.body.velocity.y = -this.shipSpeed.y;
-                    }
-                    this.animations.play('ufo_fly');
+                this.goStraight = !this.goStraight;
+                if (this.goStraight) {
+                    this.body.velocity.y = 0;
+                    this.body.velocity.x = this.shipSpeed.x;
                 }
+                else {
+                    this.body.velocity.y = (this.game.rnd.sign()) * this.shipSpeed.y;
+                }
+                this.game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight, this.move, this);
             };
             return UFO;
         }(Phaser.Sprite));
