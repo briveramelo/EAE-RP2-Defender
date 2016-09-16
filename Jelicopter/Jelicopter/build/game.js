@@ -29,9 +29,29 @@ var Jelicopter;
 (function (Jelicopter) {
     var Client;
     (function (Client) {
+        var Bullet = (function (_super) {
+            __extends(Bullet, _super);
+            function Bullet(game) {
+                _super.call(this, game);
+                this.bulletTime = 0;
+                this.enableBody = true;
+                this.physicsBodyType = Phaser.Physics.ARCADE;
+                this.createMultiple(40, 'Bullet');
+                this.setAll('anchor.x', 0.5);
+                this.setAll('anchor.y', 0.5);
+            }
+            return Bullet;
+        }(Phaser.Group));
+        Client.Bullet = Bullet;
+    })(Client = Jelicopter.Client || (Jelicopter.Client = {}));
+})(Jelicopter || (Jelicopter = {}));
+var Jelicopter;
+(function (Jelicopter) {
+    var Client;
+    (function (Client) {
         var Ship = (function (_super) {
             __extends(Ship, _super);
-            function Ship(game, x, y) {
+            function Ship(game, x, y, bullets) {
                 _super.call(this, game, x, y, 'Ship', 1);
                 this.shipSpeed = new Phaser.Point(300, 300);
                 this.anchor.setTo(0.5);
@@ -41,9 +61,33 @@ var Jelicopter;
                 game.physics.enable(this);
                 this.body.collideWorldBounds = true;
                 this.body.setCircle(20);
+                this.bullets = bullets;
             }
             Ship.prototype.update = function () {
                 this.move();
+                this.checkShoot();
+            };
+            Ship.prototype.checkShoot = function () {
+                if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+                    this.fireBullet();
+                }
+            };
+            Ship.prototype.fireBullet = function () {
+                if (this.game.time.now > this.bullets.bulletTime) {
+                    this.bullets.bullet = this.bullets.getFirstExists(false);
+                    if (this.bullets.bullet) {
+                        if (this.scale.x === 1)
+                            this.bullets.bullet.reset(this.body.x + 64, this.body.y + 64);
+                        else
+                            this.bullets.bullet.reset(this.body.x - 64, this.body.y + 64);
+                        this.bullets.bullet.lifespan = 2000;
+                        if (this.scale.x === 1)
+                            this.game.physics.arcade.velocityFromAngle(0, 400, this.bullets.bullet.body.velocity);
+                        else
+                            this.game.physics.arcade.velocityFromAngle(180, 400, this.bullets.bullet.body.velocity);
+                        this.bullets.bulletTime = this.game.time.now + 50;
+                    }
+                }
             };
             Ship.prototype.move = function () {
                 this.body.velocity.x = 0;
@@ -127,7 +171,8 @@ var Jelicopter;
             Level01.prototype.create = function () {
                 this.physics.startSystem(Phaser.Physics.ARCADE);
                 this.background = this.add.sprite(0, 0, 'GameBackground');
-                this.player = new Client.Ship(this.game, this.world.centerX, this.world.centerX);
+                this.bullets = new Client.Bullet(this.game);
+                this.player = new Client.Ship(this.game, this.world.centerX, this.world.centerX, this.bullets);
                 this.player.anchor.setTo(0, 5);
                 console.log("Created level 01");
             };
@@ -185,6 +230,7 @@ var Jelicopter;
                 this.load.image('logo', './assets/ui/gameLogo.png');
                 this.load.audio('click', './assets/sounds/click.ogg', true);
                 this.load.image('GameBackground', './assets/sprites/GameBackground-pixel.jpg');
+                this.load.image('Bullet', './assets/sprites/bullet02.png');
                 this.load.atlasJSONHash('Ship', './assets/sprites/Ship_1.png', './assets/sprites/Ship_1.json');
             };
             Preloader.prototype.create = function () {

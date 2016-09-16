@@ -3,3 +3,8 @@ C:\EAE\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\bin\Jelicopter.p
 C:\EAE\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\obj\Debug\Jelicopter.csprojResolveAssemblyReference.cache
 C:\EAE\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\obj\Debug\Jelicopter.dll
 C:\EAE\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\obj\Debug\Jelicopter.pdb
+C:\Work\EAE\1st Sem\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\bin\Jelicopter.dll
+C:\Work\EAE\1st Sem\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\bin\Jelicopter.pdb
+C:\Work\EAE\1st Sem\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\obj\Debug\Jelicopter.csprojResolveAssemblyReference.cache
+C:\Work\EAE\1st Sem\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\obj\Debug\Jelicopter.dll
+C:\Work\EAE\1st Sem\Rapid Prototyping\EAE-RP2-Defender\Jelicopter\Jelicopter\obj\Debug\Jelicopter.pdb

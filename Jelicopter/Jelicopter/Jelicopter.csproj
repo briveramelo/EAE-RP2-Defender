@@ -22,6 +22,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="build\assets\sprites\bullet02.png" />
     <Content Include="build\styles\default.css" />
     <Content Include="build\assets\sprites\level01-sprites.png" />
     <Content Include="build\assets\ui\gameLogo.png" />
@@ -41,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\game.ts" />
+    <TypeScriptCompile Include="src\gameObjects\bullet.ts" />
     <TypeScriptCompile Include="src\gameObjects\ship.ts" />
     <TypeScriptCompile Include="src\gameStates\boot.ts" />
     <TypeScriptCompile Include="src\gameStates\level01.ts" />
