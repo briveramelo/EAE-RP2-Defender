@@ -1,21 +1,25 @@
 ﻿module Jelicopter.Client {
 
     export class Preloader extends Phaser.State {
+
         loaderText: Phaser.Text;
 
         preload() {
-            
+            this.game.antialias = false;
             this.loaderText = this.game.add.text(this.world.centerX, 200, "Loading...",
                 { font: "18px Arial", fill: "#A9A91111", align: "center" });
             this.loaderText.anchor.setTo(0.5);
 
             this.load.image('titlepage', './assets/ui/titlePage.png');
-            this.load.image('logo', './assets/ui/gameLogo.png');
+            this.load.image('logo', './assets/ui/Jelicopter.png');
             this.load.audio('click', './assets/sounds/click.ogg', true);
 
-            this.load.image('GameBackground', './assets/sprites/GameBackground-pixel.jpg');
-            this.load.atlasJSONHash('Ship', './assets/sprites/Ship_1.png', './assets/sprites/Ship_1.json');
-            this.load.atlasJSONHash('UFO', './assets/sprites/UFO_1.png', './assets/sprites/UFO_1.json');
+            this.load.image('GameBackground', './assets/sprites/Background/GameBackground-pixel.jpg');
+            this.load.image('EnemyBullet', './assets/sprites/UFO/EnemyBullet.png');
+
+            this.load.atlasJSONHash('Ship', './assets/sprites/Ship/Ship_1.png', './assets/sprites/Ship/Ship_1.json');
+            this.load.atlasJSONHash('UFO', './assets/sprites/UFO/UFO_1.png', './assets/sprites/UFO/UFO_1.json');
+
             //this.load.atlasJSONHash('level01-sprites', './assets/sprites/level01-sprites.png', './assets/sprites/level01-sprites.json');
         }
 

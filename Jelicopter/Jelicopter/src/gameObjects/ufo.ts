@@ -2,27 +2,46 @@
 
     export class UFO extends Phaser.Sprite {
 
-        constructor(game: Phaser.Game, x: number, y: number) {
-            super(game, x, y, 'UFO', 1);
+        constructor(game: Phaser.Game, level: Level01, x: number, y: number) {
+            super(game, x, y, 'UFO');
+            this.level = level;
             this.anchor.setTo(0.5);
             this.pivot.set(64, 64);
             this.animations.add('ufo_fly', [0, 1, 2], 30, true);
             game.add.existing(this);
             // Physics
             game.physics.enable(this);
-            this.body.collideWorldBounds = true;
             this.body.setCircle(20);
-            game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight, this.move, this);
+            this.kill();      
         }
 
-
+        level: Level01;
         shipSpeed: Phaser.Point = new Phaser.Point(100, 100);
         timeToMoveStraight: number = 1;
-        timeMoving: number=0;
+        timeToShoot: number = .5;
+        timeMoving: number = 0;
+        enemyBullet: EnemyBullet;
+        shootDir: Phaser.Point;
+        shootSpeed: number = 100;
+        bulletSpawnPoint: Phaser.Point;
 
         update() {
             //this.move();
-            this.animations.play('ufo_fly');
+            this.animations.play('ufo_fly');            
+        }
+
+        comeAlive() {
+            this.revive();
+            this.position = new Phaser.Point(100, 500);
+            this.move();
+            this.game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight, this.shoot, this);
+            this.game.time.events.add(Phaser.Timer.SECOND * 5, this.kill, this);
+        }
+
+        kill() {
+            //this.body.position
+            super.kill();
+            return this;
         }
 
         goStraight: boolean;
@@ -37,7 +56,23 @@
             else{
                 this.body.velocity.y = (this.game.rnd.sign()) * this.shipSpeed.y;
             }
-            this.game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight, this.move, this);
+            if (this.alive) {
+                this.game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight, this.move, this);
+            }
+        }
+
+        shoot() {
+            if (this.level.player.alive) {
+                var shootDir = new Phaser.Point(this.level.player.position.x - this.position.x, this.level.player.position.y - this.position.y);
+                this.bulletSpawnPoint = this.position;
+                var enemyBullet = new EnemyBullet(this.game, this.level, this.bulletSpawnPoint.x, this.bulletSpawnPoint.y);//this.level.enemyBullets.getFirstDead(true);
+                //this.enemyBullet.comeAlive();
+                enemyBullet.launch(shootDir.setMagnitude(this.shootSpeed), this.bulletSpawnPoint);
+                //this.removeChildren();
+            }
+            if (this.alive) {
+                this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShoot, this.shoot, this);
+            }
         }
 
     }
