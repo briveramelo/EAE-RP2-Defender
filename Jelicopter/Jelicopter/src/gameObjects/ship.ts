@@ -4,13 +4,12 @@
 
         constructor(game: Phaser.Game, x: number, y: number, bullets: Bullet) {
             super(game, x, y, 'Ship', 1);
+            this.game.physics.arcade.enable([this]);
             this.anchor.setTo(0.5);
             this.pivot.set(64, 64);
             this.animations.add('fly', [0, 1, 2, 3, 4, 5], 30, true);
             game.add.existing(this);
-            game.physics.enable(this);
             this.body.collideWorldBounds = true;
-            this.body.setCircle(20);
             this.bullets = bullets;
         }
 

@@ -49,18 +49,51 @@ var Jelicopter;
 (function (Jelicopter) {
     var Client;
     (function (Client) {
+        var People = (function (_super) {
+            __extends(People, _super);
+            function People(game, x, y, ship) {
+                _super.call(this, game, x, y, 'People', 1);
+                this.animations.add('wave', [0, 1, 2, 3, 4], 15, true);
+                this.game.physics.arcade.enable([this]);
+                game.add.existing(this);
+                this.body.collideWorldBounds = true;
+                this.scale.setTo(0.6);
+                this.ship = ship;
+            }
+            People.prototype.update = function () {
+                this.animations.play('wave');
+                if (this.checkOverlap(this.ship, this)) {
+                    console.log("Overlapping ya");
+                }
+                else {
+                    console.log("Not Overlapping");
+                }
+            };
+            People.prototype.checkOverlap = function (spriteA, spriteB) {
+                var boundsA = spriteA.getBounds();
+                var boundsB = spriteB.getBounds();
+                return Phaser.Rectangle.intersects(boundsA, boundsB);
+            };
+            return People;
+        }(Phaser.Sprite));
+        Client.People = People;
+    })(Client = Jelicopter.Client || (Jelicopter.Client = {}));
+})(Jelicopter || (Jelicopter = {}));
+var Jelicopter;
+(function (Jelicopter) {
+    var Client;
+    (function (Client) {
         var Ship = (function (_super) {
             __extends(Ship, _super);
             function Ship(game, x, y, bullets) {
                 _super.call(this, game, x, y, 'Ship', 1);
                 this.shipSpeed = new Phaser.Point(300, 300);
+                this.game.physics.arcade.enable([this]);
                 this.anchor.setTo(0.5);
                 this.pivot.set(64, 64);
                 this.animations.add('fly', [0, 1, 2, 3, 4, 5], 30, true);
                 game.add.existing(this);
-                game.physics.enable(this);
                 this.body.collideWorldBounds = true;
-                this.body.setCircle(20);
                 this.bullets = bullets;
             }
             Ship.prototype.update = function () {
@@ -174,6 +207,7 @@ var Jelicopter;
                 this.bullets = new Client.Bullet(this.game);
                 this.player = new Client.Ship(this.game, this.world.centerX, this.world.centerX, this.bullets);
                 this.player.anchor.setTo(0, 5);
+                this.people = new Client.People(this.game, 200, 400, this.player);
                 console.log("Created level 01");
             };
             return Level01;
@@ -232,6 +266,7 @@ var Jelicopter;
                 this.load.image('GameBackground', './assets/sprites/GameBackground-pixel.jpg');
                 this.load.image('Bullet', './assets/sprites/bullet02.png');
                 this.load.atlasJSONHash('Ship', './assets/sprites/Ship_1.png', './assets/sprites/Ship_1.json');
+                this.load.atlasJSONHash('People', './assets/sprites/Jumping_male.png', './assets/sprites/Jumping_male.json');
             };
             Preloader.prototype.create = function () {
                 var tween = this.add.tween(this.loaderText).to({ alpha: 0 }, 2000, Phaser.Easing.Linear.None, true);
