@@ -13,26 +13,7 @@
             this.ship = ship;
         }
 
-        update() {
-            for (var i = 0, len = this.children.length; i < len; i++) {
-                if (this.checkOverlap(this.ship, this.children[i])) {
-                console.log("Overlapping ya");
-            }
-            else {
-                console.log("Not Overlapping");
-            }
-            }
-           
-
-        }
-
-        checkOverlap(spriteA, spriteB) {
-            var boundsA = spriteA.getBounds();
-            var boundsB = spriteB.getBounds();
-
-            return Phaser.Rectangle.intersects(boundsA, boundsB);
-
-        }
+        
 
     }
 }

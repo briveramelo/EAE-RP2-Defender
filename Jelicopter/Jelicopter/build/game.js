@@ -61,21 +61,6 @@ var Jelicopter;
                 this.scale.set(0.62);
                 this.ship = ship;
             }
-            People.prototype.update = function () {
-                for (var i = 0, len = this.children.length; i < len; i++) {
-                    if (this.checkOverlap(this.ship, this.children[i])) {
-                        console.log("Overlapping ya");
-                    }
-                    else {
-                        console.log("Not Overlapping");
-                    }
-                }
-            };
-            People.prototype.checkOverlap = function (spriteA, spriteB) {
-                var boundsA = spriteA.getBounds();
-                var boundsB = spriteB.getBounds();
-                return Phaser.Rectangle.intersects(boundsA, boundsB);
-            };
             return People;
         }(Phaser.Group));
         Client.People = People;
@@ -202,6 +187,7 @@ var Jelicopter;
             __extends(Level01, _super);
             function Level01() {
                 _super.apply(this, arguments);
+                this.score = 0;
             }
             Level01.prototype.create = function () {
                 this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -210,7 +196,28 @@ var Jelicopter;
                 this.player = new Client.Ship(this.game, this.world.centerX, this.world.centerX, this.bullets);
                 this.player.anchor.setTo(0, 5);
                 this.people = new Client.People(this.game, this.player);
-                console.log("Created level 01");
+                this.displayScore();
+            };
+            Level01.prototype.update = function () {
+                for (var i = 0, len = this.people.children.length; i < len; i++) {
+                    if (this.checkOverlap(this.player, this.people.children[i])) {
+                        this.score += 10;
+                        this.scoreText.text = 'Score: ' + this.score;
+                    }
+                    else {
+                        console.log("Not Overlapping");
+                    }
+                }
+            };
+            Level01.prototype.checkOverlap = function (spriteA, spriteB) {
+                var boundsA = spriteA.getBounds();
+                var boundsB = spriteB.getBounds();
+                return Phaser.Rectangle.intersects(boundsA, boundsB);
+            };
+            Level01.prototype.displayScore = function () {
+                var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+                this.scoreText = this.game.add.text(0, 0, "Score: 0", style);
+                this.scoreText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
             };
             return Level01;
         }(Phaser.State));
