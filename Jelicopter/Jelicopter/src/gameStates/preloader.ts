@@ -24,13 +24,18 @@
         }
 
         create() {
-            var tween = this.add.tween(this.loaderText).to({ alpha: 0 }, 2000,
-                Phaser.Easing.Linear.None, true);
-            tween.onComplete.add(this.startMainMenu, this);
+            //var tween = this.add.tween(this.loaderText).to({ alpha: 0 }, 2000,
+            //    Phaser.Easing.Linear.None, true);
+            //tween.onComplete.add(this.startMainMenu, this);
+            this.startLevel();
         }
 
         startMainMenu() {
             this.game.state.start('MainMenu', true, false);
+        }
+
+        startLevel() {
+            this.game.state.start('Level01', true, false);
         }
 
     }

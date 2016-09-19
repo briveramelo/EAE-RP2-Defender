@@ -350,11 +350,13 @@ var Jelicopter;
                 this.load.atlasJSONHash('UFO', './assets/sprites/UFO/UFO_1.png', './assets/sprites/UFO/UFO_1.json');
             };
             Preloader.prototype.create = function () {
-                var tween = this.add.tween(this.loaderText).to({ alpha: 0 }, 2000, Phaser.Easing.Linear.None, true);
-                tween.onComplete.add(this.startMainMenu, this);
+                this.startLevel();
             };
             Preloader.prototype.startMainMenu = function () {
                 this.game.state.start('MainMenu', true, false);
+            };
+            Preloader.prototype.startLevel = function () {
+                this.game.state.start('Level01', true, false);
             };
             return Preloader;
         }(Phaser.State));
