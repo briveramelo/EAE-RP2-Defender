@@ -32,8 +32,7 @@
                 if (this.checkOverlap(this.player, this.people.children[i])) {
                     //this.people.children[i].worldPosition = this.player.world;
                     this.savePersonIndex = i;
-                    this.score += 10;
-                    this.scoreText.text = 'Score: ' + this.score;
+                    
                     this.isSaving = true;
                 }
                 else {
@@ -55,6 +54,20 @@
                     }
                 }, this);
                 //this.isSaving = false;
+            }
+            if (this.checkOverlap(this.player, this.building)) {
+                if (this.isSaving) {
+                    this.isSaving = false;
+                    this.score += 10;
+                    this.scoreText.text = 'Score: ' + this.score;
+                    this.people.children[this.savePersonIndex].x = this.people.originalXPosition;
+                    this.people.children[this.savePersonIndex].y = this.people.originalYPosition;
+                    //this.people.forEach(function (item) {
+                    //    item.body.x = this.building.body.x;
+                    //    item.body.y = this.building.body.y;
+                    //}
+                    console.debug("Saved");
+                }
             }
             //if (this.checkOverlap(this.player, this.building)) {
             //    if (this.isSaving) {

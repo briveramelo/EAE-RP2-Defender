@@ -54,7 +54,6 @@ var Jelicopter;
             function Hospital(game, x, y) {
                 _super.call(this, game, x, y, 'Hospital');
                 game.add.existing(this);
-                this.scale.set(0.2);
                 this.game.physics.arcade.enable([this]);
                 this.body.collideWorldBounds = true;
             }
@@ -72,6 +71,8 @@ var Jelicopter;
             function People(game, ship) {
                 _super.call(this, game);
                 var person = this.game.add.sprite(200, 550, 'Male', 1);
+                this.originalXPosition = 200;
+                this.originalYPosition = 550;
                 this.add(person);
                 this.callAll('animations.add', 'animations', 'wave', [0, 1, 2, 3, 4], 15, true);
                 this.callAll('play', null, 'wave');
@@ -223,8 +224,6 @@ var Jelicopter;
                 for (var i = 0, len = this.people.children.length; i < len; i++) {
                     if (this.checkOverlap(this.player, this.people.children[i])) {
                         this.savePersonIndex = i;
-                        this.score += 10;
-                        this.scoreText.text = 'Score: ' + this.score;
                         this.isSaving = true;
                     }
                     else {
@@ -241,6 +240,16 @@ var Jelicopter;
                             item.body.y = this.player.body.y;
                         }
                     }, this);
+                }
+                if (this.checkOverlap(this.player, this.building)) {
+                    if (this.isSaving) {
+                        this.isSaving = false;
+                        this.score += 10;
+                        this.scoreText.text = 'Score: ' + this.score;
+                        this.people.children[this.savePersonIndex].x = this.people.originalXPosition;
+                        this.people.children[this.savePersonIndex].y = this.people.originalYPosition;
+                        console.debug("Saved");
+                    }
                 }
             };
             Level01.prototype.checkOverlap = function (spriteA, spriteB) {
