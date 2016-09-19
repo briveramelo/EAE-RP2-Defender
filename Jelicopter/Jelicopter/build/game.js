@@ -39,14 +39,14 @@ var Jelicopter;
                 game.add.existing(this);
                 game.physics.enable(this);
                 this.body.setCircle(2);
+                this.kill();
             }
-            EnemyBullet.prototype.comeAlive = function () {
-                this.revive();
-            };
             EnemyBullet.prototype.launch = function (bulletVelocity, startPoint) {
+                this.revive();
+                this.lifespan = 2000;
                 this.position = startPoint;
-                this.body.velocity.x = bulletVelocity.x;
-                this.body.velocity.y = bulletVelocity.y;
+                var angleOfShot = Math.atan2(bulletVelocity.y, bulletVelocity.x) * 180 / Math.PI;
+                this.game.physics.arcade.velocityFromAngle(angleOfShot, 400, this.body.velocity);
                 console.log(this.body);
             };
             EnemyBullet.prototype.update = function () {
@@ -124,9 +124,10 @@ var Jelicopter;
                 _super.call(this, game, x, y, 'UFO');
                 this.shipSpeed = new Phaser.Point(100, 100);
                 this.timeToMoveStraight = 1;
-                this.timeToShoot = .5;
+                this.timeToShoot = 1.5;
                 this.timeMoving = 0;
                 this.shootSpeed = 100;
+                this.positionOffset = new Phaser.Point(-64, -64);
                 this.level = level;
                 this.anchor.setTo(0.5);
                 this.pivot.set(64, 64);
@@ -138,6 +139,17 @@ var Jelicopter;
             }
             UFO.prototype.update = function () {
                 this.animations.play('ufo_fly');
+                if (this.level.player.alive && this.alive) {
+                    var myPos = new Phaser.Point(this.position.x + this.positionOffset.x, this.position.y + this.positionOffset.y);
+                    if (myPos.distance(this.level.player.position) < 900 && !this.playerIsInRange && !this.waitingToShoot) {
+                        console.log("within distance!");
+                        this.playerIsInRange = true;
+                        this.shoot();
+                    }
+                    else {
+                        this.playerIsInRange = false;
+                    }
+                }
             };
             UFO.prototype.comeAlive = function () {
                 this.revive();
@@ -164,14 +176,17 @@ var Jelicopter;
                 }
             };
             UFO.prototype.shoot = function () {
-                if (this.level.player.alive) {
+                this.waitingToShoot = false;
+                if (this.level.player.alive && this.alive) {
                     var shootDir = new Phaser.Point(this.level.player.position.x - this.position.x, this.level.player.position.y - this.position.y);
-                    this.bulletSpawnPoint = this.position;
-                    var enemyBullet = new Client.EnemyBullet(this.game, this.level, this.bulletSpawnPoint.x, this.bulletSpawnPoint.y);
-                    enemyBullet.launch(shootDir.setMagnitude(this.shootSpeed), this.bulletSpawnPoint);
+                    var myBullet = this.level.enemyBullets.getFirstDead(false);
+                    myBullet.reset(this.position.x + this.positionOffset.x, this.position.y + this.positionOffset.y);
+                    var angleOfShot = Math.atan2(shootDir.y, shootDir.x) * 180 / Math.PI;
+                    this.game.physics.arcade.velocityFromAngle(angleOfShot, 400, myBullet.body.velocity);
                 }
                 if (this.alive) {
                     this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShoot, this.shoot, this);
+                    this.waitingToShoot = true;
                 }
             };
             return UFO;
@@ -244,6 +259,7 @@ var Jelicopter;
             }
             Level01.prototype.create = function () {
                 this.physics.startSystem(Phaser.Physics.ARCADE);
+                this.createEnemyBullets();
                 this.background = this.add.sprite(0, 0, 'GameBackground');
                 this.createUFOs();
                 this.createEnemyBullets();
@@ -258,12 +274,12 @@ var Jelicopter;
                 this.ufoSpawner = new Client.UFOSpawner(this.game, this);
             };
             Level01.prototype.createEnemyBullets = function () {
-                var i = 0;
                 this.enemyBullets = this.game.add.group();
-                for (i = 0; i < 30; i++) {
-                    this.enemyBullets.add(new Client.EnemyBullet(this.game, this, -1000, -1000));
-                }
-                console.log(this.enemyBullets);
+                this.enemyBullets.enableBody = true;
+                this.enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
+                this.enemyBullets.createMultiple(50, 'EnemyBullet');
+                this.enemyBullets.setAll('checkWorldBounds', true);
+                this.enemyBullets.setAll('outOfBoundsKill', true);
             };
             Level01.prototype.createPlayerShip = function () {
                 this.player = new Client.Ship(this.game, this.world.centerX, this.world.centerY);

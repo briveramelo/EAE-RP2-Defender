@@ -15,20 +15,20 @@
             // Physics
             game.physics.enable(this);
             this.body.setCircle(2);
-            //this.kill();
+            this.kill();
         }
-        comeAlive() {
-            this.revive();                  
-        }
+
         launch(bulletVelocity: Phaser.Point, startPoint: Phaser.Point) {
+            this.revive();
+            this.lifespan = 2000;
             this.position = startPoint;
-            this.body.velocity.x = bulletVelocity.x;
-            this.body.velocity.y = bulletVelocity.y;
-            console.log(this.body);
+            var angleOfShot = Math.atan2(bulletVelocity.y, bulletVelocity.x) * 180 / Math.PI;
+            this.game.physics.arcade.velocityFromAngle(angleOfShot, 400, this.body.velocity);
+            console.log(this.body);       
         }
+
         update() {
             if (this.alive) {
-                
             }
         }
 

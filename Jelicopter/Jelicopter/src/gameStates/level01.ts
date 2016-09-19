@@ -12,6 +12,18 @@
         create() {            
             this.physics.startSystem(Phaser.Physics.ARCADE);
 
+
+
+            this.createEnemyBullets();
+
+
+
+
+
+
+
+
+
             this.background = this.add.sprite(0, 0, 'GameBackground');
 
             this.createUFOs();
@@ -29,12 +41,13 @@
         }
 
         createEnemyBullets() {
-            var i: number = 0;
             this.enemyBullets = this.game.add.group();
-            for (i = 0; i < 30; i++) {
-                this.enemyBullets.add( new EnemyBullet(this.game, this, -1000, -1000));
-            }
-            console.log(this.enemyBullets);
+            this.enemyBullets.enableBody = true;
+            this.enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
+
+            this.enemyBullets.createMultiple(50, 'EnemyBullet');
+            this.enemyBullets.setAll('checkWorldBounds', true);
+            this.enemyBullets.setAll('outOfBoundsKill', true);                        
         }
 
         createPlayerShip() {

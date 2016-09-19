@@ -18,16 +18,28 @@
         level: Level01;
         shipSpeed: Phaser.Point = new Phaser.Point(100, 100);
         timeToMoveStraight: number = 1;
-        timeToShoot: number = .5;
+        timeToShoot: number = 1.5;
         timeMoving: number = 0;
-        enemyBullet: EnemyBullet;
-        shootDir: Phaser.Point;
         shootSpeed: number = 100;
-        bulletSpawnPoint: Phaser.Point;
+        positionOffset: Phaser.Point = new Phaser.Point(-64, -64);
+        playerIsInRange: boolean;
+        waitingToShoot: boolean;
 
         update() {
             //this.move();
-            this.animations.play('ufo_fly');            
+            this.animations.play('ufo_fly');
+            if (this.level.player.alive && this.alive) {
+                var myPos: Phaser.Point = new Phaser.Point(this.position.x + this.positionOffset.x, this.position.y + this.positionOffset.y);
+                //console.log(myPos.distance(this.level.player.position));
+                if (myPos.distance(this.level.player.position) < 900 && !this.playerIsInRange && !this.waitingToShoot) {
+                    console.log("within distance!");
+                    this.playerIsInRange = true;
+                    this.shoot();
+                }
+                else {
+                    this.playerIsInRange = false;
+                }
+            }
         }
 
         comeAlive() {
@@ -62,16 +74,17 @@
         }
 
         shoot() {
-            if (this.level.player.alive) {
+            this.waitingToShoot = false;
+            if (this.level.player.alive && this.alive) {
                 var shootDir = new Phaser.Point(this.level.player.position.x - this.position.x, this.level.player.position.y - this.position.y);
-                this.bulletSpawnPoint = this.position;
-                var enemyBullet = new EnemyBullet(this.game, this.level, this.bulletSpawnPoint.x, this.bulletSpawnPoint.y);//this.level.enemyBullets.getFirstDead(true);
-                //this.enemyBullet.comeAlive();
-                enemyBullet.launch(shootDir.setMagnitude(this.shootSpeed), this.bulletSpawnPoint);
-                //this.removeChildren();
+                var myBullet = this.level.enemyBullets.getFirstDead(false);
+                myBullet.reset(this.position.x + this.positionOffset.x, this.position.y + this.positionOffset.y);
+                var angleOfShot = Math.atan2(shootDir.y, shootDir.x) * 180 / Math.PI;
+                this.game.physics.arcade.velocityFromAngle(angleOfShot, 400, myBullet.body.velocity);
             }
             if (this.alive) {
                 this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShoot, this.shoot, this);
+                this.waitingToShoot = true;
             }
         }
 
