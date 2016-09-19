@@ -40,6 +40,7 @@
     <Folder Include="src\utils\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\Components\collider.ts" />
     <TypeScriptCompile Include="src\game.ts" />
     <TypeScriptCompile Include="src\gameObjects\ufo.ts" />
     <TypeScriptCompile Include="src\gameObjects\ship.ts" />
