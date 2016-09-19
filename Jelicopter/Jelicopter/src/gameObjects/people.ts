@@ -10,6 +10,7 @@
             this.callAll('play', null, 'wave');
             this.game.physics.arcade.enable(this);
             this.scale.set(0.62);
+            this.callAll('body.collideWorldBounds', '', true);
             this.ship = ship;
         }
 

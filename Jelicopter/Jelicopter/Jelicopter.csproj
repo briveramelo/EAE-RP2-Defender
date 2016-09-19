@@ -43,6 +43,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\game.ts" />
     <TypeScriptCompile Include="src\gameObjects\bullet.ts" />
+    <TypeScriptCompile Include="src\gameObjects\level01.ts" />
     <TypeScriptCompile Include="src\gameObjects\people.ts" />
     <TypeScriptCompile Include="src\gameObjects\ship.ts" />
     <TypeScriptCompile Include="src\gameStates\boot.ts" />

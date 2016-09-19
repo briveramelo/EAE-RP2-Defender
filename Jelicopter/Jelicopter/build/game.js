@@ -59,6 +59,7 @@ var Jelicopter;
                 this.callAll('play', null, 'wave');
                 this.game.physics.arcade.enable(this);
                 this.scale.set(0.62);
+                this.callAll('body.collideWorldBounds', '', true);
                 this.ship = ship;
             }
             return People;
@@ -188,6 +189,7 @@ var Jelicopter;
             function Level01() {
                 _super.apply(this, arguments);
                 this.score = 0;
+                this.isSaving = false;
             }
             Level01.prototype.create = function () {
                 this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -201,12 +203,25 @@ var Jelicopter;
             Level01.prototype.update = function () {
                 for (var i = 0, len = this.people.children.length; i < len; i++) {
                     if (this.checkOverlap(this.player, this.people.children[i])) {
+                        this.savePersonIndex = i;
                         this.score += 10;
                         this.scoreText.text = 'Score: ' + this.score;
+                        this.isSaving = true;
                     }
                     else {
-                        console.log("Not Overlapping");
                     }
+                }
+                if (this.isSaving) {
+                    this.people.forEach(function (item) {
+                        if (this.player.scale.x === 1) {
+                            item.body.x = this.player.body.x + 32;
+                            item.body.y = this.player.body.y;
+                        }
+                        else {
+                            item.body.x = this.player.body.x - 32;
+                            item.body.y = this.player.body.y;
+                        }
+                    }, this);
                 }
             };
             Level01.prototype.checkOverlap = function (spriteA, spriteB) {
