@@ -3,6 +3,7 @@
     export class Level01 extends Phaser.State {
 
         background: Phaser.Sprite;
+        building: Hospital;
         music: Phaser.Sound;
         player: Ship;
         bullets: Bullet;
@@ -23,6 +24,7 @@
             //this.game.debug.text("Use Right and Left arrow keys to move the bat", 0, this.world.height, "red");
             this.displayScore();
 
+            this.building = new Hospital(this.game, 700, 550);
         }
 
         update() {
@@ -35,7 +37,7 @@
                     this.isSaving = true;
                 }
                 else {
-                    
+
                 }
             }
 
@@ -48,14 +50,24 @@
                         item.body.y = this.player.body.y;
                     }
                     else {
-
                         item.body.x = this.player.body.x - 32;
                         item.body.y = this.player.body.y;
                     }
                 }, this);
                 //this.isSaving = false;
             }
+            //if (this.checkOverlap(this.player, this.building)) {
+            //    if (this.isSaving) {
+            //        this.isSaving = false;
+            //        this.people.forEach(function (item) {
+            //            item.body.x = this.building.body.x;
+            //            item.body.y = this.building.body.y;
+            //        }
+            //        console.debug("Saved");
+            //    }
+            //}
 
+        //}
         }
 
         checkOverlap(spriteA, spriteB) {

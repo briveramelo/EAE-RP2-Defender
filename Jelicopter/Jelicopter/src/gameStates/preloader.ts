@@ -17,6 +17,9 @@
             this.load.image('Bullet', './assets/sprites/bullet02.png');
             this.load.atlasJSONHash('Ship', './assets/sprites/Ship_1.png', './assets/sprites/Ship_1.json');
             this.load.atlasJSONHash('Male', './assets/sprites/Jumping_male.png', './assets/sprites/Jumping_male.json');
+            this.load.atlasJSONHash('Male', './assets/sprites/Jumping_male.png', './assets/sprites/Jumping_male.json');
+
+            this.load.image('Hospital', './assets/sprites/building.png');
             //this.load.atlasJSONHash('level01-sprites', './assets/sprites/level01-sprites.png', './assets/sprites/level01-sprites.json');
         }
 

@@ -49,6 +49,24 @@ var Jelicopter;
 (function (Jelicopter) {
     var Client;
     (function (Client) {
+        var Hospital = (function (_super) {
+            __extends(Hospital, _super);
+            function Hospital(game, x, y) {
+                _super.call(this, game, x, y, 'Hospital');
+                game.add.existing(this);
+                this.scale.set(0.2);
+                this.game.physics.arcade.enable([this]);
+                this.body.collideWorldBounds = true;
+            }
+            return Hospital;
+        }(Phaser.Sprite));
+        Client.Hospital = Hospital;
+    })(Client = Jelicopter.Client || (Jelicopter.Client = {}));
+})(Jelicopter || (Jelicopter = {}));
+var Jelicopter;
+(function (Jelicopter) {
+    var Client;
+    (function (Client) {
         var People = (function (_super) {
             __extends(People, _super);
             function People(game, ship) {
@@ -199,6 +217,7 @@ var Jelicopter;
                 this.player.anchor.setTo(0, 5);
                 this.people = new Client.People(this.game, this.player);
                 this.displayScore();
+                this.building = new Client.Hospital(this.game, 700, 550);
             };
             Level01.prototype.update = function () {
                 for (var i = 0, len = this.people.children.length; i < len; i++) {
@@ -291,6 +310,8 @@ var Jelicopter;
                 this.load.image('Bullet', './assets/sprites/bullet02.png');
                 this.load.atlasJSONHash('Ship', './assets/sprites/Ship_1.png', './assets/sprites/Ship_1.json');
                 this.load.atlasJSONHash('Male', './assets/sprites/Jumping_male.png', './assets/sprites/Jumping_male.json');
+                this.load.atlasJSONHash('Male', './assets/sprites/Jumping_male.png', './assets/sprites/Jumping_male.json');
+                this.load.image('Hospital', './assets/sprites/building.png');
             };
             Preloader.prototype.create = function () {
                 var tween = this.add.tween(this.loaderText).to({ alpha: 0 }, 2000, Phaser.Easing.Linear.None, true);
