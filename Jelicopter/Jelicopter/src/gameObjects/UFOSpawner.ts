@@ -9,7 +9,6 @@
         constructor(game: Phaser.Game, level: Level01) {
             this.game = game;
             this.level = level;
-            console.log("made a ufo spawner");
             this.spawnShips();
         }
 

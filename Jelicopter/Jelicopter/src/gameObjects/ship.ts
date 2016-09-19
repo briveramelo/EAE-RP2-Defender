@@ -2,23 +2,59 @@
 
     export class Ship extends Phaser.Sprite {
 
-        constructor(game: Phaser.Game, x: number, y: number) {
+        constructor(game: Phaser.Game, level: Level01, x: number, y: number) {
             super(game, x, y, 'Ship', 1);
             this.anchor.setTo(0.5);
+            this.level = level;
+            //this.lives = 5;
             //this.pivot.set(64, 64);
             this.animations.add('fly', [0, 1, 2, 3, 4, 5], 30, true);
             game.add.existing(this);
             // Physics
-            game.physics.enable(this);
+            game.physics.enable(this, Phaser.Physics.ARCADE);
+            this.myCollider = new CircleCollider(65);
             this.body.collideWorldBounds = true;
             this.body.setCircle(20);
         }
-        
 
+        myPosition(): Phaser.Point {
+            return new Phaser.Point(this.position.x, this.position.y);
+        }
+        level: Level01;
+        myCollider: CircleCollider;
+        lives: number = 5;
+        timeToRevive: number = 3;
         shipSpeed: Phaser.Point = new Phaser.Point(300,300);
 
         update() {
-            this.move();
+            if (this.alive) {
+                this.move();
+                this.level
+                this.level.enemyBullets.forEachAlive(function (bullet) {
+                    if (this.myCollider.isColliding(this.myPosition(), bullet.position)) {
+                        this.kill();
+                        bullet.kill();
+                    }
+                },this);
+            }            
+        }
+
+        kill() {
+            this.lives--;
+            console.log("I GOT KILLED!!!!");
+            if (this.lives <= 0) {
+                //Restart the game
+                this.game.state.start('Level01', true, false);
+            }
+            this.game.time.events.add(Phaser.Timer.SECOND * this.timeToRevive, this.revive, this);
+            super.kill();
+            return this;
+        }
+
+        revive() {
+            console.log("reviving");
+            super.revive();
+            return this;
         }
 
         move() {

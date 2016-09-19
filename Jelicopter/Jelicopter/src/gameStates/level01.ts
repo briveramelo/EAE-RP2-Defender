@@ -18,6 +18,8 @@
             this.createUFOs();
             this.createEnemyBullets();
             this.createPlayerShip();
+
+            
         }
 
         createUFOs() {
@@ -33,19 +35,19 @@
             this.enemyBullets = this.game.add.group();
             this.enemyBullets.enableBody = true;
             this.enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
-
             this.enemyBullets.createMultiple(50, 'EnemyBullet');
+
             this.enemyBullets.setAll('checkWorldBounds', true);
             this.enemyBullets.setAll('outOfBoundsKill', true);                        
         }
 
         createPlayerShip() {
-            this.player = new Ship(this.game, this.world.centerX, this.world.centerY);    
+            this.player = new Ship(this.game, this, this.world.centerX, this.world.centerY);    
         }
 
         update() {
-            
-        }
+            this.physics.arcade.overlap(this.enemyBullets, this.player, this.player.kill, null, this);
+        }        
 
     }
 
