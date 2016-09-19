@@ -5,7 +5,7 @@
         constructor(game: Phaser.Game, x: number, y: number) {
             super(game, x, y, 'Ship', 1);
             this.anchor.setTo(0.5);
-            this.pivot.set(64, 64);
+            //this.pivot.set(64, 64);
             this.animations.add('fly', [0, 1, 2, 3, 4, 5], 30, true);
             game.add.existing(this);
             // Physics

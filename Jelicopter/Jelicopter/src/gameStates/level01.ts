@@ -11,21 +11,10 @@
 
         create() {            
             this.physics.startSystem(Phaser.Physics.ARCADE);
-
-
-
-            this.createEnemyBullets();
-
-
-
-
-
-
-
-
-
             this.background = this.add.sprite(0, 0, 'GameBackground');
 
+            //CREATE OBJECTS
+            this.createEnemyBullets();
             this.createUFOs();
             this.createEnemyBullets();
             this.createPlayerShip();
