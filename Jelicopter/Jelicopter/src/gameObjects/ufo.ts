@@ -10,13 +10,15 @@
             this.animations.add('ufo_fly', [0, 1, 2], 30, true);
             game.add.existing(this);
             // Physics
+            this.myCollider = new CircleCollider(this, 50, this.positionOffset);
             game.physics.enable(this);
             this.body.setCircle(20);
             this.kill();      
         }
 
+        myCollider: CircleCollider;
         level: Level01;
-        shipSpeed: Phaser.Point = new Phaser.Point(100, 100);
+        shipSpeed: Phaser.Point = new Phaser.Point(-100, 100);
         timeToMoveStraight: number = 1;
         timeToShoot: number = 1.5;
         timeMoving: number = 0;
@@ -29,8 +31,18 @@
         }
 
         update() {
-            this.animations.play('ufo_fly');
-            this.checkToShoot();
+            if (this.alive) {
+                this.animations.play('ufo_fly');
+                this.checkToShoot();
+
+                //DO THIS FOR PLAYER BULLETS
+                //this.level.enemyBullets.forEachAlive(function (bullet) {
+                //    if (this.myCollider.isColliding(this.myPosition(), bullet.position)) {
+                //        this.kill();
+                //        bullet.kill();
+                //    }
+                //}, this);
+            }
         }
 
         checkToShoot() :void{
@@ -51,7 +63,7 @@
             this.timerAllowsShooting = true;
 
             this.move();
-            this.game.time.events.add(Phaser.Timer.SECOND * 5, this.kill, this);
+            //this.game.time.events.add(Phaser.Timer.SECOND * 15, this.kill, this);
         }
 
         kill(): Phaser.Sprite {
@@ -70,7 +82,7 @@
                 this.body.velocity.x = this.shipSpeed.x;
             }
             else{
-                this.body.velocity.y = (this.game.rnd.sign()) * this.shipSpeed.y;
+                //this.body.velocity.y = (this.game.rnd.sign()) * this.shipSpeed.y;
             }
             if (this.alive) {
                 this.game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight, this.move, this);

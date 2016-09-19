@@ -12,7 +12,7 @@
             game.add.existing(this);
             // Physics
             game.physics.enable(this, Phaser.Physics.ARCADE);
-            this.myCollider = new CircleCollider(65);
+            this.myCollider = new CircleCollider(this, 30, new Phaser.Point(0,0));
             this.body.collideWorldBounds = true;
             this.body.setCircle(20);
         }
@@ -28,20 +28,12 @@
 
         update() {
             if (this.alive) {
-                this.move();
-                this.level
-                this.level.enemyBullets.forEachAlive(function (bullet) {
-                    if (this.myCollider.isColliding(this.myPosition(), bullet.position)) {
-                        this.kill();
-                        bullet.kill();
-                    }
-                },this);
+                this.move();                
             }            
         }
 
         kill() {
             this.lives--;
-            console.log("I GOT KILLED!!!!");
             if (this.lives <= 0) {
                 //Restart the game
                 this.game.state.start('Level01', true, false);
@@ -52,7 +44,6 @@
         }
 
         revive() {
-            console.log("reviving");
             super.revive();
             return this;
         }
