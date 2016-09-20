@@ -163,9 +163,9 @@ var Jelicopter;
                             this.bullets.bullet.reset(this.body.x - 64, this.body.y + 64);
                         this.bullets.bullet.lifespan = 2000;
                         if (this.scale.x === 1)
-                            this.game.physics.arcade.velocityFromAngle(0, 400, this.bullets.bullet.body.velocity);
+                            this.game.physics.arcade.velocityFromAngle(0, 1000, this.bullets.bullet.body.velocity);
                         else
-                            this.game.physics.arcade.velocityFromAngle(180, 400, this.bullets.bullet.body.velocity);
+                            this.game.physics.arcade.velocityFromAngle(180, 1000, this.bullets.bullet.body.velocity);
                         this.bullets.bulletTime = this.game.time.now + 50;
                     }
                 }
