@@ -1,0 +1,100 @@
+﻿{"frames": [
+
+{
+	"filename": "ship0",
+	"frame": {"x":0,"y":0,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "ship1",
+	"frame": {"x":128,"y":0,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+  {
+    "filename": "ship2",
+    "frame": {
+      "x": 0,
+      "y": 128,
+      "w": 128,
+      "h": 128
+    },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x": 0,
+      "y": 0,
+      "w": 128,
+      "h": 128
+    },
+    "sourceSize": {
+      "w": 128,
+      "h": 128
+    }
+  },
+  {
+    "filename": "ship3",
+    "frame": {
+      "x": 128,
+      "y": 128,
+      "w": 128,
+      "h": 128
+    },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x": 0,
+      "y": 0,
+      "w": 128,
+      "h": 128
+    },
+    "sourceSize": {
+      "w": 128,
+      "h": 128
+    }
+  },
+  {
+    "filename": "ship4",
+    "frame": {
+      "x": 0,
+      "y": 256,
+      "w": 128,
+      "h": 128
+    },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x": 0,
+      "y": 0,
+      "w": 128,
+      "h": 128
+    },
+    "sourceSize": {
+      "w": 128,
+      "h": 128
+    }
+  },
+  {
+	"filename": "ship5",
+	"frame": {"x":128,"y":256,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "Ship_1.png",
+	"format": "RGBA8888",
+	"size": {"w":256,"h":384},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:c6b1aa91c18dbf5b97702a658a0b1ace:c0f815af9a8bf426eab96044c307e95b:fc71e11d9b16211a65d96f6b74bb2027$"
+}
+}
+
