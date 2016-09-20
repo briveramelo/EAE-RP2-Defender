@@ -2,7 +2,7 @@
 
     export class Level01 extends Phaser.State {
 
-        background: Phaser.Sprite;
+        backgrounds: Phaser.Group;
         music: Phaser.Sound;
         ufos: Phaser.Group;
         ufoSpawner: UFOSpawner;
@@ -10,8 +10,12 @@
 
         bullets: Bullet;
         player: Ship;
-        people: People;
+        people: Phaser.Group;
         hospital: Hospital;
+
+        screenWidth: number = 5760;
+
+        allObjects;
 
         isSaving: boolean = false;
         savePersonIndex: number;
@@ -19,37 +23,75 @@
         scoreText;
 
         create() {            
-            this.game.world.setBounds(0, 250, 5760, 500);
+            this.game.world.setBounds(0, 250, 10000000000, 550);
             this.physics.startSystem(Phaser.Physics.ARCADE);
-            this.background = this.add.sprite(0, 0, 'GameBackground');
             this.scale.pageAlignHorizontally = true;
             this.scale.pageAlignVertically = true;
 
             //CREATE OBJECTS
-            this.createEnemyBullets();
-            this.createUFOs();
+            this.createBackgrounds();
+            this.createBuildings();
             this.createPlayerShip();
             this.createPeople();
-            this.createBuildings();
+            this.createEnemyBullets();
+            this.createUFOs();
 
-            //this.game.camera.bounds = null;
             this.game.camera.follow(this.player);
             this.displayScore();
-            
+
+            this.addAllObjectsToList();
+        }
+
+        addAllObjectsToList() {
+            this.allObjects = [];
+            var i: number = 0;
+            this.enemyBullets.forEach(function (bullet) {
+                this.allObjects[i] = bullet;
+                i++;
+            }, this);
+            this.ufos.forEach(function (ufo) {
+                this.allObjects[i] = ufo;
+                i++;
+            }, this);
+            this.people.forEach(function (person) {
+                this.allObjects[i] = person;
+                i++;
+            }, this);
+            this.bullets.forEach(function (bullet) {
+                this.allObjects[i] = bullet;
+                i++;
+            }, this);
+            this.allObjects[i] = this.hospital;
+            i++;
+                        
+        }
+
+        createBackgrounds() {
+            this.backgrounds = this.add.group();
+            this.backgrounds.createMultiple(3, 'GameBackground');
+            var i: number = 0;
+            this.backgrounds.forEach(function (background) {
+                background.position.x = this.game.world.centerX - this.screenWidth + i * this.screenWidth;
+                background.revive();
+                i++;
+            }, this);
+            this.backgrounds.setAll('anchor.x', 0.5);
         }
 
         createPeople() {
-            this.people = new People(this.game, this.player);
+            this.people = this.game.add.group();
+            for (var i = 0; i < 10; i++) {
+                this.people.add(new Person(this.game, this.player, -1000, -1000));
+            }     
         }
 
         createBuildings() {
-            this.hospital = new Hospital(this.game, 700, 1200);
+            this.hospital = new Hospital(this.game, this.game.world.centerX, 550);
         }
 
         createUFOs() {
-            var i: number = 0;
             this.ufos = this.game.add.group();
-            for (i = 0; i < 30; i++){
+            for (var i = 0; i < 30; i++){
                 this.ufos.add( new UFO(this.game, this, -1000, -1000));
             }
             this.ufoSpawner = new UFOSpawner(this.game, this);
@@ -74,26 +116,41 @@
         }
 
         update() {
-            //this.game.physics.arcade.overlap(this.bullets, this.ufos, this.collisionHandler, null, this.game);
-            //this.physics.arcade.overlap(this.enemyBullets, this.player, this.player.kill, null, this);
             if (this.people.length===0) {
                 this.game.state.start('GameOver', true, false);
             }
             if (this.player.alive) {
-                this.wrapAroundTheWorld();
+                this.wrapAroundTheWorld(this.player, this.screenWidth);
                 this.doPlayerOverlapPhysics();
                 this.checkToCollectPeople();
-            }           
-
+            }
+            if (this.game.input.keyboard.isDown(Phaser.Keyboard.P)) {
+                this.pause();
+            }            
         }
 
-       wrapAroundTheWorld() {
-            this.game.world.wrap(this.player, 0/*-(this.game.width / 2)*/, false, true, false);
-            this.enemyBullets.forEachAlive(function (bullet) {
-                this.game.world.wrap(bullet, 0/*-(this.game.width / 2)*/, false, true, false);
-            }, this);
-            this.ufos.forEachAlive(function (ufo) {
-                this.game.world.wrap(ufo, 0/*-(this.game.width / 2)*/, false, true, false);
+        pause() {
+            this.game.paused = !this.game.paused;
+        }
+
+        wrapAroundTheWorld(player, screenWidth) {
+            var i: number = 0;
+            this.allObjects.forEach(function (object) {
+                if (object.alive) {
+                    var dist = Math.abs(object.position.x - player.position.x);                                        
+                    if (Math.abs(object.position.x - player.position.x) > (screenWidth / 2)) {
+                        var shiftRightWard: boolean = player.body.velocity.x > 0;
+                        object.position.x += (shiftRightWard ? 1 : -1) * screenWidth;
+                    }
+                }
+                i++;
+            });
+
+            this.backgrounds.forEach(function (background) {
+                if (Math.abs(background.position.x - player.position.x) > (screenWidth * 2)) {
+                    var shiftRightWard: boolean = player.body.velocity.x > 0;
+                    background.position.x += (shiftRightWard ? 1 : -1) * screenWidth * 3;
+                }
             }, this);
         }
 
@@ -102,8 +159,7 @@
             this.enemyBullets.forEachAlive(function (bullet) {
                 if (this.player.myCollider.isColliding(bullet.myCollider)) {
                     this.player.kill();
-                    bullet.kill();
-                    
+                    bullet.kill();                    
                 }
             }, this);
 
@@ -112,17 +168,6 @@
                     this.player.kill();
                     ufo.kill();
                 }
-
-                this.bullets.forEachAlive(function (bullet) {
-                    if (this.checkOverlap(ufo, bullet)) {
-                        this.score += 30;
-                        this.scoreText.text = 'Score: ' + this.score;
-                        bullet.kill();
-                        ufo.kill();
-                    }
-                }, this);
-
-                
             }, this);
 
             if (this.player.lives === 0) {
@@ -139,20 +184,18 @@
                 }               
             }
 
-
             if (this.isSaving) {
-                var i = 0;
-                
+                var i = 0;                
                 //this.people.children[this.savePersonIndex].position = this.player.position;
                 this.people.forEach(function (item) {
                     if (i == this.savePersonIndex) { 
-                    if (this.player.scale.x === 1) {
-                        item.body.x = this.player.body.x + 32;
-                        item.body.y = this.player.body.y;
-                    }
-                    else {
-                        item.body.x = this.player.body.x - 32;
-                        item.body.y = this.player.body.y;
+                        if (this.player.scale.x === 1) {
+                            item.body.x = this.player.body.x + 30;
+                            item.body.y = this.player.body.y +80;
+                        }
+                        else {
+                            item.body.x = this.player.body.x - 105;
+                            item.body.y = this.player.body.y + 80;
                         }
                     }
                     i++;
@@ -176,16 +219,8 @@
                         }
                         i++;
                     },this);
-
-                    //this.people.children[this.savePersonIndex].x = this.people.originalXPosition;
-                    //this.people.children[this.savePersonIndex].y = this.people.originalYPosition;
-                    //this.people.forEach(function (item) {
-                    //    item.body.x = this.building.body.x;
-                    //    item.body.y = this.building.body.y;
-                    //}
                 }
-            }
-            
+            }            
         }
 
         checkOverlap(spriteA, spriteB) {

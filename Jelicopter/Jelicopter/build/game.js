@@ -98,24 +98,56 @@ var Jelicopter;
             __extends(People, _super);
             function People(game, ship) {
                 _super.call(this, game);
+                this.ship = ship;
                 this.createPeople();
                 this.callAll('animations.add', 'animations', 'wave', [0, 1, 2, 3, 4], 15, true);
                 this.callAll('play', null, 'wave');
                 this.game.physics.arcade.enable(this);
                 this.scale.set(0.62);
                 this.callAll('body.collideWorldBounds', '', true);
-                this.ship = ship;
             }
             People.prototype.createPeople = function () {
                 for (var i = 0; i < 10; i++) {
-                    var num = this.game.rnd.between(200, 9000);
-                    this.person = this.game.add.sprite(num, 1200, 'JumpingMale', 1);
+                    var xSpawnPosition = this.game.rnd.between(this.ship.position.x - 5760 / 2, this.ship.position.x + 5760 / 2);
+                    this.person = this.game.add.sprite(xSpawnPosition, 550, 'JumpingMale', 1);
                     this.add(this.person);
+                    this.person.position.x = xSpawnPosition;
+                    this.person.position.y = 550;
                 }
             };
             return People;
         }(Phaser.Group));
         Client.People = People;
+    })(Client = Jelicopter.Client || (Jelicopter.Client = {}));
+})(Jelicopter || (Jelicopter = {}));
+var Jelicopter;
+(function (Jelicopter) {
+    var Client;
+    (function (Client) {
+        var Person = (function (_super) {
+            __extends(Person, _super);
+            function Person(game, ship, x, y) {
+                _super.call(this, game, x, y, 'JumpingMale');
+                this.game = game;
+                this.ship = ship;
+                this.myCollider = new Client.CircleCollider(this, 15, new Phaser.Point(0, 0));
+                var xSpawnPosition = this.game.rnd.between(this.ship.position.x - 5760 / 2, this.ship.position.x + 5760 / 2);
+                this.game.add.sprite(0, 0, 'JumpingMale', 1);
+                this.position = new Phaser.Point(xSpawnPosition, 700);
+                game.add.existing(this);
+                game.physics.enable(this);
+                this.body.setCircle(20);
+                this.animations.add('wave', [0, 1, 2, 3, 4], 15, true);
+                this.play('wave');
+                this.scale.set(0.62);
+                this.revive();
+            }
+            Person.prototype.update = function () {
+                this.play('wave');
+            };
+            return Person;
+        }(Phaser.Sprite));
+        Client.Person = Person;
     })(Client = Jelicopter.Client || (Jelicopter.Client = {}));
 })(Jelicopter || (Jelicopter = {}));
 var Jelicopter;
@@ -322,7 +354,8 @@ var Jelicopter;
             UFOSpawner.prototype.spawnShips = function () {
                 var ufo = this.level.ufos.getFirstDead(false);
                 ufo.comeAlive();
-                ufo.reset(this.game.rnd.between(1, this.game.width), this.game.rnd.between(500, 501));
+                var playerX = this.level.player.position.x;
+                ufo.reset(this.game.rnd.between(playerX - this.level.screenWidth / 2, playerX + this.level.screenWidth / 2), this.game.rnd.between(400, 800));
                 this.shipsSpawned++;
                 if (this.shipsSpawned < 5) {
                     this.game.time.events.add(Phaser.Timer.SECOND * 3, this.spawnShips, this);
@@ -407,33 +440,70 @@ var Jelicopter;
             __extends(Level01, _super);
             function Level01() {
                 _super.apply(this, arguments);
+                this.screenWidth = 5760;
                 this.isSaving = false;
                 this.score = 0;
             }
             Level01.prototype.create = function () {
-                this.game.world.setBounds(0, 250, 5760, 500);
+                this.game.world.setBounds(0, 250, 10000000000, 550);
                 this.physics.startSystem(Phaser.Physics.ARCADE);
-                this.background = this.add.sprite(0, 0, 'GameBackground');
                 this.scale.pageAlignHorizontally = true;
                 this.scale.pageAlignVertically = true;
-                this.createEnemyBullets();
-                this.createUFOs();
+                this.createBackgrounds();
+                this.createBuildings();
                 this.createPlayerShip();
                 this.createPeople();
-                this.createBuildings();
+                this.createEnemyBullets();
+                this.createUFOs();
                 this.game.camera.follow(this.player);
                 this.displayScore();
+                this.addAllObjectsToList();
+            };
+            Level01.prototype.addAllObjectsToList = function () {
+                this.allObjects = [];
+                var i = 0;
+                this.enemyBullets.forEach(function (bullet) {
+                    this.allObjects[i] = bullet;
+                    i++;
+                }, this);
+                this.ufos.forEach(function (ufo) {
+                    this.allObjects[i] = ufo;
+                    i++;
+                }, this);
+                this.people.forEach(function (person) {
+                    this.allObjects[i] = person;
+                    i++;
+                }, this);
+                this.bullets.forEach(function (bullet) {
+                    this.allObjects[i] = bullet;
+                    i++;
+                }, this);
+                this.allObjects[i] = this.hospital;
+                i++;
+            };
+            Level01.prototype.createBackgrounds = function () {
+                this.backgrounds = this.add.group();
+                this.backgrounds.createMultiple(3, 'GameBackground');
+                var i = 0;
+                this.backgrounds.forEach(function (background) {
+                    background.position.x = this.game.world.centerX - this.screenWidth + i * this.screenWidth;
+                    background.revive();
+                    i++;
+                }, this);
+                this.backgrounds.setAll('anchor.x', 0.5);
             };
             Level01.prototype.createPeople = function () {
-                this.people = new Client.People(this.game, this.player);
+                this.people = this.game.add.group();
+                for (var i = 0; i < 10; i++) {
+                    this.people.add(new Client.Person(this.game, this.player, -1000, -1000));
+                }
             };
             Level01.prototype.createBuildings = function () {
-                this.hospital = new Client.Hospital(this.game, 700, 1200);
+                this.hospital = new Client.Hospital(this.game, this.game.world.centerX, 550);
             };
             Level01.prototype.createUFOs = function () {
-                var i = 0;
                 this.ufos = this.game.add.group();
-                for (i = 0; i < 30; i++) {
+                for (var i = 0; i < 30; i++) {
                     this.ufos.add(new Client.UFO(this.game, this, -1000, -1000));
                 }
                 this.ufoSpawner = new Client.UFOSpawner(this.game, this);
@@ -458,18 +528,34 @@ var Jelicopter;
                     this.game.state.start('GameOver', true, false);
                 }
                 if (this.player.alive) {
-                    this.wrapAroundTheWorld();
+                    this.wrapAroundTheWorld(this.player, this.screenWidth);
                     this.doPlayerOverlapPhysics();
                     this.checkToCollectPeople();
                 }
+                if (this.game.input.keyboard.isDown(Phaser.Keyboard.P)) {
+                    this.pause();
+                }
             };
-            Level01.prototype.wrapAroundTheWorld = function () {
-                this.game.world.wrap(this.player, 0, false, true, false);
-                this.enemyBullets.forEachAlive(function (bullet) {
-                    this.game.world.wrap(bullet, 0, false, true, false);
-                }, this);
-                this.ufos.forEachAlive(function (ufo) {
-                    this.game.world.wrap(ufo, 0, false, true, false);
+            Level01.prototype.pause = function () {
+                this.game.paused = !this.game.paused;
+            };
+            Level01.prototype.wrapAroundTheWorld = function (player, screenWidth) {
+                var i = 0;
+                this.allObjects.forEach(function (object) {
+                    if (object.alive) {
+                        var dist = Math.abs(object.position.x - player.position.x);
+                        if (Math.abs(object.position.x - player.position.x) > (screenWidth / 2)) {
+                            var shiftRightWard = player.body.velocity.x > 0;
+                            object.position.x += (shiftRightWard ? 1 : -1) * screenWidth;
+                        }
+                    }
+                    i++;
+                });
+                this.backgrounds.forEach(function (background) {
+                    if (Math.abs(background.position.x - player.position.x) > (screenWidth * 2)) {
+                        var shiftRightWard = player.body.velocity.x > 0;
+                        background.position.x += (shiftRightWard ? 1 : -1) * screenWidth * 3;
+                    }
                 }, this);
             };
             Level01.prototype.doPlayerOverlapPhysics = function () {
@@ -484,14 +570,6 @@ var Jelicopter;
                         this.player.kill();
                         ufo.kill();
                     }
-                    this.bullets.forEachAlive(function (bullet) {
-                        if (this.checkOverlap(ufo, bullet)) {
-                            this.score += 30;
-                            this.scoreText.text = 'Score: ' + this.score;
-                            bullet.kill();
-                            ufo.kill();
-                        }
-                    }, this);
                 }, this);
                 if (this.player.lives === 0) {
                     this.game.state.start('GameOver', true, false);
@@ -509,12 +587,12 @@ var Jelicopter;
                     this.people.forEach(function (item) {
                         if (i == this.savePersonIndex) {
                             if (this.player.scale.x === 1) {
-                                item.body.x = this.player.body.x + 32;
-                                item.body.y = this.player.body.y;
+                                item.body.x = this.player.body.x + 30;
+                                item.body.y = this.player.body.y + 80;
                             }
                             else {
-                                item.body.x = this.player.body.x - 32;
-                                item.body.y = this.player.body.y;
+                                item.body.x = this.player.body.x - 105;
+                                item.body.y = this.player.body.y + 80;
                             }
                         }
                         i++;
