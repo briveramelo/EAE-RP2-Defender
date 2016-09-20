@@ -11,6 +11,7 @@
         offset: Phaser.Point;
         mySprite: Phaser.Sprite;
         myRadius: number;
+
         myPosition(): Phaser.Point {
             return new Phaser.Point(this.mySprite.position.x + this.offset.x, this.mySprite.position.y + this.offset.y);
         }

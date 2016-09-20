@@ -16,7 +16,10 @@
 
             this.load.image('GameBackground', './assets/sprites/Background/GameBackground-pixel.jpg');
             this.load.image('EnemyBullet', './assets/sprites/UFO/EnemyBullet.png');
+            this.load.image('Bullet', './assets/sprites/Ship/bullet02.png');
+            this.load.image('Hospital', './assets/sprites/Buildings/building.png');
 
+            this.load.atlasJSONHash('JumpingMale', './assets/sprites/People/Jumping_male.png', './assets/sprites/People/Jumping_male.json');
             this.load.atlasJSONHash('Ship', './assets/sprites/Ship/Ship_1.png', './assets/sprites/Ship/Ship_1.json');
             this.load.atlasJSONHash('UFO', './assets/sprites/UFO/UFO_1.png', './assets/sprites/UFO/UFO_1.json');
 
