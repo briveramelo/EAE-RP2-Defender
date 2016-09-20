@@ -42,6 +42,9 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\Components\collider.ts" />
     <TypeScriptCompile Include="src\game.ts" />
+    <TypeScriptCompile Include="src\gameObjects\bullet.ts" />
+    <TypeScriptCompile Include="src\gameObjects\hospital.ts" />
+    <TypeScriptCompile Include="src\gameObjects\people.ts" />
     <TypeScriptCompile Include="src\gameObjects\ufo.ts" />
     <TypeScriptCompile Include="src\gameObjects\ship.ts" />
     <TypeScriptCompile Include="src\gameObjects\UFOSpawner.ts" />

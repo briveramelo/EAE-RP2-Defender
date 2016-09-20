@@ -2,7 +2,7 @@
 
     export class Level01 extends Phaser.State {
 
-        background: Phaser.Sprite;
+        backgrounds: Phaser.Group;
         music: Phaser.Sound;
         ufos: Phaser.Group;
         ufoSpawner: UFOSpawner;
@@ -13,29 +13,63 @@
         people: People;
         hospital: Hospital;
 
+        screenWidth : number= 5760;
+
+        allObjects;
+
         isSaving: boolean = false;
         savePersonIndex: number;
         score: number = 0;
         scoreText;
 
         create() {            
-            this.game.world.setBounds(0, 0, 5760, 1080);
-            this.physics.startSystem(Phaser.Physics.ARCADE);
-            this.background = this.add.sprite(0, 0, 'GameBackground');
+            this.game.world.setBounds(0, 0, 10000000000, 1080);
+            this.physics.startSystem(Phaser.Physics.ARCADE);                        
             this.scale.pageAlignHorizontally = true;
             this.scale.pageAlignVertically = true;
 
             //CREATE OBJECTS
-            this.createEnemyBullets();
-            this.createUFOs();
+            this.createBackgrounds();
+            this.createBuildings();
             this.createPlayerShip();
             this.createPeople();
-            this.createBuildings();
+            this.createEnemyBullets();
+            this.createUFOs();
 
             //this.game.camera.bounds = null;
             this.game.camera.follow(this.player);
             this.displayScore();
-            
+
+            this.addAllObjectsToList();
+        }
+
+        addAllObjectsToList() {
+            this.allObjects = [];
+            var i :number= 0;
+            this.enemyBullets.forEach(function (bullet) {
+                this.allObjects[i] = bullet;
+                i++;
+            }, this);
+            this.ufos.forEach(function (ufo) {
+                this.allObjects[i] = ufo;
+                i++;
+            }, this);
+            //this.backgrounds.forEach(function (background) {
+            //    this.allObjects[i] = background;
+            //    i++;
+            //}, this);
+        }
+
+        createBackgrounds() {
+            this.backgrounds = this.add.group();
+            this.backgrounds.createMultiple(3, 'GameBackground');
+            var i: number = 0;
+            this.backgrounds.forEach(function (background) {
+                background.position.x = this.game.world.centerX - this.screenWidth + i * this.screenWidth;
+                background.revive();
+                i++;                
+            }, this);
+            this.backgrounds.setAll('anchor.x', 0.5);
         }
 
         createPeople() {
@@ -43,7 +77,7 @@
         }
 
         createBuildings() {
-            this.hospital = new Hospital(this.game, 700, 550);
+            this.hospital = new Hospital(this.game, this.game.world.centerX, 550);
         }
 
         createUFOs() {
@@ -77,21 +111,54 @@
             //this.physics.arcade.overlap(this.enemyBullets, this.player, this.player.kill, null, this);
 
             if (this.player.alive) {
-                this.wrapAroundTheWorld();
+                this.wrapAroundTheWorld(this.player, this.screenWidth);
                 this.doPlayerOverlapPhysics();
                 this.checkToCollectPeople();
             }           
 
+            if (this.game.input.keyboard.isDown(Phaser.Keyboard.P)) {
+                this.pause();
+            }
+
         }
 
-        wrapAroundTheWorld() {
-            this.game.world.wrap(this.player, 0/*-(this.game.width / 2)*/, false, true, false);
-            this.enemyBullets.forEachAlive(function (bullet) {
-                this.game.world.wrap(bullet, 0/*-(this.game.width / 2)*/, false, true, false);
+        pause() {
+            this.game.paused = !this.game.paused;
+        }
+
+        wrapAroundTheWorld(player, screenWidth) {            
+            var i: number = 0;
+            this.allObjects.forEach(function (object) {
+                if (object.alive) {
+                    var dist = Math.abs(object.position.x - player.position.x);
+                    //if (i == 0) {
+                    //    console.log(screenWidth / 2);
+                    //}
+                    if (Math.abs(object.position.x - player.position.x) > (screenWidth / 2)) {
+                        console.log(object);
+                        var shiftRightWard: boolean = player.body.velocity.x > 0;
+                        object.position.x += (shiftRightWard ? 1 : -1) * screenWidth;
+                    }
+                }
+                //i++;
+            });
+
+
+            this.backgrounds.forEach(function (background) {                
+                if (Math.abs(background.position.x - player.position.x) > (screenWidth * 2)) {
+                    var shiftRightWard: boolean = player.body.velocity.x > 0;
+                    background.position.x += (shiftRightWard ? 1:-1) * screenWidth * 3;
+                }
             }, this);
-            this.ufos.forEachAlive(function (ufo) {
-                this.game.world.wrap(ufo, 0/*-(this.game.width / 2)*/, false, true, false);
-            }, this);
+
+
+            //this.game.world.wrap(this.player, 0/*-(this.game.width / 2)*/, false, true, false);
+            //this.enemyBullets.forEachAlive(function (bullet) {
+            //    this.game.world.wrap(bullet, 0/*-(this.game.width / 2)*/, false, true, false);
+            //}, this);
+            //this.ufos.forEachAlive(function (ufo) {
+            //    this.game.world.wrap(ufo, 0/*-(this.game.width / 2)*/, false, true, false);
+            //}, this);
         }
 
         doPlayerOverlapPhysics() {
