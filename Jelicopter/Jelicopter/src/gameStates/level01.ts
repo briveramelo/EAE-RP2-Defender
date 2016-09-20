@@ -74,6 +74,7 @@
         }
 
         update() {
+            //this.game.physics.arcade.overlap(this.bullets, this.ufos, this.collisionHandler, null, this.game);
             //this.physics.arcade.overlap(this.enemyBullets, this.player, this.player.kill, null, this);
             if (this.people.length===0) {
                 this.game.state.start('GameOver', true, false);
@@ -86,7 +87,7 @@
 
         }
 
-        wrapAroundTheWorld() {
+       wrapAroundTheWorld() {
             this.game.world.wrap(this.player, 0/*-(this.game.width / 2)*/, false, true, false);
             this.enemyBullets.forEachAlive(function (bullet) {
                 this.game.world.wrap(bullet, 0/*-(this.game.width / 2)*/, false, true, false);
@@ -111,6 +112,17 @@
                     this.player.kill();
                     ufo.kill();
                 }
+
+                this.bullets.forEachAlive(function (bullet) {
+                    if (this.checkOverlap(ufo, bullet)) {
+                        this.score += 30;
+                        this.scoreText.text = 'Score: ' + this.score;
+                        bullet.kill();
+                        ufo.kill();
+                    }
+                }, this);
+
+                
             }, this);
 
             if (this.player.lives === 0) {

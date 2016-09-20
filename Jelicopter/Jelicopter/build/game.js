@@ -484,6 +484,14 @@ var Jelicopter;
                         this.player.kill();
                         ufo.kill();
                     }
+                    this.bullets.forEachAlive(function (bullet) {
+                        if (this.checkOverlap(ufo, bullet)) {
+                            this.score += 30;
+                            this.scoreText.text = 'Score: ' + this.score;
+                            bullet.kill();
+                            ufo.kill();
+                        }
+                    }, this);
                 }, this);
                 if (this.player.lives === 0) {
                     this.game.state.start('GameOver', true, false);
