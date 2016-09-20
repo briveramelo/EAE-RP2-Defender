@@ -39,6 +39,7 @@ var Jelicopter;
                 this.state.add('Preloader', Client.Preloader, false);
                 this.state.add('MainMenu', Client.MainMenu, false);
                 this.state.add('Level01', Client.Level01, false);
+                this.state.add('GameOver', Client.GameOver, false);
                 this.state.start('Boot');
             }
             return GameEngine;
@@ -61,6 +62,9 @@ var Jelicopter;
                 this.enableBody = true;
                 this.physicsBodyType = Phaser.Physics.ARCADE;
                 this.createMultiple(40, 'Bullet');
+                this.forEach(function (bullet) {
+                    bullet.myCollider = new Client.CircleCollider(bullet, 4, new Phaser.Point(0, 0));
+                }, this);
                 this.setAll('anchor.x', 0.5);
                 this.setAll('anchor.y', 0.5);
             }
@@ -122,7 +126,7 @@ var Jelicopter;
             __extends(Ship, _super);
             function Ship(game, level, x, y, bullets) {
                 _super.call(this, game, x, y, 'Ship', 1);
-                this.lives = 5;
+                this.lives = 3;
                 this.timeToRevive = 3;
                 this.shipSpeed = new Phaser.Point(600, 300);
                 this.anchor.setTo(0.5);
@@ -367,6 +371,38 @@ var Jelicopter;
 (function (Jelicopter) {
     var Client;
     (function (Client) {
+        var GameOver = (function (_super) {
+            __extends(GameOver, _super);
+            function GameOver() {
+                _super.apply(this, arguments);
+            }
+            GameOver.prototype.create = function () {
+                this.background = this.add.sprite(0, 0, 'GameBackground');
+                var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+                this.gameOverText = this.game.add.text(400, 400, "GAME OVER", style);
+                this.gameOverText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+                this.gameOverText.fixedToCamera = true;
+                this.restartText = this.game.add.text(400, 600, "Restart", { font: "bold 32px Arial", fill: "#ff0044", align: "center" });
+                this.restartText.inputEnabled = true;
+                this.restartText.events.onInputDown.add(this.actionOnClick, this);
+                this.restartText.events.onInputOver.add(this.actionOnClick, this);
+                this.restartText.events.onInputOut.add(this.actionOnClick, this);
+                this.restartText.events.onInputUp.add(this.actionOnClick, this);
+            };
+            GameOver.prototype.actionOnClick = function () {
+                this.game.state.start('Level01', true, false);
+            };
+            GameOver.prototype.update = function () {
+            };
+            return GameOver;
+        }(Phaser.State));
+        Client.GameOver = GameOver;
+    })(Client = Jelicopter.Client || (Jelicopter.Client = {}));
+})(Jelicopter || (Jelicopter = {}));
+var Jelicopter;
+(function (Jelicopter) {
+    var Client;
+    (function (Client) {
         var Level01 = (function (_super) {
             __extends(Level01, _super);
             function Level01() {
@@ -375,7 +411,7 @@ var Jelicopter;
                 this.score = 0;
             }
             Level01.prototype.create = function () {
-                this.game.world.setBounds(0, 0, 5760, 1080);
+                this.game.world.setBounds(0, 250, 5760, 500);
                 this.physics.startSystem(Phaser.Physics.ARCADE);
                 this.background = this.add.sprite(0, 0, 'GameBackground');
                 this.scale.pageAlignHorizontally = true;
@@ -392,7 +428,7 @@ var Jelicopter;
                 this.people = new Client.People(this.game, this.player);
             };
             Level01.prototype.createBuildings = function () {
-                this.hospital = new Client.Hospital(this.game, 700, 550);
+                this.hospital = new Client.Hospital(this.game, 700, 1200);
             };
             Level01.prototype.createUFOs = function () {
                 var i = 0;
@@ -418,6 +454,9 @@ var Jelicopter;
                 this.player = new Client.Ship(this.game, this, this.world.centerX, this.world.centerY, this.bullets);
             };
             Level01.prototype.update = function () {
+                if (this.people.length === 0) {
+                    this.game.state.start('GameOver', true, false);
+                }
                 if (this.player.alive) {
                     this.wrapAroundTheWorld();
                     this.doPlayerOverlapPhysics();
@@ -446,6 +485,9 @@ var Jelicopter;
                         ufo.kill();
                     }
                 }, this);
+                if (this.player.lives === 0) {
+                    this.game.state.start('GameOver', true, false);
+                }
             };
             Level01.prototype.checkToCollectPeople = function () {
                 for (var i = 0, len = this.people.children.length; i < len; i++) {
@@ -458,7 +500,6 @@ var Jelicopter;
                     var i = 0;
                     this.people.forEach(function (item) {
                         if (i == this.savePersonIndex) {
-                            console.debug("wtf");
                             if (this.player.scale.x === 1) {
                                 item.body.x = this.player.body.x + 32;
                                 item.body.y = this.player.body.y;
@@ -479,8 +520,9 @@ var Jelicopter;
                         var i = 0;
                         this.people.forEach(function (item) {
                             if (i == this.savePersonIndex) {
-                                item.body.x = 40000;
-                                item.body.y = 40000;
+                                item.kill();
+                                item.destroy();
+                                console.debug(this.people.length);
                             }
                             i++;
                         }, this);

@@ -49,6 +49,7 @@
     <TypeScriptCompile Include="src\gameObjects\ship.ts" />
     <TypeScriptCompile Include="src\gameObjects\UFOSpawner.ts" />
     <TypeScriptCompile Include="src\gameStates\boot.ts" />
+    <TypeScriptCompile Include="src\gameStates\gameOver.ts" />
     <TypeScriptCompile Include="src\gameStates\level01.ts" />
     <TypeScriptCompile Include="src\gameStates\mainMenu.ts" />
     <TypeScriptCompile Include="src\gameStates\preloader.ts" />

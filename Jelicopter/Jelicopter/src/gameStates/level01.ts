@@ -19,7 +19,7 @@
         scoreText;
 
         create() {            
-            this.game.world.setBounds(0, 0, 5760, 1080);
+            this.game.world.setBounds(0, 250, 5760, 500);
             this.physics.startSystem(Phaser.Physics.ARCADE);
             this.background = this.add.sprite(0, 0, 'GameBackground');
             this.scale.pageAlignHorizontally = true;
@@ -43,7 +43,7 @@
         }
 
         createBuildings() {
-            this.hospital = new Hospital(this.game, 700, 550);
+            this.hospital = new Hospital(this.game, 700, 1200);
         }
 
         createUFOs() {
@@ -75,7 +75,9 @@
 
         update() {
             //this.physics.arcade.overlap(this.enemyBullets, this.player, this.player.kill, null, this);
-
+            if (this.people.length===0) {
+                this.game.state.start('GameOver', true, false);
+            }
             if (this.player.alive) {
                 this.wrapAroundTheWorld();
                 this.doPlayerOverlapPhysics();
@@ -100,6 +102,7 @@
                 if (this.player.myCollider.isColliding(bullet.myCollider)) {
                     this.player.kill();
                     bullet.kill();
+                    
                 }
             }, this);
 
@@ -109,6 +112,10 @@
                     ufo.kill();
                 }
             }, this);
+
+            if (this.player.lives === 0) {
+                this.game.state.start('GameOver', true, false);
+            }
         }
 
         checkToCollectPeople() {
@@ -127,7 +134,6 @@
                 //this.people.children[this.savePersonIndex].position = this.player.position;
                 this.people.forEach(function (item) {
                     if (i == this.savePersonIndex) { 
-                        console.debug("wtf");
                     if (this.player.scale.x === 1) {
                         item.body.x = this.player.body.x + 32;
                         item.body.y = this.player.body.y;
@@ -149,8 +155,11 @@
                     var i = 0;
                     this.people.forEach(function (item) {
                         if (i == this.savePersonIndex) {
-                            item.body.x = 40000;
-                            item.body.y = 40000;
+                            //item.body.x = 40000;
+                            //item.body.y = 40000;
+                            item.kill();
+                            item.destroy();
+                            console.debug(this.people.length);
                             //break;
                         }
                         i++;
