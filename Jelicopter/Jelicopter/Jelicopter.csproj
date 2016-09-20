@@ -42,9 +42,12 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\Components\collider.ts" />
     <TypeScriptCompile Include="src\game.ts" />
+<<<<<<< HEAD
     <TypeScriptCompile Include="src\gameObjects\bullet.ts" />
     <TypeScriptCompile Include="src\gameObjects\hospital.ts" />
     <TypeScriptCompile Include="src\gameObjects\people.ts" />
+=======
+>>>>>>> a184aa52405de3e626019924c1f0583494593d8d
     <TypeScriptCompile Include="src\gameObjects\ufo.ts" />
     <TypeScriptCompile Include="src\gameObjects\ship.ts" />
     <TypeScriptCompile Include="src\gameObjects\UFOSpawner.ts" />

@@ -314,8 +314,12 @@ var Jelicopter;
             UFOSpawner.prototype.spawnShips = function () {
                 var ufo = this.level.ufos.getFirstDead(false);
                 ufo.comeAlive();
+<<<<<<< HEAD
                 var playerX = this.level.player.position.x;
                 ufo.reset(this.game.rnd.between(playerX - this.level.screenWidth / 2, playerX + this.level.screenWidth / 2), this.game.rnd.between(200, 800));
+=======
+                ufo.reset(this.game.rnd.between(1, this.game.width), this.game.rnd.between(500, 501));
+>>>>>>> a184aa52405de3e626019924c1f0583494593d8d
                 this.shipsSpawned++;
                 if (this.shipsSpawned < 5) {
                     this.game.time.events.add(Phaser.Timer.SECOND * 3, this.spawnShips, this);
@@ -368,11 +372,15 @@ var Jelicopter;
             __extends(Level01, _super);
             function Level01() {
                 _super.apply(this, arguments);
+<<<<<<< HEAD
                 this.screenWidth = 5760;
+=======
+>>>>>>> a184aa52405de3e626019924c1f0583494593d8d
                 this.isSaving = false;
                 this.score = 0;
             }
             Level01.prototype.create = function () {
+<<<<<<< HEAD
                 this.game.world.setBounds(0, 0, 10000000000, 1080);
                 this.physics.startSystem(Phaser.Physics.ARCADE);
                 this.scale.pageAlignHorizontally = true;
@@ -409,12 +417,30 @@ var Jelicopter;
                     i++;
                 }, this);
                 this.backgrounds.setAll('anchor.x', 0.5);
+=======
+                this.game.world.setBounds(0, 0, 5760, 1080);
+                this.physics.startSystem(Phaser.Physics.ARCADE);
+                this.background = this.add.sprite(0, 0, 'GameBackground');
+                this.scale.pageAlignHorizontally = true;
+                this.scale.pageAlignVertically = true;
+                this.createEnemyBullets();
+                this.createUFOs();
+                this.createPlayerShip();
+                this.createPeople();
+                this.createBuildings();
+                this.game.camera.follow(this.player);
+                this.displayScore();
+>>>>>>> a184aa52405de3e626019924c1f0583494593d8d
             };
             Level01.prototype.createPeople = function () {
                 this.people = new Client.People(this.game, this.player);
             };
             Level01.prototype.createBuildings = function () {
+<<<<<<< HEAD
                 this.hospital = new Client.Hospital(this.game, this.game.world.centerX, 550);
+=======
+                this.hospital = new Client.Hospital(this.game, 700, 550);
+>>>>>>> a184aa52405de3e626019924c1f0583494593d8d
             };
             Level01.prototype.createUFOs = function () {
                 var i = 0;
@@ -441,6 +467,7 @@ var Jelicopter;
             };
             Level01.prototype.update = function () {
                 if (this.player.alive) {
+<<<<<<< HEAD
                     this.wrapAroundTheWorld(this.player, this.screenWidth);
                     this.doPlayerOverlapPhysics();
                     this.checkToCollectPeople();
@@ -469,6 +496,20 @@ var Jelicopter;
                         var shiftRightWard = player.body.velocity.x > 0;
                         background.position.x += (shiftRightWard ? 1 : -1) * screenWidth * 3;
                     }
+=======
+                    this.wrapAroundTheWorld();
+                    this.doPlayerOverlapPhysics();
+                    this.checkToCollectPeople();
+                }
+            };
+            Level01.prototype.wrapAroundTheWorld = function () {
+                this.game.world.wrap(this.player, 0, false, true, false);
+                this.enemyBullets.forEachAlive(function (bullet) {
+                    this.game.world.wrap(bullet, 0, false, true, false);
+                }, this);
+                this.ufos.forEachAlive(function (ufo) {
+                    this.game.world.wrap(ufo, 0, false, true, false);
+>>>>>>> a184aa52405de3e626019924c1f0583494593d8d
                 }, this);
             };
             Level01.prototype.doPlayerOverlapPhysics = function () {
