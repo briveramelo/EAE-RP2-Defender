@@ -94,10 +94,7 @@ var Jelicopter;
             __extends(People, _super);
             function People(game, ship) {
                 _super.call(this, game);
-                var person = this.game.add.sprite(200, 550, 'JumpingMale', 1);
-                this.originalXPosition = 200;
-                this.originalYPosition = 550;
-                this.add(person);
+                this.createPeople();
                 this.callAll('animations.add', 'animations', 'wave', [0, 1, 2, 3, 4], 15, true);
                 this.callAll('play', null, 'wave');
                 this.game.physics.arcade.enable(this);
@@ -105,6 +102,13 @@ var Jelicopter;
                 this.callAll('body.collideWorldBounds', '', true);
                 this.ship = ship;
             }
+            People.prototype.createPeople = function () {
+                for (var i = 0; i < 10; i++) {
+                    var num = this.game.rnd.between(200, 9000);
+                    this.person = this.game.add.sprite(num, 1200, 'JumpingMale', 1);
+                    this.add(this.person);
+                }
+            };
             return People;
         }(Phaser.Group));
         Client.People = People;
@@ -449,19 +453,22 @@ var Jelicopter;
                         this.savePersonIndex = i;
                         this.isSaving = true;
                     }
-                    else {
-                    }
                 }
                 if (this.isSaving) {
+                    var i = 0;
                     this.people.forEach(function (item) {
-                        if (this.player.scale.x === 1) {
-                            item.body.x = this.player.body.x + 32;
-                            item.body.y = this.player.body.y;
+                        if (i == this.savePersonIndex) {
+                            console.debug("wtf");
+                            if (this.player.scale.x === 1) {
+                                item.body.x = this.player.body.x + 32;
+                                item.body.y = this.player.body.y;
+                            }
+                            else {
+                                item.body.x = this.player.body.x - 32;
+                                item.body.y = this.player.body.y;
+                            }
                         }
-                        else {
-                            item.body.x = this.player.body.x - 32;
-                            item.body.y = this.player.body.y;
-                        }
+                        i++;
                     }, this);
                 }
                 if (this.checkOverlap(this.player, this.hospital)) {
@@ -469,8 +476,14 @@ var Jelicopter;
                         this.isSaving = false;
                         this.score += 10;
                         this.scoreText.text = 'Score: ' + this.score;
-                        this.people.children[this.savePersonIndex].x = this.people.originalXPosition;
-                        this.people.children[this.savePersonIndex].y = this.people.originalYPosition;
+                        var i = 0;
+                        this.people.forEach(function (item) {
+                            if (i == this.savePersonIndex) {
+                                item.body.x = 40000;
+                                item.body.y = 40000;
+                            }
+                            i++;
+                        }, this);
                     }
                 }
             };
@@ -483,6 +496,7 @@ var Jelicopter;
                 var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
                 this.scoreText = this.game.add.text(0, 0, "Score: 0", style);
                 this.scoreText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+                this.scoreText.fixedToCamera = true;
             };
             return Level01;
         }(Phaser.State));

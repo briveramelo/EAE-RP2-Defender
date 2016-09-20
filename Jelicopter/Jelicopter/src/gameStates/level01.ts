@@ -116,18 +116,18 @@
                 if (this.checkOverlap(this.player, this.people.children[i])) {
                     //this.people.children[i].worldPosition = this.player.world;
                     this.savePersonIndex = i;
-
                     this.isSaving = true;
-                }
-                else {
-
-                }
+                }               
             }
 
 
             if (this.isSaving) {
+                var i = 0;
+                
                 //this.people.children[this.savePersonIndex].position = this.player.position;
                 this.people.forEach(function (item) {
+                    if (i == this.savePersonIndex) { 
+                        console.debug("wtf");
                     if (this.player.scale.x === 1) {
                         item.body.x = this.player.body.x + 32;
                         item.body.y = this.player.body.y;
@@ -135,7 +135,9 @@
                     else {
                         item.body.x = this.player.body.x - 32;
                         item.body.y = this.player.body.y;
+                        }
                     }
+                    i++;
                 }, this);
                 //this.isSaving = false;
             }
@@ -144,8 +146,18 @@
                     this.isSaving = false;
                     this.score += 10;
                     this.scoreText.text = 'Score: ' + this.score;
-                    this.people.children[this.savePersonIndex].x = this.people.originalXPosition;
-                    this.people.children[this.savePersonIndex].y = this.people.originalYPosition;
+                    var i = 0;
+                    this.people.forEach(function (item) {
+                        if (i == this.savePersonIndex) {
+                            item.body.x = 40000;
+                            item.body.y = 40000;
+                            //break;
+                        }
+                        i++;
+                    },this);
+
+                    //this.people.children[this.savePersonIndex].x = this.people.originalXPosition;
+                    //this.people.children[this.savePersonIndex].y = this.people.originalYPosition;
                     //this.people.forEach(function (item) {
                     //    item.body.x = this.building.body.x;
                     //    item.body.y = this.building.body.y;
@@ -169,7 +181,7 @@
             //  The Text is positioned at 0, 100
             this.scoreText = this.game.add.text(0, 0, "Score: 0", style);
             this.scoreText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-
+            this.scoreText.fixedToCamera = true;
             //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
             // this.scoreText.setTextBounds(0, 100, 800, 100);
         }
