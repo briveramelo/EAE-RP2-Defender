@@ -50,24 +50,6 @@
                 }
                 i++;
             }, this);
-            
-            //if (this.isSaving) {
-            //    var i = 0;
-            //    this.people.forEach(function (person) {
-            //        if (i == this.savePersonIndex) {
-            //            if (this.level.playerShip.scale.x === 1) {
-            //                person.body.x = this.level.playerShip.body.x + 30;
-            //                person.body.y = this.level.playerShip.body.y + 80;
-            //            }
-            //            else {
-            //                person.body.x = this.level.playerShip.body.x - 105;
-            //                person.body.y = this.level.playerShip.body.y + 80;
-            //            }
-            //        }
-            //        i++;
-            //    }, this);
-            //}
-
         }
 
         carryPerson() {
@@ -87,17 +69,7 @@
 
         getPointsForPerson() {
             this.level.scoreboard.updateScore(10);
-            //var i = 0;
-            //this.people.forEach(function (person) {
-            //    if (i == this.savePersonIndex) {
-            //        person.kill();
-            //        person.destroy();
-            //    }
-            //    i++;
-            //}, this);
             this.personBeingCarried.kill();
-            //this.personBeingCarried.destroy();
-            //this.personBeingCarried = null;
         }
 
         isOverlapping(spriteA, spriteB) {

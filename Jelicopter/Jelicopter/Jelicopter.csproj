@@ -42,13 +42,14 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\Components\collider.ts" />
     <TypeScriptCompile Include="src\game.ts" />
+    <TypeScriptCompile Include="src\gameObjects\BackgroundLayer.ts" />
     <TypeScriptCompile Include="src\gameObjects\bullet.ts" />
     <TypeScriptCompile Include="src\gameObjects\hospital.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\HumanManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\OverlapManager.ts" />
-    <TypeScriptCompile Include="src\gameObjects\pauser.ts" />
     <TypeScriptCompile Include="src\gameObjects\people.ts" />
     <TypeScriptCompile Include="src\gameObjects\person.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\pauser.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\scoreboard.ts" />
     <TypeScriptCompile Include="src\gameObjects\shipExplosion.ts" />
     <TypeScriptCompile Include="src\gameObjects\ufo.ts" />
