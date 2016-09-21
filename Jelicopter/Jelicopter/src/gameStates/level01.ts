@@ -151,7 +151,7 @@
 
 
         update() {
-            if (this.playerShip.lives === 0 || this.people.length === 0) {
+            if (this.playerShip.lives === 0 || this.people.countLiving() === 0) {
                 this.game.state.start('GameOver', true, false);
             }                        
         }        

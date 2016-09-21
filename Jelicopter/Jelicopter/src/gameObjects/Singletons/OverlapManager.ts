@@ -15,25 +15,27 @@
 
         update() {
             if (this.level.playerShip.alive) {
-                this.checkEnemyBulletOverlaps();
-                this.checkPlayerBulletOverlaps();
                 this.checkUFOToPlayerOverlaps();
             }
+            this.checkEnemyBulletOverlaps();
+            this.checkPlayerBulletOverlaps();            
         }
 
         checkPlayerBulletOverlaps() {
             this.level.playerBullets.forEachAlive(function (bullet) {
                 this.level.people.forEach(function (person: Person) {
-                    if (person.myCollider.isColliding(bullet.myCollider)) {
-                        //this.level.scoreboard.updateScore(30); //Don't award them for killing people
-                        bullet.kill();
-                        person.kill();
-                        person.destroy();
+                    if (person.alive) {
+                        if (person.myCollider.isColliding(bullet.myCollider)) {
+                            //this.level.scoreboard.updateScore(30); //Don't award them for killing people
+                            bullet.kill();
+                            person.kill();
+                            //person.destroy();
+                        }
                     }
                 }, this);
-                
-                this.level.ufos.forEachAlive(function (ufo) {
-                    if (this.isOverlapping(ufo, bullet)) {
+
+                this.level.ufos.forEachAlive(function (ufo: UFO) {
+                    if (ufo.myCollider.isColliding(bullet.myCollider)) {
                         this.level.scoreboard.updateScore(30);
                         bullet.kill();
                         ufo.kill();
@@ -54,22 +56,22 @@
 
         checkEnemyBulletOverlaps() {
             this.level.enemyBullets.forEachAlive(function (bullet) {
-                if (this.level.playerShip.myCollider.isColliding(bullet.myCollider)) {
+                if (this.level.playerShip.alive && this.level.playerShip.myCollider.isColliding(bullet.myCollider)) {
                     this.level.playerShip.kill();
                     bullet.kill();
                 }
-
-                this.level.people.forEach(function (person: Person) {
-                    if (person.myCollider.isColliding(bullet.myCollider)) {
-                        //this.level.scoreboard.updateScore(30); //Don't award them for killing people
-                        bullet.kill();
-                        person.kill();
-                        person.destroy();
-                        //console.log('person killed');
-                    }
-                }, this);
-
-
+                else {
+                    this.level.people.forEach(function (person: Person) {
+                        if (person.alive) {
+                            if (person.myCollider.isColliding(bullet.myCollider)) {
+                                //this.level.scoreboard.updateScore(30); //Don't award them for killing people
+                                bullet.kill();
+                                person.kill();
+                                //person.destroy();
+                            }
+                        }
+                    }, this);
+                }
             }, this);
         }
       
