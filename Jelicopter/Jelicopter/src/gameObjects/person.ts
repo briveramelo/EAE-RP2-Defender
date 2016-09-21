@@ -10,10 +10,12 @@
             super(game, x, y, 'JumpingMale');
             this.game = game;
             this.ship = ship;
-            this.myCollider = new CircleCollider(this, 15, new Phaser.Point(0, 0));
+            this.anchor.set(0.5);
+            this.myCollider = new CircleCollider(this, 30, new Phaser.Point(0, 0));
             var xSpawnPosition = this.game.rnd.between(this.ship.position.x - 5760 / 2, this.ship.position.x + 5760 / 2);
+
             this.game.add.sprite(0, 0, 'JumpingMale', 1);
-            this.position = new Phaser.Point(xSpawnPosition, 700);
+            this.position = new Phaser.Point(xSpawnPosition, 780);
             game.add.existing(this);
             game.physics.enable(this);
             this.body.setCircle(20);

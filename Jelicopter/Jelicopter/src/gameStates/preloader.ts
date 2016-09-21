@@ -19,11 +19,14 @@
             this.load.image('Bullet', './assets/sprites/Ship/bullet02.png');
             this.load.image('Hospital', './assets/sprites/Buildings/building.png');
 
+            //this.load.spritesheet('ship_death', 'assets/ship_death_sprite.png', 115, 115);
+            //this.load.spritesheet('ship_fire', 'assets/fire_sprite.png', 115, 104);
+            //this.load.spritesheet('ship_smoke', 'assets/smoke_sprite.png', 115, 104);
+
             this.load.atlasJSONHash('JumpingMale', './assets/sprites/People/Jumping_male.png', './assets/sprites/People/Jumping_male.json');
             this.load.atlasJSONHash('Ship', './assets/sprites/Ship/Ship_1.png', './assets/sprites/Ship/Ship_1.json');
             this.load.atlasJSONHash('UFO', './assets/sprites/UFO/UFO_1.png', './assets/sprites/UFO/UFO_1.json');
 
-            //this.load.atlasJSONHash('level01-sprites', './assets/sprites/level01-sprites.png', './assets/sprites/level01-sprites.json');
         }
 
         create() {

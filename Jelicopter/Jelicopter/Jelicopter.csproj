@@ -44,10 +44,17 @@
     <TypeScriptCompile Include="src\game.ts" />
     <TypeScriptCompile Include="src\gameObjects\bullet.ts" />
     <TypeScriptCompile Include="src\gameObjects\hospital.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\HumanManager.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\OverlapManager.ts" />
+    <TypeScriptCompile Include="src\gameObjects\pauser.ts" />
     <TypeScriptCompile Include="src\gameObjects\people.ts" />
+    <TypeScriptCompile Include="src\gameObjects\person.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\scoreboard.ts" />
+    <TypeScriptCompile Include="src\gameObjects\shipExplosion.ts" />
     <TypeScriptCompile Include="src\gameObjects\ufo.ts" />
     <TypeScriptCompile Include="src\gameObjects\ship.ts" />
-    <TypeScriptCompile Include="src\gameObjects\UFOSpawner.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\UFOSpawner.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\WrapManager.ts" />
     <TypeScriptCompile Include="src\gameStates\boot.ts" />
     <TypeScriptCompile Include="src\gameStates\gameOver.ts" />
     <TypeScriptCompile Include="src\gameStates\level01.ts" />
@@ -79,7 +86,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50494</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

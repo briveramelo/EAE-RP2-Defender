@@ -15,8 +15,8 @@
         spawnShips() {
             var ufo = this.level.ufos.getFirstDead(false);//, 300, 300);
             ufo.comeAlive();
-            var playerX: number = this.level.player.position.x;
-            ufo.reset(this.game.rnd.between(playerX - this.level.screenWidth / 2, playerX + this.level.screenWidth / 2), this.game.rnd.between(400, 800));
+            var playerX: number = this.level.playerShip.position.x;
+            ufo.reset(this.game.rnd.between(playerX - this.level.backgroundImageWidth / 2, playerX + this.level.backgroundImageWidth / 2), this.game.rnd.between(400, 800));
             this.shipsSpawned++;
             if (this.shipsSpawned < 5) {
                 this.game.time.events.add(Phaser.Timer.SECOND * 3, this.spawnShips, this);

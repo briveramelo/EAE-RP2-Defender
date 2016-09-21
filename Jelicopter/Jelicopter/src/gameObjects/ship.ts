@@ -27,8 +27,6 @@
             this.bullets = bullets;
         }
 
-        
-
         update() {
             if (this.alive) {
                 this.move();

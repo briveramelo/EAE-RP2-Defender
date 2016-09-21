@@ -46,10 +46,10 @@
         }
 
         checkToShoot() :void{
-            if (this.level.player.alive && this.alive) {
-                if (this.myPosition().distance(this.level.player.myPosition()) < this.maxShootDistance && this.timerAllowsShooting) {
+            if (this.level.playerShip.alive && this.alive) {
+                if (this.myPosition().distance(this.level.playerShip.myPosition()) < this.maxShootDistance && this.timerAllowsShooting) {
                     if (this.alive) {
-                        if (this.level.player.alive) {
+                        if (this.level.playerShip.alive) {
                             this.shoot();
                         }
                     }
@@ -90,7 +90,7 @@
         }
 
         shoot(): void{
-            var shootDir = new Phaser.Point(this.level.player.myPosition().x - this.myPosition().x, this.level.player.myPosition().y - this.myPosition().y);
+            var shootDir = new Phaser.Point(this.level.playerShip.myPosition().x - this.myPosition().x, this.level.playerShip.myPosition().y - this.myPosition().y);
             var myBullet = this.level.enemyBullets.getFirstDead(false);
             myBullet.reset(this.position.x + this.positionOffset.x, this.position.y + this.positionOffset.y);
             var angleOfShot = Math.atan2(shootDir.y, shootDir.x) * 180 / Math.PI;
