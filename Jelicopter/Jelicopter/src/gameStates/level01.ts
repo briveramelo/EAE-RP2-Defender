@@ -3,6 +3,10 @@
     export class Level01 extends Phaser.State {
 
         backgrounds: Phaser.Group;
+        cityBackgrounds: Phaser.Group;
+        cityMidgrounds: Phaser.Group;
+        allBackgrounds: Phaser.Group;
+
         music: Phaser.Sound;
         ufos: Phaser.Group;
         ufoSpawner: UFOSpawner;
@@ -18,7 +22,7 @@
         wrapManager: WrapManager;
         overlapManager: OverlapManager;
 
-        backgroundImageWidth: number = 5760;
+        backgroundImageWidth: number = 3072;
 
         allObjects;
 
@@ -29,7 +33,10 @@
             this.scale.pageAlignVertically = true;
 
             //CREATE BACKGROUNDS
+            this.allBackgrounds = this.add.group();
             this.createBackgrounds();
+            this.createCityBack();
+            this.createCityMid();
 
             this.allObjects = [];
             var i:number = 0;
@@ -51,14 +58,38 @@
 
         createBackgrounds() {
             this.backgrounds = this.add.group();
-            this.backgrounds.createMultiple(3, 'GameBackground');
-            var i: number = 0;
-            this.backgrounds.forEach(function (background) {
+            for (var i = 0; i < 3; i++) {
+                var background = new BackgroundLayer(this.game, this, 'GameBackground', 0, 0);
+                this.backgrounds.add(background);
+                this.allBackgrounds.add(background);
                 background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
+                background.position.y = 200;
                 background.revive();
-                i++;
-            }, this);
-            this.backgrounds.setAll('anchor.x', 0.5);
+            }
+        }
+
+        createCityBack() {
+            this.cityBackgrounds = this.add.group();
+            for (var i = 0; i < 3; i++) {
+                var background = new BackgroundLayer(this.game, this, 'CityBack', 5, 10);
+                this.cityBackgrounds.add(background);
+                this.allBackgrounds.add(background);
+                background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
+                background.position.y = 200;
+                background.revive();
+            }            
+        }
+
+        createCityMid() {
+            this.cityMidgrounds = this.add.group();
+            for (var i = 0; i < 3; i++) {
+                var background = new BackgroundLayer(this.game, this, 'CityMid', 80, 150);
+                this.cityBackgrounds.add(background);
+                this.allBackgrounds.add(background);
+                background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
+                background.position.y = 250;
+                background.revive();
+            }
         }
 
         createBuildings(objStartIndex: number) {
@@ -121,9 +152,7 @@
             if (this.playerShip.lives === 0 || this.people.length === 0) {
                 this.game.state.start('GameOver', true, false);
             }                        
-        }
-
-        
+        }        
 
     }
 

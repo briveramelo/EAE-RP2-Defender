@@ -9,6 +9,7 @@
         myCollider: CircleCollider;
         lives: number = 3;
         timeToRevive: number = 3;
+        baseSpeed: number = 200;
         shipSpeed: Phaser.Point = new Phaser.Point(600, 300);
         bullets: Bullet;
 
@@ -79,7 +80,7 @@
 
         move() {
             var isGoingRight = this.scale.x === 1;
-            this.body.velocity.x = (isGoingRight ? 1 :-1) * 200;
+            this.body.velocity.x = (isGoingRight ? 1 : -1) * this.baseSpeed;
             this.body.velocity.y = 0;            
             
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||

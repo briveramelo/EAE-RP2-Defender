@@ -36,7 +36,7 @@
         }
 
         wrapBackgroundsAroundTheWorld(playerShip, screenWidth) {
-            this.level.backgrounds.forEach(function (background) {
+            this.level.allBackgrounds.forEach(function (background) {
                 if (Math.abs(background.position.x - playerShip.position.x) > (screenWidth * 2)) {
                     var shiftRightWard: boolean = playerShip.body.velocity.x > 0;
                     background.position.x += (shiftRightWard ? 1 : -1) * screenWidth * 3;

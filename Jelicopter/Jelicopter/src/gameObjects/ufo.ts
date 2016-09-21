@@ -13,12 +13,13 @@
             this.myCollider = new CircleCollider(this, 50, this.positionOffset);
             game.physics.enable(this);
             this.body.setCircle(20);
+            this.shipSpeed = new Phaser.Point(this.game.rnd.sign() * 250, 100);
             this.kill();      
         }
 
         myCollider: CircleCollider;
         level: Level01;
-        shipSpeed: Phaser.Point = new Phaser.Point(-100, 100);
+        shipSpeed: Phaser.Point;
         timeToMoveStraight: number = 1;
         timeToShoot: number = 1.5;
         timeMoving: number = 0;

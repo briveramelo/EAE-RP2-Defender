@@ -1,6 +1,7 @@
 .DS_Store
 Jelicopter/Jelicopter/bin/
 Jelicopter/Jelicopter/obj/
+Jelicopter/packages/
 */.vs
 *.user
 *.js
