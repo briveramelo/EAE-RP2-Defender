@@ -7,8 +7,9 @@
         }
         level: Level01;
         myCollider: CircleCollider;
-        lives: number = 5;
+        lives: number = 3;
         timeToRevive: number = 3;
+        baseSpeed: number = 200;
         shipSpeed: Phaser.Point = new Phaser.Point(600, 300);
         bullets: Bullet;
 
@@ -26,8 +27,6 @@
             this.body.setCircle(20);
             this.bullets = bullets;
         }
-
-        
 
         update() {
             if (this.alive) {
@@ -54,9 +53,9 @@
                         this.bullets.bullet.reset(this.body.x - 64, this.body.y + 64);
                     this.bullets.bullet.lifespan = 2000;
                     if (this.scale.x === 1)
-                        this.game.physics.arcade.velocityFromAngle(0, 400, this.bullets.bullet.body.velocity);
+                        this.game.physics.arcade.velocityFromAngle(0, 1000, this.bullets.bullet.body.velocity);
                     else
-                        this.game.physics.arcade.velocityFromAngle(180, 400, this.bullets.bullet.body.velocity);
+                        this.game.physics.arcade.velocityFromAngle(180, 1000, this.bullets.bullet.body.velocity);
                     this.bullets.bulletTime = this.game.time.now + 50;
                 }
             }
@@ -81,7 +80,7 @@
 
         move() {
             var isGoingRight = this.scale.x === 1;
-            this.body.velocity.x = (isGoingRight ? 1 :-1) * 200;
+            this.body.velocity.x = (isGoingRight ? 1 : -1) * this.baseSpeed;
             this.body.velocity.y = 0;            
             
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||

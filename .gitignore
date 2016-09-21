@@ -1,5 +1,8 @@
 .DS_Store
-*/bin
-*/obj
+Jelicopter/Jelicopter/bin/
+Jelicopter/Jelicopter/obj/
+Jelicopter/packages/
 */.vs
 *.user
+*.js
+*.js.map
