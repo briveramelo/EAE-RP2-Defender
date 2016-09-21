@@ -65,6 +65,7 @@
                         bullet.kill();
                         person.kill();
                         person.destroy();
+                        //console.log('person killed');
                     }
                 }, this);
 
