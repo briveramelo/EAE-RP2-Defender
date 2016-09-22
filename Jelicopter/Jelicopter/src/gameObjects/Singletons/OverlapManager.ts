@@ -71,7 +71,6 @@
                         this.level.scoreboard.updateScore(50);
                         bullet.kill();
                         bomberUFO.kill();
-                        console.log(this.level.bomberUFOs.countLiving());
                         if (this.level.bomberUFOs.countLiving() == 0) {
                             this.level.roundManager.startNewRound();
                         }

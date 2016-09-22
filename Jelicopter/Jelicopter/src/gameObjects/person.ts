@@ -5,11 +5,13 @@
         myCollider: CircleCollider;
         ship: Ship;
         game: Phaser.Game;
+        level: MainGame;
 
-        constructor(game: Phaser.Game, ship: Ship) {
+        constructor(game: Phaser.Game, ship: Ship, level:MainGame) {
             super(game, 0, 0, 'JumpingMale');
             this.game = game;
             this.ship = ship;
+            this.level = level;
             this.anchor.set(0.5);
             this.myCollider = new CircleCollider(this, 30, new Phaser.Point(0, 0));
             this.game.add.sprite(0, 0, 'JumpingMale', 1);
@@ -31,7 +33,8 @@
 
         spawn() {
             this.revive();
-            var xSpawnPosition = this.game.rnd.between(this.ship.position.x - 5760 / 2, this.ship.position.x + 5760 / 2);
+            console.log("respawned");
+            var xSpawnPosition = this.game.rnd.between(this.ship.position.x - this.level.backgroundImageWidth / 2, this.ship.position.x + this.level.backgroundImageWidth / 2);
             this.position = new Phaser.Point(xSpawnPosition, 785);
         }
         

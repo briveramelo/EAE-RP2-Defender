@@ -83,6 +83,7 @@
 
         respawnHumans() {
             this.level.people.forEach(function (person: Person) {
+                person.kill();
                 person.spawn();
             }, this);
         }

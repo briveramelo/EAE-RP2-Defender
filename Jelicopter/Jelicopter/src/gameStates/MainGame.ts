@@ -5,6 +5,7 @@
         backgrounds: Phaser.Group;
         cityBackgrounds: Phaser.Group;
         cityMidgrounds: Phaser.Group;
+        cityFrontGrounds: Phaser.Group;
         allBackgrounds: Phaser.Group;
 
         music: Phaser.Sound;
@@ -45,6 +46,7 @@
             this.createBackgrounds();
             this.createCityBack();
             this.createCityMid();
+            this.createCityFront();
 
             this.allObjects = [];
             var i:number = 0;
@@ -105,6 +107,17 @@
                 background.revive();
             }
         }
+        createCityFront() {
+            this.cityFrontGrounds = this.add.group();
+            for (var i = 0; i < 3; i++) {
+                var background = new BackgroundLayer(this.game, this, 'CityFront', 0, 0);
+                this.cityFrontGrounds.add(background);
+                this.allBackgrounds.add(background);
+                background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
+                background.position.y = 250;
+                background.revive();
+            }
+        }
 
         createBuildings(objStartIndex: number) {
             this.hospital = new Hospital(this.game, this);
@@ -126,7 +139,7 @@
         createPeople(objStartIndex: number) {
             this.people = this.game.add.group();
             for (var i = 0; i < 10; i++) {
-                this.people.add(new Person(this.game, this.playerShip));
+                this.people.add(new Person(this.game, this.playerShip, this));
             }
             this.people.forEach(function (person) {
                 this.allObjects[objStartIndex] = person;

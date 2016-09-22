@@ -10,7 +10,7 @@
         lives: number = 3;
         timeToRevive: number = 3;
         baseSpeed: number = 200;
-        shipSpeed: Phaser.Point = new Phaser.Point(600, 300);
+        shipSpeed: Phaser.Point = new Phaser.Point(3000, 300);
         bullets: Bullet;
         wasJustPressed: boolean;
         health: number;

@@ -41,6 +41,7 @@
                 }
             }
             if (!this.level.hospital.allPatientSaved && this.level.people.countLiving() == 0) {
+                console.log("game over because : everyone died and you didn't fill the hospital");
                 this.game.state.start('GameOver', true, false);
             }
         }

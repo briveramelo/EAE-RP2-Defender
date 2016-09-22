@@ -19,6 +19,7 @@
             this.load.image('GameBackground', './assets/sprites/Background/background_base.jpg');
             this.load.image('CityBack', './assets/sprites/Background/city_back.png');
             this.load.image('CityMid', './assets/sprites/Background/city_mid.png');
+            this.load.image('CityFront', './assets/sprites/Background/city_front.png');
 
             //Bullets
             this.load.image('EnemyBullet', './assets/sprites/UFO/EnemyBullet.png');
