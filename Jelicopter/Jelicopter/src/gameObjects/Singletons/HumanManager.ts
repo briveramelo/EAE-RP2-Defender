@@ -77,8 +77,15 @@
         }
 
         changeHospitalState() {
-            this.patientSaved++;
-            this.hospital.frame = this.patientSaved;
+            if (this.patientSaved != 10) {
+                this.patientSaved++;
+                this.hospital.frame = this.patientSaved;
+            }
+
+            if (this.patientSaved >= 9) {
+                this.level.hospital.allPatientSaved = true;
+            }
+
         }
 
         isOverlapping(spriteA, spriteB) {
