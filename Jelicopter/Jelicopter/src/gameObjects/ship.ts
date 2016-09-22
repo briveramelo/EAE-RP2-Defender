@@ -23,7 +23,7 @@
             // Physics
             game.physics.enable(this, Phaser.Physics.ARCADE);
             this.myCollider = new CircleCollider(this, 30, new Phaser.Point(0,0));
-            this.body.collideWorldBounds = true;
+            //this.body.collideWorldBounds = true;
             this.body.setCircle(20);
             this.bullets = bullets;
         }
@@ -102,12 +102,15 @@
                 }
 
                 if (this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-                    this.body.velocity.y = this.shipSpeed.y;
+                    if (this.position.y < 795) {
+                        this.body.velocity.y = this.shipSpeed.y;
+                    } 
                 }
                 else if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-                    this.body.velocity.y = -this.shipSpeed.y;
+                    if (this.position.y > 300) {
+                        this.body.velocity.y = -this.shipSpeed.y;
+                    } 
                 }
-
                 this.animations.play('fly');
             }
             else {

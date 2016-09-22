@@ -23,7 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="build\styles\default.css" />
-    <Content Include="build\assets\sprites\level01-sprites.png" />
     <Content Include="build\assets\ui\gameLogo.png" />
     <Content Include="build\assets\ui\titlePage.png" />
     <Content Include="build\game.js" />
@@ -34,9 +33,9 @@
   <ItemGroup>
     <Content Include="build\game.js.map" />
     <Content Include="build\assets\sounds\click.ogg" />
-    <Content Include="build\assets\sprites\level01-sprites.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="build\assets\sprites\" />
     <Folder Include="src\utils\" />
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +44,7 @@
     <TypeScriptCompile Include="src\gameObjects\BackgroundLayer.ts" />
     <TypeScriptCompile Include="src\gameObjects\bullet.ts" />
     <TypeScriptCompile Include="src\gameObjects\hospital.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Missile.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\HumanManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\OverlapManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\people.ts" />
@@ -56,6 +56,7 @@
     <TypeScriptCompile Include="src\gameObjects\ship.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\UFOSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\WrapManager.ts" />
+    <TypeScriptCompile Include="src\gameObjects\BomberUFO.ts" />
     <TypeScriptCompile Include="src\gameStates\boot.ts" />
     <TypeScriptCompile Include="src\gameStates\gameOver.ts" />
     <TypeScriptCompile Include="src\gameStates\level01.ts" />
@@ -66,8 +67,6 @@
     <TypeScriptCompile Include="tsDefinitions\pixi.comments.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="build\assets\sprites\Ship_1.json" />
-    <Content Include="build\assets\sprites\UFO_1.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

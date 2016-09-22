@@ -17,8 +17,34 @@
             if (this.level.playerShip.alive) {
                 this.checkUFOToPlayerOverlaps();
             }
-            this.checkEnemyBulletOverlaps();
-            this.checkPlayerBulletOverlaps();            
+            //this.checkEnemyBulletOverlaps();
+            this.checkPlayerBulletOverlaps();
+            //this.checkEnemyMissileOverlaps();
+        }
+
+        checkEnemyMissileOverlaps() {
+            this.level.enemyMissiles.forEachAlive(function (missile) {
+                if (this.level.playerShip.alive && this.level.playerShip.myCollider.isColliding(missile.myCollider)) {
+                    this.level.playerShip.kill();
+                    missile.kill();
+                }
+                else if (this.level.hospital.alive && this.level.hospital.myCollider.isColliding(missile.myCollider)){                                           
+                    this.level.hospital.kill();                                
+                    missile.kill();
+                }
+
+                this.level.people.forEach(function (person: Person) {
+                    if (person.alive) {
+                        if (person.myCollider.isColliding(missile.myCollider)) {
+                            //this.level.scoreboard.updateScore(30); //Don't award them for killing people
+                            missile.kill();
+                            person.kill();
+                            //person.destroy();
+                        }
+                    }
+                }, this);
+
+            }, this);
         }
 
         checkPlayerBulletOverlaps() {
@@ -39,6 +65,14 @@
                         this.level.scoreboard.updateScore(30);
                         bullet.kill();
                         ufo.kill();
+                    }
+                }, this);
+
+                this.level.bomberUFOs.forEachAlive(function (bomberUFO: UFO) {
+                    if (bomberUFO.myCollider.isColliding(bullet.myCollider)) {
+                        this.level.scoreboard.updateScore(50);
+                        bullet.kill();
+                        bomberUFO.kill();
                     }
                 }, this);
 
