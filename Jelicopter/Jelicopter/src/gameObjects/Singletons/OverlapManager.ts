@@ -3,9 +3,9 @@
     export class OverlapManager extends Phaser.Sprite {
 
         game: Phaser.Game;
-        level: Level01;
+        level: MainGame;
 
-        constructor(game: Phaser.Game, level: Level01) {
+        constructor(game: Phaser.Game, level: MainGame) {
             super(game, 0, 0, 'EnemyBullet');
             this.game = game;
             this.level = level;
@@ -18,7 +18,32 @@
                 this.checkUFOToPlayerOverlaps();
             }
             this.checkEnemyBulletOverlaps();
-            this.checkPlayerBulletOverlaps();            
+            this.checkPlayerBulletOverlaps();
+            this.checkEnemyMissileOverlaps();
+        }
+
+        checkEnemyMissileOverlaps() {
+            this.level.enemyMissiles.forEachAlive(function (missile) {
+                if (this.level.playerShip.alive && this.level.playerShip.myCollider.isColliding(missile.myCollider)) {
+                    this.level.playerShip.takeDamage();
+                    missile.kill();
+                }
+                if (this.isOverlapping(missile, this.level.hospital)) {
+                    this.level.hospital.takeDamage();
+                    missile.kill();
+                }
+
+                this.level.people.forEach(function (person: Person) {
+                    if (person.alive) {
+                        if (person.myCollider.isColliding(missile.myCollider)) {
+                            //this.level.scoreboard.updateScore(30); //Don't award them for killing people
+                            missile.kill();
+                            person.kill();
+                        }
+                    }
+                }, this);
+
+            }, this);      
         }
 
         checkPlayerBulletOverlaps() {
@@ -29,7 +54,6 @@
                             //this.level.scoreboard.updateScore(30); //Don't award them for killing people
                             bullet.kill();
                             person.kill();
-                            //person.destroy();
                         }
                     }
                 }, this);
@@ -42,13 +66,26 @@
                     }
                 }, this);
 
+                this.level.bomberUFOs.forEachAlive(function (bomberUFO: UFO) {
+                    if (bomberUFO.myCollider.isColliding(bullet.myCollider)) {
+                        this.level.scoreboard.updateScore(50);
+                        bullet.kill();
+                        bomberUFO.kill();
+                        console.log(this.level.bomberUFOs.countLiving());
+                        if (this.level.bomberUFOs.countLiving() == 0) {
+                            this.level.roundManager.startNewRound();
+                        }
+
+                    }
+                }, this);
+
             }, this);
         }
 
         checkUFOToPlayerOverlaps() {
             this.level.ufos.forEachAlive(function (ufo: UFO) {
                 if (this.level.playerShip.myCollider.isColliding(ufo.myCollider)) {
-                    this.level.playerShip.kill();
+                    this.level.playerShip.takeDamage();
                     ufo.kill();
                 }
             }, this);
@@ -57,7 +94,7 @@
         checkEnemyBulletOverlaps() {
             this.level.enemyBullets.forEachAlive(function (bullet) {
                 if (this.level.playerShip.alive && this.level.playerShip.myCollider.isColliding(bullet.myCollider)) {
-                    this.level.playerShip.kill();
+                    this.level.playerShip.takeDamage();
                     bullet.kill();
                 }
                 else {
@@ -80,6 +117,5 @@
             var boundsB = spriteB.getBounds();
             return Phaser.Rectangle.intersects(boundsA, boundsB);
         }
-
     }
 }

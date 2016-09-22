@@ -3,18 +3,20 @@
     export class HumanManager extends Phaser.Sprite {
 
         game: Phaser.Game;
-        level: Level01;
+        level: MainGame;
         people: Phaser.Group;
+        hospital: Hospital;
 
         isSaving: boolean = false;
         savePersonIndex: number;
-        personBeingCarried;
+        personBeingCarried;        
 
-        constructor(game: Phaser.Game, level: Level01, people: Phaser.Group) {
+        constructor(game: Phaser.Game, level: MainGame, people: Phaser.Group,hospital:Hospital) {
             super(game, 0, 0, 'EnemyBullet');
             this.game = game;
             this.level = level;
             this.people = people;
+            this.hospital = hospital;
             game.add.existing(this);
             game.physics.enable(this, Phaser.Physics.ARCADE);
         }
@@ -30,6 +32,7 @@
                         if (this.isOverlapping(this.level.playerShip, this.level.hospital)) {
                             this.dropPerson();
                             this.getPointsForPerson();
+                            this.hospital.savePatient();
                         }
                     }
                     else {
@@ -37,7 +40,9 @@
                     }
                 }
             }
-
+            if (!this.level.hospital.allPatientSaved && this.level.people.countLiving() == 0) {
+                this.game.state.start('GameOver', true, false);
+            }
         }
 
         checkToCollectPeople() {
@@ -50,24 +55,6 @@
                 }
                 i++;
             }, this);
-            
-            //if (this.isSaving) {
-            //    var i = 0;
-            //    this.people.forEach(function (person) {
-            //        if (i == this.savePersonIndex) {
-            //            if (this.level.playerShip.scale.x === 1) {
-            //                person.body.x = this.level.playerShip.body.x + 30;
-            //                person.body.y = this.level.playerShip.body.y + 80;
-            //            }
-            //            else {
-            //                person.body.x = this.level.playerShip.body.x - 105;
-            //                person.body.y = this.level.playerShip.body.y + 80;
-            //            }
-            //        }
-            //        i++;
-            //    }, this);
-            //}
-
         }
 
         carryPerson() {
@@ -87,25 +74,14 @@
 
         getPointsForPerson() {
             this.level.scoreboard.updateScore(10);
-            //var i = 0;
-            //this.people.forEach(function (person) {
-            //    if (i == this.savePersonIndex) {
-            //        person.kill();
-            //        person.destroy();
-            //    }
-            //    i++;
-            //}, this);
             this.personBeingCarried.kill();
-            //this.personBeingCarried.destroy();
-            //this.personBeingCarried = null;
-        }
+        }        
 
         isOverlapping(spriteA, spriteB) {
             var boundsA = spriteA.getBounds();
             var boundsB = spriteB.getBounds();
             return Phaser.Rectangle.intersects(boundsA, boundsB);
         }
-
 
     }
 }

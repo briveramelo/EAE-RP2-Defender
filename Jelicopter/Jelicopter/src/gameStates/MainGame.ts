@@ -1,6 +1,6 @@
 ﻿module Jelicopter.Client {
 
-    export class Level01 extends Phaser.State {
+    export class MainGame extends Phaser.State {
 
         backgrounds: Phaser.Group;
         cityBackgrounds: Phaser.Group;
@@ -9,25 +9,33 @@
 
         music: Phaser.Sound;
         ufos: Phaser.Group;
-        ufoSpawner: UFOSpawner;
+        bomberUFOs: Phaser.Group;
         enemyBullets: Phaser.Group;
+        enemyMissiles: Phaser.Group;
 
         playerBullets: Bullet;
         playerShip: Ship;
         people: Phaser.Group;
+
+        //Singletons
         hospital: Hospital;
         scoreboard: ScoreBoard;
         pauser: Pauser;
+        roundManager: RoundManager;
         humanManager: HumanManager;
         wrapManager: WrapManager;
         overlapManager: OverlapManager;
+        ufoSpawner: UFOSpawner;
+        bomberUFOSpawner: BomberUFOSpawner;
+        gamepadManager: GamepadManager;
 
         backgroundImageWidth: number = 3072;
+        heightOffset: number = 250;
 
         allObjects;
 
         create() {            
-            this.game.world.setBounds(0, 250, 10000000000, 550);
+            this.game.world.setBounds(0, this.heightOffset, 10000000000, 576);
             this.physics.startSystem(Phaser.Physics.ARCADE);
             this.scale.pageAlignHorizontally = true;
             this.scale.pageAlignVertically = true;
@@ -44,14 +52,20 @@
             i = this.createPlayerShipAndBullets(i);
             i = this.createPeople(i);
             i = this.createEnemyBullets(i);
+            i = this.createEnemyMissiles(i);
             i = this.createUFOs(i);
+            i = this.createBomberUFOs(i);
 
             //CREATE SINGLETONS
+            this.gamepadManager = new GamepadManager(this.game, this);
             this.scoreboard = new ScoreBoard(this.game);
             this.pauser = new Pauser(this.game);
-            this.humanManager = new HumanManager(this.game, this, this.people);
+            this.humanManager = new HumanManager(this.game, this, this.people, this.hospital);
             this.wrapManager = new WrapManager(this.game, this);
             this.overlapManager = new OverlapManager(this.game, this);
+            this.ufoSpawner = new UFOSpawner(this.game, this);
+            this.bomberUFOSpawner = new BomberUFOSpawner(this.game, this);
+            this.roundManager = new RoundManager(this.game, this);
 
             this.game.camera.follow(this.playerShip);
         }        
@@ -93,7 +107,7 @@
         }
 
         createBuildings(objStartIndex: number) {
-            this.hospital = new Hospital(this.game, this.game.world.centerX, 550);
+            this.hospital = new Hospital(this.game, this);
             this.allObjects[objStartIndex] = this.hospital;
             objStartIndex++;
             return objStartIndex;
@@ -112,7 +126,7 @@
         createPeople(objStartIndex: number) {
             this.people = this.game.add.group();
             for (var i = 0; i < 10; i++) {
-                this.people.add(new Person(this.game, this.playerShip, -1000, -1000));
+                this.people.add(new Person(this.game, this.playerShip));
             }
             this.people.forEach(function (person) {
                 this.allObjects[objStartIndex] = person;
@@ -135,23 +149,50 @@
             this.enemyBullets.setAll('outOfBoundsKill', true);                        
             return objStartIndex;
         }
+        createEnemyMissiles(objStartIndex: number) {
+            this.enemyMissiles = this.game.add.group();
+            this.enemyMissiles.enableBody = true;
+            this.enemyMissiles.physicsBodyType = Phaser.Physics.ARCADE;
+            this.enemyMissiles.createMultiple(100, 'EnemyBullet');
+            this.enemyMissiles.forEach(function (missile) {
+                missile.myCollider = new CircleCollider(missile, 15, new Phaser.Point(0, 0));
+                this.allObjects[objStartIndex] = missile;
+                objStartIndex++;
+            }, this);
+
+            this.enemyMissiles.setAll('checkWorldBounds', true);
+            this.enemyMissiles.setAll('outOfBoundsKill', true);
+            return objStartIndex;
+        }
+
+
         createUFOs(objStartIndex: number) {
             this.ufos = this.game.add.group();
             for (var i = 0; i < 30; i++){
-                this.ufos.add(new UFO(this.game, this, -1000, -1000));
+                this.ufos.add(new UFO(this.game, this));
             }
             this.ufos.forEach(function (ufo) {
                 this.allObjects[objStartIndex] = ufo;
                 objStartIndex++;
             }, this);
-            this.ufoSpawner = new UFOSpawner(this.game, this);
+            
+            return objStartIndex;
+        }
+
+        createBomberUFOs(objStartIndex: number) {
+            this.bomberUFOs = this.game.add.group();
+            for (var i = 0; i < 30; i++) {
+                this.bomberUFOs.add(new BomberUFO(this.game, this));
+            }
+            this.bomberUFOs.forEach(function (bomberUFO) {
+                this.allObjects[objStartIndex] = bomberUFO;
+                objStartIndex++;
+            }, this);
             return objStartIndex;
         }
 
         update() {
-            if (this.playerShip.lives === 0 || this.people.countLiving() === 0) {
-                this.game.state.start('GameOver', true, false);
-            }                        
+                                  
         }        
 
     }

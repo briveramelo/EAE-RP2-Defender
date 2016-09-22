@@ -2,8 +2,8 @@
 
     export class UFO extends Phaser.Sprite {
 
-        constructor(game: Phaser.Game, level: Level01, x: number, y: number) {
-            super(game, x, y, 'UFO');
+        constructor(game: Phaser.Game, level: MainGame) {
+            super(game, 0, 0, 'UFO');
             this.level = level;
             this.anchor.setTo(0.5);
             this.pivot.set(64, 64);
@@ -17,16 +17,18 @@
             this.kill();      
         }
 
+        goStraight: boolean;
         myCollider: CircleCollider;
-        level: Level01;
+        level: MainGame;
         shipSpeed: Phaser.Point;
         timeToMoveStraight: number = 1;
-        timeToShoot: number = 1.5;
+        timeToShoot: number = 3;
         timeMoving: number = 0;
         shootSpeed: number = 100;
         maxShootDistance: number = 900;
         positionOffset: Phaser.Point = new Phaser.Point(-64, -64);
         timerAllowsShooting: boolean = true;
+        worldHeightShiftPadding: number = 200;
         myPosition(): Phaser.Point {
             return new Phaser.Point(this.position.x - 64, this.position.y - 64);
         }
@@ -35,14 +37,6 @@
             if (this.alive) {
                 this.animations.play('ufo_fly');
                 this.checkToShoot();
-
-                //DO THIS FOR PLAYER BULLETS
-                //this.level.enemyBullets.forEachAlive(function (bullet) {
-                //    if (this.myCollider.isColliding(this.myPosition(), bullet.position)) {
-                //        this.kill();
-                //        bullet.kill();
-                //    }
-                //}, this);
             }
         }
 
@@ -60,33 +54,42 @@
 
         comeAlive() :void{
             this.revive();
-            this.position = new Phaser.Point(100, 500);
             this.timerAllowsShooting = true;
-
-            this.move();
-            //this.game.time.events.add(Phaser.Timer.SECOND * 15, this.kill, this);
+            this.moveStraight();
+            this.alternateUpDown();
         }
 
         kill(): Phaser.Sprite {
-            //this.body.position
             super.kill();
             return this;
         }
 
-        goStraight: boolean;
 
-        move() :void {
+        moveStraight(): void {
+            this.body.velocity.x = this.shipSpeed.x;
+        }
+
+        alternateUpDown(): void {
             this.goStraight = !this.goStraight;
 
             if (this.goStraight) {
                 this.body.velocity.y = 0;
-                this.body.velocity.x = this.shipSpeed.x;
             }
-            else{
-                //this.body.velocity.y = (this.game.rnd.sign()) * this.shipSpeed.y;
+            else {
+                var goUp: boolean = false;
+                if (this.position.y > (this.game.height + this.level.heightOffset - this.worldHeightShiftPadding)) {
+                    goUp = true;
+                }
+                else if (this.position.y < (this.level.heightOffset + this.worldHeightShiftPadding)) {
+                    goUp = false;
+                }
+                else {
+                    goUp = this.game.rnd.sign() == 1;
+                }
+                this.body.velocity.y = (goUp ? -1 : 1) * this.shipSpeed.y;
             }
             if (this.alive) {
-                this.game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight, this.move, this);
+                this.game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight, this.alternateUpDown, this);
             }
         }
 
@@ -96,6 +99,7 @@
             myBullet.reset(this.position.x + this.positionOffset.x, this.position.y + this.positionOffset.y);
             var angleOfShot = Math.atan2(shootDir.y, shootDir.x) * 180 / Math.PI;
             this.game.physics.arcade.velocityFromAngle(angleOfShot, 400, myBullet.body.velocity);
+            myBullet.lifespan = 4500;
 
             this.resetShooting();
         }
