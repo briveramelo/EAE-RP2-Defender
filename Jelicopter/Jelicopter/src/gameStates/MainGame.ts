@@ -1,6 +1,6 @@
 ﻿module Jelicopter.Client {
 
-    export class Level01 extends Phaser.State {
+    export class MainGame extends Phaser.State {
 
         backgrounds: Phaser.Group;
         cityBackgrounds: Phaser.Group;
@@ -27,6 +27,7 @@
         overlapManager: OverlapManager;
         ufoSpawner: UFOSpawner;
         bomberUFOSpawner: BomberUFOSpawner;
+        gamepadManager: GamepadManager;
 
         backgroundImageWidth: number = 3072;
         heightOffset: number = 250;
@@ -56,6 +57,7 @@
             i = this.createBomberUFOs(i);
 
             //CREATE SINGLETONS
+            this.gamepadManager = new GamepadManager(this.game, this);
             this.scoreboard = new ScoreBoard(this.game);
             this.pauser = new Pauser(this.game);
             this.humanManager = new HumanManager(this.game, this, this.people, this.hospital);

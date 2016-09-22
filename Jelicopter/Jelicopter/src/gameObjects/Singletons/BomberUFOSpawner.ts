@@ -3,12 +3,12 @@
     export class BomberUFOSpawner {
 
         game: Phaser.Game;
-        level: Level01;
+        level: MainGame;
 
-        constructor(game: Phaser.Game, level: Level01) {
+        constructor(game: Phaser.Game, level: MainGame) {
             this.game = game;
             this.level = level;
-            this.spawnShips();
+            //this.spawnShips();
         }
 
         spawnShips() {

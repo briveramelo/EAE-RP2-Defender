@@ -2,7 +2,7 @@
 
     export class UFO extends Phaser.Sprite {
 
-        constructor(game: Phaser.Game, level: Level01) {
+        constructor(game: Phaser.Game, level: MainGame) {
             super(game, 0, 0, 'UFO');
             this.level = level;
             this.anchor.setTo(0.5);
@@ -19,7 +19,7 @@
 
         goStraight: boolean;
         myCollider: CircleCollider;
-        level: Level01;
+        level: MainGame;
         shipSpeed: Phaser.Point;
         timeToMoveStraight: number = 1;
         timeToShoot: number = 1.5;
@@ -28,7 +28,7 @@
         maxShootDistance: number = 900;
         positionOffset: Phaser.Point = new Phaser.Point(-64, -64);
         timerAllowsShooting: boolean = true;
-        worldHeightShiftPadding: number = 64;
+        worldHeightShiftPadding: number = 100;
         myPosition(): Phaser.Point {
             return new Phaser.Point(this.position.x - 64, this.position.y - 64);
         }
@@ -69,24 +69,24 @@
             this.body.velocity.x = this.shipSpeed.x;
         }
 
-        alternateUpDown() :void {
+        alternateUpDown(): void {
             this.goStraight = !this.goStraight;
 
             if (this.goStraight) {
-                this.body.velocity.y = 0;                
+                this.body.velocity.y = 0;
             }
             else {
                 var goUp: boolean = false;
-                if (this.position.y > (this.game.height - this.worldHeightShiftPadding)) {
+                if (this.position.y > (this.game.height + this.level.heightOffset - this.worldHeightShiftPadding)) {
                     goUp = true;
                 }
-                else if (this.position.y < this.worldHeightShiftPadding) {
+                else if (this.position.y < (this.level.heightOffset + this.worldHeightShiftPadding)) {
                     goUp = false;
                 }
                 else {
                     goUp = this.game.rnd.sign() == 1;
                 }
-                this.body.velocity.y = (goUp ? 1 :-1) * this.shipSpeed.y;
+                this.body.velocity.y = (goUp ? -1 : 1) * this.shipSpeed.y;
             }
             if (this.alive) {
                 this.game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight, this.alternateUpDown, this);

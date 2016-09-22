@@ -3,10 +3,10 @@
     export class WrapManager extends Phaser.Sprite {
 
         game: Phaser.Game;
-        level: Level01;
+        level: MainGame;
 
 
-        constructor(game: Phaser.Game, level: Level01) {
+        constructor(game: Phaser.Game, level: MainGame) {
             super(game, 0, 0, 'EnemyBullet');
             this.game = game;
             this.level = level;

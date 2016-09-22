@@ -3,11 +3,11 @@
     export class RoundManager {
 
         game: Phaser.Game;
-        level: Level01;
+        level: MainGame;
         roundNumber: number;
         roundText;
 
-        constructor(game: Phaser.Game, level: Level01) {
+        constructor(game: Phaser.Game, level: MainGame) {
             this.game = game;
             this.level = level;
 

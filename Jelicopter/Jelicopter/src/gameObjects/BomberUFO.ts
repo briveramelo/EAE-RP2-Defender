@@ -4,7 +4,7 @@
 
         goStraight: boolean;
         myCollider: CircleCollider;
-        level: Level01;
+        level: MainGame;
         shipSpeed: Phaser.Point;
         worldHeightShiftPadding: number = 100;
         timeToMoveStraight: number = 1;
@@ -21,7 +21,7 @@
             return new Phaser.Point(this.position.x - 64, this.position.y - 64);
         }
 
-        constructor(game: Phaser.Game, level: Level01) {
+        constructor(game: Phaser.Game, level: MainGame) {
             super(game, 0,0, 'BomberUFO');
             this.level = level;
             this.anchor.setTo(0.5);

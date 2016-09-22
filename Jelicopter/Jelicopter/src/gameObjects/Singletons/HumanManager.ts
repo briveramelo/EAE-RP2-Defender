@@ -3,7 +3,7 @@
     export class HumanManager extends Phaser.Sprite {
 
         game: Phaser.Game;
-        level: Level01;
+        level: MainGame;
         people: Phaser.Group;
         hospital: Hospital;
 
@@ -12,7 +12,7 @@
         personBeingCarried;
         patientSaved: number=0;
 
-        constructor(game: Phaser.Game, level: Level01, people: Phaser.Group,hospital:Hospital) {
+        constructor(game: Phaser.Game, level: MainGame, people: Phaser.Group,hospital:Hospital) {
             super(game, 0, 0, 'EnemyBullet');
             this.game = game;
             this.level = level;
