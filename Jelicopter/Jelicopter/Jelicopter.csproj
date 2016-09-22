@@ -26,6 +26,7 @@
     <Content Include="build\assets\sprites\Explosions\Explosion.png" />
     <Content Include="build\assets\sprites\Explosions\slime_sprite.png" />
     <Content Include="build\assets\sprites\Explosions\smoke_sprite.png" />
+    <Content Include="build\assets\sprites\Score\score_sprite.png" />
     <Content Include="build\assets\sprites\UFO\bomb_drop.png" />
     <Content Include="build\styles\default.css" />
     <Content Include="build\assets\ui\gameLogo.png" />

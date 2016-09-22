@@ -63,6 +63,7 @@
                         this.level.scoreboard.updateScore(30);
                         bullet.kill();
                         ufo.kill();
+                        this.level.scoreboard.giveFeedbackOfScore(ufo.position);
                         this.level.explosionManager.particleBurst(ufo.position,"blueShip");
                     }
                 }, this);
