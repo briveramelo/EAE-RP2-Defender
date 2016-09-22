@@ -63,6 +63,7 @@
                         this.level.scoreboard.updateScore(30);
                         bullet.kill();
                         ufo.kill();
+                        this.level.explosionManager.particleBurst(ufo.position);
                     }
                 }, this);
 
@@ -87,6 +88,7 @@
                 if (this.level.playerShip.myCollider.isColliding(ufo.myCollider)) {
                     this.level.playerShip.takeDamage();
                     ufo.kill();
+                    this.level.explosionManager.particleBurst(ufo.position);
                 }
             }, this);
         }
