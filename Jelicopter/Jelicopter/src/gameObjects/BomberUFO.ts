@@ -26,7 +26,7 @@
             this.level = level;
             this.anchor.setTo(0.5);
             this.pivot.set(64, 64);
-            this.animations.add('bomberUFO_fly', [0, 1, 2], 30, true);
+            this.animations.add('bomberUFO_fly', [0, 1, 2, 3, 4, 5, 6, 7], 30, true);
             game.add.existing(this);
             // Physics
             this.myCollider = new CircleCollider(this, 50, this.positionOffset);

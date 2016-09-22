@@ -24,7 +24,9 @@
   <ItemGroup>
     <Content Include="build\assets\sprites\Explosions\blue_sprite.png" />
     <Content Include="build\assets\sprites\Explosions\Explosion.png" />
+    <Content Include="build\assets\sprites\Explosions\slime_sprite.png" />
     <Content Include="build\assets\sprites\Explosions\smoke_sprite.png" />
+    <Content Include="build\assets\sprites\UFO\bomb_drop.png" />
     <Content Include="build\styles\default.css" />
     <Content Include="build\assets\ui\gameLogo.png" />
     <Content Include="build\assets\ui\titlePage.png" />
@@ -73,6 +75,7 @@
     <TypeScriptCompile Include="tsDefinitions\pixi.comments.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="build\assets\sprites\UFO\bomb_drop.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

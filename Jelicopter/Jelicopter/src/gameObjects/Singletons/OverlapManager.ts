@@ -63,7 +63,7 @@
                         this.level.scoreboard.updateScore(30);
                         bullet.kill();
                         ufo.kill();
-                        this.level.explosionManager.particleBurst(ufo.position);
+                        this.level.explosionManager.particleBurst(ufo.position,"blueShip");
                     }
                 }, this);
 
@@ -72,7 +72,7 @@
                         this.level.scoreboard.updateScore(50);
                         bullet.kill();
                         bomberUFO.kill();
-                        console.log(this.level.bomberUFOs.countLiving());
+                        this.level.explosionManager.particleBurst(bomberUFO.position, "slimeShip");
                         if (this.level.bomberUFOs.countLiving() == 0) {
                             this.level.roundManager.startNewRound();
                         }

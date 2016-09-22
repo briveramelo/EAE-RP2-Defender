@@ -25,13 +25,14 @@
             this.load.image('Bullet', './assets/sprites/Ship/bullet02.png');
             
             //Explosion
+            this.load.spritesheet('slime_death', './assets/sprites/Explosions/slime_sprite.png', 64, 64);
             this.load.spritesheet('blue_fire', './assets/sprites/Explosions/blue_sprite.png', 115, 104);
             this.load.spritesheet('ship_smoke', './assets/sprites/Explosions/smoke_sprite.png', 115, 104);
 
             //Ships
             this.load.atlasJSONHash('Ship', './assets/sprites/Ship/Ship_1.png', './assets/sprites/Ship/Ship_1.json');
             this.load.atlasJSONHash('UFO', './assets/sprites/UFO/UFO_1.png', './assets/sprites/UFO/UFO_1.json');
-            this.load.atlasJSONHash('BomberUFO', './assets/sprites/UFO/UFO_2.png', './assets/sprites/UFO/UFO_2.json');
+            this.load.atlasJSONHash('BomberUFO', './assets/sprites/UFO/bomb_drop.png', './assets/sprites/UFO/bomb_drop.json');
             //this.load.spritesheet('ship_death', 'assets/ship_death_sprite.png', 115, 115);
             //this.load.spritesheet('ship_fire', 'assets/fire_sprite.png', 115, 104);
             //this.load.spritesheet('ship_smoke', 'assets/smoke_sprite.png', 115, 104);
