@@ -22,13 +22,13 @@
         level: MainGame;
         shipSpeed: Phaser.Point;
         timeToMoveStraight: number = 1;
-        timeToShoot: number = 1.5;
+        timeToShoot: number = 3;
         timeMoving: number = 0;
         shootSpeed: number = 100;
         maxShootDistance: number = 900;
         positionOffset: Phaser.Point = new Phaser.Point(-64, -64);
         timerAllowsShooting: boolean = true;
-        worldHeightShiftPadding: number = 100;
+        worldHeightShiftPadding: number = 200;
         myPosition(): Phaser.Point {
             return new Phaser.Point(this.position.x - 64, this.position.y - 64);
         }
@@ -99,6 +99,7 @@
             myBullet.reset(this.position.x + this.positionOffset.x, this.position.y + this.positionOffset.y);
             var angleOfShot = Math.atan2(shootDir.y, shootDir.x) * 180 / Math.PI;
             this.game.physics.arcade.velocityFromAngle(angleOfShot, 400, myBullet.body.velocity);
+            myBullet.lifespan = 4500;
 
             this.resetShooting();
         }

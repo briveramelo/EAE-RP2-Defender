@@ -6,9 +6,9 @@
         myCollider: CircleCollider;
         level: MainGame;
         shipSpeed: Phaser.Point;
-        worldHeightShiftPadding: number = 100;
+        worldHeightShiftPadding: number = 200;
         timeToMoveStraight: number = 1;
-        timeToShootBullet: number = 1.5;
+        timeToShootBullet: number = 3;
         timeToShootMissile: number = 3;
         timeMoving: number = 0;
         shootSpeed: number = 100;
@@ -104,6 +104,7 @@
             myBullet.reset(this.position.x + this.positionOffset.x, this.position.y + this.positionOffset.y);
             var angleOfShot = Math.atan2(shootDir.y, shootDir.x) * 180 / Math.PI;
             this.game.physics.arcade.velocityFromAngle(angleOfShot, 400, myBullet.body.velocity);
+            myBullet.lifespan = 4500;
 
             this.resetBulletShooting();
         }
@@ -114,6 +115,7 @@
             myMissile.reset(this.position.x + this.positionOffset.x, this.position.y + this.positionOffset.y);
             var angleOfShot = Math.atan2(shootDir.y, shootDir.x) * 180 / Math.PI;
             this.game.physics.arcade.velocityFromAngle(angleOfShot, 400, myMissile.body.velocity);
+            myMissile.lifespan = 6000;
 
             this.resetMissileShooting();
         }

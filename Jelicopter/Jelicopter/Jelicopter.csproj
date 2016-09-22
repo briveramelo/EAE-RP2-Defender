@@ -43,7 +43,7 @@
     <TypeScriptCompile Include="src\game.ts" />
     <TypeScriptCompile Include="src\gameObjects\BackgroundLayer.ts" />
     <TypeScriptCompile Include="src\gameObjects\bullet.ts" />
-    <TypeScriptCompile Include="src\gameObjects\Hospital.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\Hospital.ts" />
     <TypeScriptCompile Include="src\gameObjects\Missile.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\BomberUFOSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\GamepadManager.ts" />

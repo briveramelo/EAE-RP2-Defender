@@ -10,9 +10,10 @@
         lives: number = 3;
         timeToRevive: number = 3;
         baseSpeed: number = 200;
-        shipSpeed: Phaser.Point = new Phaser.Point(500, 300);
+        shipSpeed: Phaser.Point = new Phaser.Point(600, 300);
         bullets: Bullet;
         wasJustPressed: boolean;
+        health: number;
 
         constructor(game: Phaser.Game, level: MainGame, x: number, y: number, bullets: Bullet) {
             super(game, x, y, 'Ship', 1);
@@ -24,6 +25,7 @@
             this.myCollider = new CircleCollider(this, 30, new Phaser.Point(0,0));
             this.body.setCircle(20);
             this.bullets = bullets;
+            this.health = 3;
         }
 
         update() {
@@ -64,14 +66,16 @@
 
         }
 
-        kill() {
-            this.lives--;
-            if (this.lives <= 0) {
-                //Restart the game
-                this.game.state.start('GameOver', true, false);
+        takeDamage() {
+            this.health--;
+            if (this.health <= 0) {
+                this.kill();
             }
-            this.game.time.events.add(Phaser.Timer.SECOND * this.timeToRevive, this.revive, this);
-            super.kill();
+        }
+
+        kill() {            
+            this.game.state.start('GameOver', true, false);
+            super.kill();            
             return this;
         }
 

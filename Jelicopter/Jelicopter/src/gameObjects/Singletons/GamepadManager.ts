@@ -75,7 +75,10 @@
                 }
 
                 if (yAxis) {
-                    if (this.level.playerShip.position.y < 795 || this.level.playerShip.position.y > 300) {
+                    if (this.level.playerShip.position.y < 795 && yAxis>0) {
+                        this.level.playerShip.body.velocity.y = ySpeed;
+                    }
+                    else if (this.level.playerShip.position.y > 300 && yAxis < 0) {
                         this.level.playerShip.body.velocity.y = ySpeed;
                     }
                 }

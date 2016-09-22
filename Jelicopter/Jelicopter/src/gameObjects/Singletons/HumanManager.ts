@@ -9,8 +9,7 @@
 
         isSaving: boolean = false;
         savePersonIndex: number;
-        personBeingCarried;
-        patientSaved: number=0;
+        personBeingCarried;        
 
         constructor(game: Phaser.Game, level: MainGame, people: Phaser.Group,hospital:Hospital) {
             super(game, 0, 0, 'EnemyBullet');
@@ -33,7 +32,7 @@
                         if (this.isOverlapping(this.level.playerShip, this.level.hospital)) {
                             this.dropPerson();
                             this.getPointsForPerson();
-                            this.changeHospitalState();
+                            this.hospital.savePatient();
                         }
                     }
                     else {
@@ -41,7 +40,9 @@
                     }
                 }
             }
-
+            if (!this.level.hospital.allPatientSaved && this.level.people.countLiving() == 0) {
+                this.game.state.start('GameOver', true, false);
+            }
         }
 
         checkToCollectPeople() {
@@ -74,26 +75,13 @@
         getPointsForPerson() {
             this.level.scoreboard.updateScore(10);
             this.personBeingCarried.kill();
-        }
-
-        changeHospitalState() {
-            if (this.patientSaved != 10) {
-                this.patientSaved++;
-                this.hospital.frame = this.patientSaved;
-            }
-
-            if (this.patientSaved >= 9) {
-                this.level.hospital.allPatientSaved = true;
-            }
-
-        }
+        }        
 
         isOverlapping(spriteA, spriteB) {
             var boundsA = spriteA.getBounds();
             var boundsB = spriteB.getBounds();
             return Phaser.Rectangle.intersects(boundsA, boundsB);
         }
-
 
     }
 }

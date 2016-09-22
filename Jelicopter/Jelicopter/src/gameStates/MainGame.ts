@@ -107,7 +107,7 @@
         }
 
         createBuildings(objStartIndex: number) {
-            this.hospital = new Hospital(this.game);
+            this.hospital = new Hospital(this.game, this);
             this.allObjects[objStartIndex] = this.hospital;
             objStartIndex++;
             return objStartIndex;
@@ -126,7 +126,7 @@
         createPeople(objStartIndex: number) {
             this.people = this.game.add.group();
             for (var i = 0; i < 10; i++) {
-                this.people.add(new Person(this.game, this.playerShip, -1000, -1000));
+                this.people.add(new Person(this.game, this.playerShip));
             }
             this.people.forEach(function (person) {
                 this.allObjects[objStartIndex] = person;
@@ -192,9 +192,7 @@
         }
 
         update() {
-            if (this.playerShip.lives === 0 || this.people.countLiving() === 0) {
-                this.game.state.start('GameOver', true, false);
-            }                        
+                                  
         }        
 
     }
