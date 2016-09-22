@@ -49,7 +49,7 @@
             //CREATE SINGLETONS
             this.scoreboard = new ScoreBoard(this.game);
             this.pauser = new Pauser(this.game);
-            this.humanManager = new HumanManager(this.game, this, this.people);
+            this.humanManager = new HumanManager(this.game, this, this.people, this.hospital);
             this.wrapManager = new WrapManager(this.game, this);
             this.overlapManager = new OverlapManager(this.game, this);
 
@@ -93,7 +93,7 @@
         }
 
         createBuildings(objStartIndex: number) {
-            this.hospital = new Hospital(this.game, this.game.world.centerX, 550);
+            this.hospital = new Hospital(this.game, this.game.world.centerX, 500);
             this.allObjects[objStartIndex] = this.hospital;
             objStartIndex++;
             return objStartIndex;

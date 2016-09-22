@@ -5,16 +5,19 @@
         game: Phaser.Game;
         level: Level01;
         people: Phaser.Group;
+        hospital: Hospital;
 
         isSaving: boolean = false;
         savePersonIndex: number;
         personBeingCarried;
+        patientSaved: number=0;
 
-        constructor(game: Phaser.Game, level: Level01, people: Phaser.Group) {
+        constructor(game: Phaser.Game, level: Level01, people: Phaser.Group,hospital:Hospital) {
             super(game, 0, 0, 'EnemyBullet');
             this.game = game;
             this.level = level;
             this.people = people;
+            this.hospital = hospital;
             game.add.existing(this);
             game.physics.enable(this, Phaser.Physics.ARCADE);
         }
@@ -30,6 +33,7 @@
                         if (this.isOverlapping(this.level.playerShip, this.level.hospital)) {
                             this.dropPerson();
                             this.getPointsForPerson();
+                            this.changeHospitalState();
                         }
                     }
                     else {
@@ -70,6 +74,11 @@
         getPointsForPerson() {
             this.level.scoreboard.updateScore(10);
             this.personBeingCarried.kill();
+        }
+
+        changeHospitalState() {
+            this.patientSaved++;
+            this.hospital.frame = this.patientSaved;
         }
 
         isOverlapping(spriteA, spriteB) {

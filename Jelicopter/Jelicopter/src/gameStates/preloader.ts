@@ -24,7 +24,7 @@
             //Bullets
             this.load.image('EnemyBullet', './assets/sprites/UFO/EnemyBullet.png');
             this.load.image('Bullet', './assets/sprites/Ship/bullet02.png');
-            this.load.image('Hospital', './assets/sprites/Buildings/building.png');
+            
 
 
             //Ships
@@ -37,6 +37,10 @@
 
             //People
             this.load.atlasJSONHash('JumpingMale', './assets/sprites/People/Jumping_male.png', './assets/sprites/People/Jumping_male.json');
+
+            // Hospital
+            this.load.atlasJSONHash('Hospital', './assets/sprites/Buildings/safe_place.png', './assets/sprites/Buildings/safe_place.json');
+
         }
 
         create() {
