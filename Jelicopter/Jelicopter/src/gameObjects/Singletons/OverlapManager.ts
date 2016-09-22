@@ -17,9 +17,9 @@
             if (this.level.playerShip.alive) {
                 this.checkUFOToPlayerOverlaps();
             }
-            //this.checkEnemyBulletOverlaps();
+            this.checkEnemyBulletOverlaps();
             this.checkPlayerBulletOverlaps();
-            //this.checkEnemyMissileOverlaps();
+            this.checkEnemyMissileOverlaps();
         }
 
         checkEnemyMissileOverlaps() {
@@ -28,9 +28,34 @@
                     this.level.playerShip.kill();
                     missile.kill();
                 }
-                else if (this.level.hospital.alive && this.level.hospital.myCollider.isColliding(missile.myCollider)){                                           
-                    this.level.hospital.kill();                                
-                    missile.kill();
+                if (this.isOverlapping(missile, this.level.hospital)) {
+                    if (this.level.hospital.allPatientSaved) {
+                        switch (this.level.humanManager.patientSaved) {
+                            case 9: this.level.hospital.animations.play('shake9');
+                                break;
+                            case 8: this.level.hospital.animations.play('shake8');
+                                break;
+                            case 7: this.level.hospital.animations.play('shake7');
+                                break;
+                            case 6: this.level.hospital.animations.play('shake6');
+                                break;
+                            case 5: this.level.hospital.animations.play('shake5');
+                                break;
+                            case 4: this.level.hospital.animations.play('shake4');
+                                break;
+                            case 3: this.level.hospital.animations.play('shake3');
+                                break;
+                            case 2: this.level.hospital.animations.play('shake2');
+                                break;
+                            case 1: this.level.hospital.animations.play('shake1');
+                                break;
+                        }
+                        this.level.humanManager.patientSaved--;
+                        missile.kill();
+                        if (this.level.humanManager.patientSaved <= 0) {
+                            this.game.state.start('GameOver', true, false);
+                        }
+                    }
                 }
 
                 this.level.people.forEach(function (person: Person) {
@@ -39,12 +64,11 @@
                             //this.level.scoreboard.updateScore(30); //Don't award them for killing people
                             missile.kill();
                             person.kill();
-                            //person.destroy();
                         }
                     }
                 }, this);
 
-            }, this);
+            }, this);      
         }
 
         checkPlayerBulletOverlaps() {
@@ -55,7 +79,6 @@
                             //this.level.scoreboard.updateScore(30); //Don't award them for killing people
                             bullet.kill();
                             person.kill();
-                            //person.destroy();
                         }
                     }
                 }, this);
@@ -114,6 +137,5 @@
             var boundsB = spriteB.getBounds();
             return Phaser.Rectangle.intersects(boundsA, boundsB);
         }
-
     }
 }

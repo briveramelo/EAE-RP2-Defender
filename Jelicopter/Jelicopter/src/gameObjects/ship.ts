@@ -66,7 +66,7 @@
             this.lives--;
             if (this.lives <= 0) {
                 //Restart the game
-                this.game.state.start('Level01', true, false);
+                this.game.state.start('GameOver', true, false);
             }
             this.game.time.events.add(Phaser.Timer.SECOND * this.timeToRevive, this.revive, this);
             super.kill();

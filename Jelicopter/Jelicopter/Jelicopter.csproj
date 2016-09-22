@@ -45,11 +45,13 @@
     <TypeScriptCompile Include="src\gameObjects\bullet.ts" />
     <TypeScriptCompile Include="src\gameObjects\hospital.ts" />
     <TypeScriptCompile Include="src\gameObjects\Missile.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\BomberUFOSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\HumanManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\OverlapManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\people.ts" />
     <TypeScriptCompile Include="src\gameObjects\person.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\pauser.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\RoundManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\scoreboard.ts" />
     <TypeScriptCompile Include="src\gameObjects\shipExplosion.ts" />
     <TypeScriptCompile Include="src\gameObjects\ufo.ts" />
