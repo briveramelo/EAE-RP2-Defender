@@ -15,19 +15,19 @@
 
         update() {
             if (this.level.playerShip.alive) {
-                this.checkUFOToPlayerOverlaps();
+                //this.checkUFOToPlayerOverlaps();
             }
-            this.checkEnemyBulletOverlaps();
+            //this.checkEnemyBulletOverlaps();
             this.checkPlayerBulletOverlaps();
             this.checkEnemyMissileOverlaps();
         }
 
         checkEnemyMissileOverlaps() {
             this.level.enemyMissiles.forEachAlive(function (missile) {
-                if (this.level.playerShip.alive && this.level.playerShip.myCollider.isColliding(missile.myCollider)) {
-                    this.level.playerShip.takeDamage();
-                    missile.kill();
-                }
+                //if (this.level.playerShip.alive && this.level.playerShip.myCollider.isColliding(missile.myCollider)) {
+                //    this.level.playerShip.takeDamage();
+                //    missile.kill();
+                //}
                 if (this.isOverlapping(missile, this.level.hospital)) {
                     this.level.hospital.takeDamage();
                     missile.kill();
