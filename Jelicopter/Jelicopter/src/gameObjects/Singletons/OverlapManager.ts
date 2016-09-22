@@ -15,9 +15,9 @@
 
         update() {
             if (this.level.playerShip.alive) {
-                this.checkUFOToPlayerOverlaps();
+                //this.checkUFOToPlayerOverlaps();
             }
-            this.checkEnemyBulletOverlaps();
+            //this.checkEnemyBulletOverlaps();
             this.checkPlayerBulletOverlaps();
             this.checkEnemyMissileOverlaps();
         }

@@ -105,7 +105,7 @@
         }
 
         createBuildings(objStartIndex: number) {
-            this.hospital = new Hospital(this.game, this.game.world.centerX, 500);
+            this.hospital = new Hospital(this.game);
             this.allObjects[objStartIndex] = this.hospital;
             objStartIndex++;
             return objStartIndex;
