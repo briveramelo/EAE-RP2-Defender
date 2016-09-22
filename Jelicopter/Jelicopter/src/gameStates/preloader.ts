@@ -25,7 +25,9 @@
             this.load.image('EnemyBullet', './assets/sprites/UFO/EnemyBullet.png');
             this.load.image('Bullet', './assets/sprites/Ship/bullet02.png');
             
-
+            //Explosion
+            this.load.spritesheet('blue_fire', './assets/sprites/Explosions/blue_sprite.png', 115, 104);
+            this.load.spritesheet('ship_smoke', './assets/sprites/Explosions/smoke_sprite.png', 115, 104);
 
             //Ships
             this.load.atlasJSONHash('Ship', './assets/sprites/Ship/Ship_1.png', './assets/sprites/Ship/Ship_1.json');

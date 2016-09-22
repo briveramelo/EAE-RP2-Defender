@@ -22,6 +22,9 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="build\assets\sprites\Explosions\blue_sprite.png" />
+    <Content Include="build\assets\sprites\Explosions\Explosion.png" />
+    <Content Include="build\assets\sprites\Explosions\smoke_sprite.png" />
     <Content Include="build\styles\default.css" />
     <Content Include="build\assets\ui\gameLogo.png" />
     <Content Include="build\assets\ui\titlePage.png" />
@@ -35,11 +38,11 @@
     <Content Include="build\assets\sounds\click.ogg" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="build\assets\sprites\" />
     <Folder Include="src\utils\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\Components\collider.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\ExplosionManager.ts" />
     <TypeScriptCompile Include="src\game.ts" />
     <TypeScriptCompile Include="src\gameObjects\BackgroundLayer.ts" />
     <TypeScriptCompile Include="src\gameObjects\bullet.ts" />

@@ -29,6 +29,7 @@
         ufoSpawner: UFOSpawner;
         bomberUFOSpawner: BomberUFOSpawner;
         gamepadManager: GamepadManager;
+        explosionManager: ExplosionManager;
 
         backgroundImageWidth: number = 3072;
         heightOffset: number = 250;
@@ -68,6 +69,7 @@
             this.ufoSpawner = new UFOSpawner(this.game, this);
             this.bomberUFOSpawner = new BomberUFOSpawner(this.game, this);
             this.roundManager = new RoundManager(this.game, this);
+            this.explosionManager = new ExplosionManager(this.game,this);
 
             this.game.camera.follow(this.playerShip);
         }        
