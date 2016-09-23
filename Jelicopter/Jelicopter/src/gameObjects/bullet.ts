@@ -9,9 +9,9 @@
             this.enableBody = true;
             this.physicsBodyType = Phaser.Physics.ARCADE;
 
-            this.createMultiple(3, 'Bullet');
+            this.createMultiple(3, 'PlayerBullet');
             this.forEach(function (bullet) {
-                bullet.myCollider = new CircleCollider(bullet, 4, new Phaser.Point(0, 0));
+                bullet.myCollider = new CircleCollider(bullet, 15, new Phaser.Point(0, 0));
             }, this);
             this.setAll('anchor.x', 0.5);
             this.setAll('anchor.y', 0.5);

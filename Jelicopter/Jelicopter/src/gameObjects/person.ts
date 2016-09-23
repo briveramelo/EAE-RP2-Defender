@@ -33,9 +33,14 @@
 
         spawn() {
             this.revive();
-            console.log("respawned");
             var xSpawnPosition = this.game.rnd.between(this.ship.position.x - this.level.backgroundImageWidth / 2, this.ship.position.x + this.level.backgroundImageWidth / 2);
             this.position = new Phaser.Point(xSpawnPosition, 785);
+        }
+
+        kill() {
+            //this.level.peopleExplosionManager.explodeBody(this.position);
+            super.kill();
+            return this;
         }
         
     }

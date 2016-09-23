@@ -30,6 +30,8 @@
         bomberUFOSpawner: BomberUFOSpawner;
         gamepadManager: GamepadManager;
         explosionManager: ExplosionManager;
+        peopleExplosionManager: PeopleExplosionManager;
+        shipTrailManager: ShipTrailManager;
 
         backgroundImageWidth: number = 3072;
         heightOffset: number = 250;
@@ -69,7 +71,9 @@
             this.ufoSpawner = new UFOSpawner(this.game, this);
             this.bomberUFOSpawner = new BomberUFOSpawner(this.game, this);
             this.roundManager = new RoundManager(this.game, this);
-            this.explosionManager = new ExplosionManager(this.game,this);
+            this.explosionManager = new ExplosionManager(this.game, this);
+            //this.peopleExplosionManager = new PeopleExplosionManager(this.game, this);
+            this.shipTrailManager = new ShipTrailManager(this.game, this);
 
             this.game.camera.follow(this.playerShip);
         }        
@@ -81,7 +85,7 @@
                 this.backgrounds.add(background);
                 this.allBackgrounds.add(background);
                 background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
-                background.position.y = 200;
+                background.position.y = 250;
                 background.revive();
             }
         }
@@ -89,11 +93,11 @@
         createCityBack() {
             this.cityBackgrounds = this.add.group();
             for (var i = 0; i < 3; i++) {
-                var background = new BackgroundLayer(this.game, this, 'CityBack', 5, 10);
+                var background = new BackgroundLayer(this.game, this, 'CityBack', 3, 6);
                 this.cityBackgrounds.add(background);
                 this.allBackgrounds.add(background);
                 background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
-                background.position.y = 200;
+                background.position.y = 300;
                 background.revive();
             }            
         }
@@ -101,11 +105,11 @@
         createCityMid() {
             this.cityMidgrounds = this.add.group();
             for (var i = 0; i < 3; i++) {
-                var background = new BackgroundLayer(this.game, this, 'CityMid', 80, 150);
+                var background = new BackgroundLayer(this.game, this, 'CityMid', 30, 100);
                 this.cityBackgrounds.add(background);
                 this.allBackgrounds.add(background);
                 background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
-                background.position.y = 250;
+                background.position.y = 350;
                 background.revive();
             }
         }
@@ -153,9 +157,10 @@
             this.enemyBullets = this.game.add.group();
             this.enemyBullets.enableBody = true;
             this.enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
-            this.enemyBullets.createMultiple(50, 'EnemyBullet');
+            this.enemyBullets.createMultiple(50, 'UFOBullet');
             this.enemyBullets.forEach(function (bullet) {
-                bullet.myCollider = new CircleCollider(bullet, 4, new Phaser.Point(0, 0));
+                bullet.myCollider = new CircleCollider(bullet, 6, new Phaser.Point(0, 0));
+                bullet.scale.set(0.25);
                 this.allObjects[objStartIndex] = bullet;
                 objStartIndex++;
             }, this);
@@ -168,9 +173,9 @@
             this.enemyMissiles = this.game.add.group();
             this.enemyMissiles.enableBody = true;
             this.enemyMissiles.physicsBodyType = Phaser.Physics.ARCADE;
-            this.enemyMissiles.createMultiple(100, 'EnemyBullet');
+            this.enemyMissiles.createMultiple(100, 'Missile');
             this.enemyMissiles.forEach(function (missile) {
-                missile.myCollider = new CircleCollider(missile, 15, new Phaser.Point(0, 0));
+                missile.myCollider = new CircleCollider(missile, 20, new Phaser.Point(0, 0));
                 this.allObjects[objStartIndex] = missile;
                 objStartIndex++;
             }, this);

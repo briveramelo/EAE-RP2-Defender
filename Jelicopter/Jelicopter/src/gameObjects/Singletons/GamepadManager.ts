@@ -28,14 +28,46 @@
 
             if (this.joyStickIsActive) {
                 if (this.level.playerShip.alive) {
-                    this.move();
-                    var isPressed = this.joystick.isDown(Phaser.Gamepad.BUTTON_0);
-                    if (isPressed && !this.shootWasJustPressed) {
-                        this.level.playerShip.fireBullet();
-                    }
-                    this.shootWasJustPressed = isPressed;
+
+                    var xAxis: number = this.joystick.axis(Phaser.Gamepad.AXIS_0);
+                    var yAxis: number = this.joystick.axis(Phaser.Gamepad.AXIS_1);
+
+                    this.move(xAxis, yAxis);
+                    this.animate(xAxis);
+                    this.handleFiring();
+                    
                 }
             }
+        }
+
+        animate(xAxis:number) {
+            
+            var isMoving: boolean = Math.abs(xAxis)>0;
+
+            if (isMoving) {
+                if (this.level.playerShip.animations.frame == 0) {
+                    this.level.playerShip.stretchAnim.play();
+                }
+                if (this.level.playerShip.wasJustFacingRight != this.level.playerShip.isGoingRight) {
+                    this.level.playerShip.contractAnim.play();
+                }
+            }
+            else {
+                if (this.level.playerShip.animations.frame == this.level.playerShip.maxVelocityFrame) {
+                    this.level.playerShip.contractAnim.play();
+                }
+            }
+
+            this.level.playerShip.wasJustFacingRight = this.level.playerShip.isGoingRight;
+
+        }
+
+        handleFiring() {
+            var isPressed = this.joystick.isDown(Phaser.Gamepad.BUTTON_0);
+            if (isPressed && !this.shootWasJustPressed) {
+                this.level.playerShip.fireBullet();
+            }
+            this.shootWasJustPressed = isPressed;
         }
 
         toggleInputDevice() {
@@ -46,9 +78,8 @@
             this.switchWasJustPressed = switchIsPressed;
         }
 
-        move() {
-            var xAxis: number = this.joystick.axis(Phaser.Gamepad.AXIS_0);
-            var yAxis: number = this.joystick.axis(Phaser.Gamepad.AXIS_1);
+        move(xAxis:number, yAxis:number) {
+            
             var ySpeed = yAxis * this.level.playerShip.shipSpeed.y;
 
             this.level.playerShip.body.velocity.y = 0;
@@ -59,7 +90,6 @@
             var xSpeed: number = baseXSpeed + joystickXSpeed;
 
             this.level.playerShip.body.velocity.x = xSpeed;
-
 
             if (xAxis || yAxis) {
 
@@ -75,18 +105,12 @@
                 }
 
                 if (yAxis) {
-                    if (this.level.playerShip.position.y < 795 && yAxis>0) {
+                    if ((this.level.playerShip.position.y < this.level.playerShip.maxHeight && yAxis > 0) ||
+                        (this.level.playerShip.position.y > this.level.playerShip.minHeight && yAxis < 0)) {
                         this.level.playerShip.body.velocity.y = ySpeed;
-                    }
-                    else if (this.level.playerShip.position.y > 300 && yAxis < 0) {
-                        this.level.playerShip.body.velocity.y = ySpeed;
-                    }
+                    }                    
                 }
-                this.level.playerShip.animations.play('fly');
-            }
-            else {
-                this.level.playerShip.animations.frame = 0;
-            }
+            }            
         }        
     }
 }

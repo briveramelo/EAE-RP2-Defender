@@ -1,4 +1,7 @@
 # EAE-RP2-Defender
+
+/////////////////JELICOPTER//////////////////
+
 Remake of 1980s classic arcade game: Defender
 
 
@@ -24,6 +27,8 @@ git clone https://github.com/briveramelo/EAE-RP2-Defender.git
 
 TESTING INSTRUCTIONS
 
+0. Open the .sln file in Visual Studio and 'Build' the project (this will generate the game.js file necessary to run)
+
 1. Locate the "index.html" file (in the "build" folder)
 
 2. Open a command window within this directory.
@@ -46,10 +51,3 @@ Into the Google Chrome address bar
 
 RULES
 1. HAVE FUN!
-
-2. Only edit .ts (typescript) files. Do not edit .js or .jsmap files.
-This will cause a break in the linkage.
-Typescript files are set up to generate .js files,
-so editing the .js file will sever this generation pipeline
-
-looks like everything in master is up to date

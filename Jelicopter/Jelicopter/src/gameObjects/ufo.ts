@@ -97,9 +97,10 @@
             var shootDir = new Phaser.Point(this.level.playerShip.myPosition().x - this.myPosition().x, this.level.playerShip.myPosition().y - this.myPosition().y);
             var myBullet = this.level.enemyBullets.getFirstDead(false);
             myBullet.reset(this.position.x + this.positionOffset.x, this.position.y + this.positionOffset.y);
-            var angleOfShot = Math.atan2(shootDir.y, shootDir.x) * 180 / Math.PI;
-            this.game.physics.arcade.velocityFromAngle(angleOfShot, 400, myBullet.body.velocity);
+            var angleOfShotRadians = Math.atan2(shootDir.y, shootDir.x);
+            this.game.physics.arcade.velocityFromAngle(angleOfShotRadians * 180 / Math.PI, 400, myBullet.body.velocity);
             myBullet.lifespan = 4500;
+            myBullet.rotation = angleOfShotRadians;
 
             this.resetShooting();
         }

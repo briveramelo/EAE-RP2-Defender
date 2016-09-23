@@ -55,9 +55,11 @@
     <TypeScriptCompile Include="src\gameObjects\people.ts" />
     <TypeScriptCompile Include="src\gameObjects\Person.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Pauser.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\PersonExplosionManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\RoundManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Scoreboard.ts" />
     <TypeScriptCompile Include="src\gameObjects\shipExplosion.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\ShipTrailManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\UFO.ts" />
     <TypeScriptCompile Include="src\gameObjects\Ship.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\UFOSpawner.ts" />

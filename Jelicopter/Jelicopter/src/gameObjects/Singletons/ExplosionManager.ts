@@ -26,18 +26,18 @@
         }
 
         particleBurst(position) {
-        //  Position the emitter where the mouse/touch event was
-            this.emitter_blue_fire.x = position.x;
-            this.emitter_blue_fire.y = position.y - 80;
+            //  Position the emitter where the mouse/touch event was
+                this.emitter_blue_fire.x = position.x;
+                this.emitter_blue_fire.y = position.y - 80;
 
-        this.emitter_smoke.x = position.x;
-        this.emitter_smoke.y = position.y-80;
-        //  The first parameter sets the effect to "explode" which means all particles are emitted at once
-        //  The second gives each particle a 2000ms lifespan
-        //  The third is ignored when using burst/explode mode
-        //  The final parameter (10) is how many particles will be emitted in this single burst
-        this.emitter_blue_fire.start(true, 1500, null, 8);
-        this.emitter_smoke.start(true, 2000, null, 4);
-    }
+            this.emitter_smoke.x = position.x;
+            this.emitter_smoke.y = position.y-80;
+            //  The first parameter sets the effect to "explode" which means all particles are emitted at once
+            //  The second gives each particle a 2000ms lifespan
+            //  The third is ignored when using burst/explode mode
+            //  The final parameter (10) is how many particles will be emitted in this single burst
+            this.emitter_blue_fire.start(true, 1500, null, 8);
+            this.emitter_smoke.start(true, 2000, null, 4);
+        }
     }
 }

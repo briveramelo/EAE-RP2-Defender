@@ -13,6 +13,9 @@
             //TitleScreenery
             this.load.image('titlepage', './assets/ui/titlePage.png');
             this.load.image('logo', './assets/ui/Jelicopter.png');
+
+            //Audio
+            //this.load.audio('aliensSong', './assets/sounds/BackgroundTunes/Aliens.ogg', true);
             this.load.audio('click', './assets/sounds/click.ogg', true);
 
             //Backgrounds
@@ -22,20 +25,36 @@
             this.load.image('CityFront', './assets/sprites/Background/city_front.png');
 
             //Bullets
-            this.load.image('EnemyBullet', './assets/sprites/UFO/EnemyBullet.png');
-            this.load.image('Bullet', './assets/sprites/Ship/bullet02.png');
+            this.load.image('EnemyBullet', './assets/sprites/Shots/EnemyBullet.png');
+            this.load.image('Bullet', './assets/sprites/Shots/bullet02.png');
+            this.load.image('PlayerBullet', './assets/sprites/Shots/Shot_2.png');
+            this.load.image('UFOBullet', './assets/sprites/Shots/Shot_3.png');
+            this.load.image('Missile', './assets/sprites/Shots/Bomb.png');
             
-            //Explosion
-            this.load.spritesheet('blue_fire', './assets/sprites/Explosions/blue_sprite.png', 115, 104);
-            this.load.spritesheet('ship_smoke', './assets/sprites/Explosions/smoke_sprite.png', 115, 104);
+
+            ///VISUAL FX
+            //Blue UFO Explosion
+            this.load.spritesheet('blue_fire', './assets/sprites/VisualFX/blue_sprite.png', 115, 104);
+            this.load.spritesheet('ship_smoke', './assets/sprites/VisualFX/smoke_sprite.png', 115, 104);
+            //Body Explosion
+            //this.load.spritesheet('man1_parts', 'assets/man1_parts_sprite.png', 124, 124);
+            //this.load.image('blood', 'assets/blood_drop.png');
+            //this.load.spritesheet('guts', 'assets/guts_sprite.png', 64, 64);
+            //Ship Trail
+            this.load.spritesheet('fire_sprite', 'assets/sprites/VisualFX/fire_sprite.png', 115, 104);
+            //this.load.spritesheet('ship_death', 'assets/ship_death_sprite.png', 115, 115);
+            //this.load.spritesheet('ship_smoke', 'assets/smoke_sprite.png', 115, 104);
+            //BuildingExplosion
+            //
+
+
 
             //Ships
             this.load.atlasJSONHash('Ship', './assets/sprites/Ship/Ship_1.png', './assets/sprites/Ship/Ship_1.json');
+            this.load.atlasJSONHash('Jelicopter', './assets/sprites/Ship/Jelicopter_Stretch.png', './assets/sprites/Ship/Jelicopter_Stretch.json');
             this.load.atlasJSONHash('UFO', './assets/sprites/UFO/UFO_1.png', './assets/sprites/UFO/UFO_1.json');
             this.load.atlasJSONHash('BomberUFO', './assets/sprites/UFO/UFO_2.png', './assets/sprites/UFO/UFO_2.json');
-            //this.load.spritesheet('ship_death', 'assets/ship_death_sprite.png', 115, 115);
-            //this.load.spritesheet('ship_fire', 'assets/fire_sprite.png', 115, 104);
-            //this.load.spritesheet('ship_smoke', 'assets/smoke_sprite.png', 115, 104);
+
 
 
             //People
