@@ -7,7 +7,7 @@
         people: Phaser.Group;
         hospital: Hospital;
 
-        isSaving: boolean = false;
+        isCarryingPerson: boolean = false;
         savePersonIndex: number;
         personBeingCarried;        
 
@@ -23,16 +23,20 @@
 
         update() {
             if (this.level.playerShip.alive) {
-                if (!this.isSaving) {
+                if (!this.isCarryingPerson) {
                     this.checkToCollectPeople();
                 }
                 else {
                     if (this.personBeingCarried.alive) {
                         this.carryPerson();
-                        if (this.isOverlapping(this.level.playerShip, this.level.hospital)) {
-                            this.dropPerson();
-                            this.getPointsForPerson();
-                            this.hospital.savePatient();
+                        if (!this.level.hospital.allPatientSaved) {
+                            if (!this.level.roundManager.isTransitioningBetweenRounds) {
+                                if (this.isOverlapping(this.level.playerShip, this.level.hospital)) {
+                                    this.dropPerson();
+                                    this.getPointsForPerson();
+                                    this.hospital.savePatient();
+                                }
+                            }
                         }
                     }
                     else {
@@ -52,7 +56,7 @@
                 if (person.myCollider.isColliding(this.level.playerShip.myCollider)) {
                     this.personBeingCarried = person;
                     this.savePersonIndex = i;
-                    this.isSaving = true;
+                    this.isCarryingPerson = true;
                 }
                 i++;
             }, this);
@@ -70,7 +74,7 @@
         }
 
         dropPerson() {
-            this.isSaving = false;
+            this.isCarryingPerson = false;
         }
 
         getPointsForPerson() {

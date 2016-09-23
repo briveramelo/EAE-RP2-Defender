@@ -8,6 +8,7 @@
         roundText;
         waveText;
         showCount: number;
+        isTransitioningBetweenRounds: boolean;
 
         constructor(game: Phaser.Game, level: MainGame) {
             this.game = game;
@@ -70,14 +71,16 @@
         }
 
         initiateUFOWave() {
-            this.displayUFOWave();
+            this.displayUFOWave();            
             this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.level.bomberUFOSpawner.spawnShips, this);
         }
 
         startNewRound() {
             this.level.hospital.resetHospital();
             this.displayNewRound();
+            this.isTransitioningBetweenRounds = true;
             this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.respawnHumans, this);
+            this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.endRoundTransition, this);
             this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.level.ufoSpawner.spawnShips, this);
         }
 
@@ -86,6 +89,10 @@
                 person.kill();
                 person.spawn();
             }, this);
+        }
+
+        endRoundTransition() {
+            this.isTransitioningBetweenRounds = false;
         }
     }
 
