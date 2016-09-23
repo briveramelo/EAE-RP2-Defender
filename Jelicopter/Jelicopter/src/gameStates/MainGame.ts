@@ -72,7 +72,7 @@
             this.bomberUFOSpawner = new BomberUFOSpawner(this.game, this);
             this.roundManager = new RoundManager(this.game, this);
             this.explosionManager = new ExplosionManager(this.game, this);
-            //this.peopleExplosionManager = new PeopleExplosionManager(this.game, this);
+            this.peopleExplosionManager = new PeopleExplosionManager(this.game, this);
             this.shipTrailManager = new ShipTrailManager(this.game, this);
 
             this.game.camera.follow(this.playerShip);

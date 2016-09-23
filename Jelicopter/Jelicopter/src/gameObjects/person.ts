@@ -38,7 +38,7 @@
         }
 
         kill() {
-            //this.level.peopleExplosionManager.explodeBody(this.position);
+            this.level.peopleExplosionManager.explodeBody(this.position);
             super.kill();
             return this;
         }

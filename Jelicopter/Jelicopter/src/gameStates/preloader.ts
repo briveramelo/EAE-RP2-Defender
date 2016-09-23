@@ -37,9 +37,9 @@
             this.load.spritesheet('blue_fire', './assets/sprites/VisualFX/blue_sprite.png', 115, 104);
             this.load.spritesheet('ship_smoke', './assets/sprites/VisualFX/smoke_sprite.png', 115, 104);
             //Body Explosion
-            //this.load.spritesheet('man1_parts', 'assets/man1_parts_sprite.png', 124, 124);
-            //this.load.image('blood', 'assets/blood_drop.png');
-            //this.load.spritesheet('guts', 'assets/guts_sprite.png', 64, 64);
+            this.load.spritesheet('man1_parts', 'assets/sprites/VisualFX/man1_parts_sprite.png', 124, 124);
+            this.load.image('blood', 'assets/sprites/VisualFX/blood_drop.png');
+            this.load.spritesheet('guts', 'assets/sprites/VisualFX/guts_sprite.png', 64, 64);
             //Ship Trail
             this.load.spritesheet('fire_sprite', 'assets/sprites/VisualFX/fire_sprite.png', 115, 104);
             //this.load.spritesheet('ship_death', 'assets/ship_death_sprite.png', 115, 115);
