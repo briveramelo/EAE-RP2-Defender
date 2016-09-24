@@ -8,8 +8,7 @@
         hospital: Hospital;
 
         isCarryingPerson: boolean = false;
-        savePersonIndex: number;
-        personBeingCarried;        
+        personBeingCarried;
 
         constructor(game: Phaser.Game, level: MainGame, people: Phaser.Group,hospital:Hospital) {
             super(game, 0, 0, 'EnemyBullet');
@@ -32,8 +31,8 @@
                         if (!this.level.hospital.allPatientSaved) {
                             if (!this.level.roundManager.isTransitioningBetweenRounds) {
                                 if (this.isOverlapping(this.level.playerShip, this.level.hospital)) {
-                                    this.dropPerson();
                                     this.getPointsForPerson();
+                                    this.dropPerson();
                                     this.hospital.savePatient();
                                 }
                             }
@@ -44,7 +43,8 @@
                     }
                 }
             }
-            if (!this.level.hospital.allPatientSaved && this.level.people.countLiving() == 0) {
+            if (!this.level.hospital.allPatientSaved && this.level.people.countLiving() == 0 && !this.level.roundManager.isTransitioningBetweenRounds) {
+                //This logic is causing occassional bugs
                 console.log("game over because : everyone died and you didn't fill the hospital");
                 this.game.state.start('GameOver', true, false);
             }
@@ -53,10 +53,13 @@
         checkToCollectPeople() {
             var i: number = 0;
             this.people.forEach(function (person: Person) {
-                if (person.myCollider.isColliding(this.level.playerShip.myCollider)) {
-                    this.personBeingCarried = person;
-                    this.savePersonIndex = i;
-                    this.isCarryingPerson = true;
+                if (person.alive && !person.isPausedForFlinging) {
+                    if (person.myCollider.isColliding(this.level.playerShip.myCollider)) {
+                        this.personBeingCarried = person;
+                        this.isCarryingPerson = true;
+                        this.level.playerShip.CollectPerson(person);
+                        person.getGrabbed();
+                    }
                 }
                 i++;
             }, this);
@@ -75,11 +78,13 @@
 
         dropPerson() {
             this.isCarryingPerson = false;
+            this.personBeingCarried = null;
+            this.level.playerShip.DropPerson();
         }
 
         getPointsForPerson() {
             this.level.scoreboard.updateScore(10);
-            this.personBeingCarried.kill();
+            this.personBeingCarried.remove();
         }        
 
         isOverlapping(spriteA, spriteB) {

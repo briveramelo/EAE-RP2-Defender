@@ -18,7 +18,7 @@
             for (var i: number = 0; i < 5; i++) {
                 var bomberUFO = this.level.bomberUFOs.getFirstDead(false);
                 var playerX: number = this.level.playerShip.position.x;
-                bomberUFO.reset(this.game.rnd.between(playerX - this.level.backgroundImageWidth / 2, playerX + this.level.backgroundImageWidth / 2), this.game.rnd.between(360, 450));
+                bomberUFO.reset(this.game.rnd.between(playerX - this.level.backgroundImageWidth / 2, playerX + this.level.backgroundImageWidth / 2), this.game.rnd.between(110, 220));
                 bomberUFO.comeAlive();
             }
             this.hasJustSpawnedShips = true;

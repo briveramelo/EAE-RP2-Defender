@@ -34,13 +34,15 @@
         shipTrailManager: ShipTrailManager;
 
         backgroundImageWidth: number = 3072;
-        heightOffset: number = 250;
+        heightOffset: number = 0;
+        gameHeight: number = 580;
 
         allObjects;
 
-        create() {            
-            this.game.world.setBounds(0, this.heightOffset, 10000000000, 576);
+        create() {
+            this.game.world.setBounds(0, this.heightOffset, 10000000000, this.gameHeight);
             this.physics.startSystem(Phaser.Physics.ARCADE);
+            this.physics.arcade.gravity.y = 100;
             this.scale.pageAlignHorizontally = true;
             this.scale.pageAlignVertically = true;
 
@@ -85,7 +87,7 @@
                 this.backgrounds.add(background);
                 this.allBackgrounds.add(background);
                 background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
-                background.position.y = 250;
+                background.position.y = 0;
                 background.revive();
             }
         }
@@ -97,7 +99,7 @@
                 this.cityBackgrounds.add(background);
                 this.allBackgrounds.add(background);
                 background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
-                background.position.y = 300;
+                background.position.y = 0;
                 background.revive();
             }            
         }
@@ -109,7 +111,7 @@
                 this.cityBackgrounds.add(background);
                 this.allBackgrounds.add(background);
                 background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
-                background.position.y = 350;
+                background.position.y = 50;
                 background.revive();
             }
         }
@@ -120,7 +122,7 @@
                 this.cityFrontGrounds.add(background);
                 this.allBackgrounds.add(background);
                 background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
-                background.position.y = 250;
+                background.position.y = 0;
                 background.revive();
             }
         }
@@ -159,8 +161,8 @@
             this.enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
             this.enemyBullets.createMultiple(50, 'UFOBullet');
             this.enemyBullets.forEach(function (bullet) {
-                bullet.myCollider = new CircleCollider(bullet, 6, new Phaser.Point(0, 0));
-                bullet.scale.set(0.25);
+                bullet.myCollider = new CircleCollider(bullet, 10, new Phaser.Point(0, 0));
+                bullet.scale.set(0.5);
                 this.allObjects[objStartIndex] = bullet;
                 objStartIndex++;
             }, this);

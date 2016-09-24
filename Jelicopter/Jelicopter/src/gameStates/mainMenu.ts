@@ -29,7 +29,7 @@
         }
 
         startGame() {
-            this.game.state.start('Level01', true, false);
+            this.game.state.start('MainGame', true, false);
         }
 
     }

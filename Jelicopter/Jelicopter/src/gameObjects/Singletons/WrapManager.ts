@@ -27,7 +27,9 @@
                 if (object.alive) {
                     var dist = Math.abs(object.position.x - playerShip.position.x);
                     if (Math.abs(object.position.x - playerShip.position.x) > (backgroundImageWidth / 2)) {
-                        var shiftRightWard: boolean = playerShip.body.velocity.x > 0;
+                        var newRightDistanceAway = Math.abs(playerShip.position.x - (object.position.x + backgroundImageWidth));
+                        var newLeftDistanceAway = Math.abs(playerShip.position.x - (object.position.x - backgroundImageWidth));
+                        var shiftRightWard: boolean = newRightDistanceAway < newLeftDistanceAway;
                         object.position.x += (shiftRightWard ? 1 : -1) * backgroundImageWidth;
                     }
                 }

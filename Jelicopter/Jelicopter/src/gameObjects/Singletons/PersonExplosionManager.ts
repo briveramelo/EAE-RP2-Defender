@@ -24,6 +24,7 @@
                 this.emitterArray_man1_parts[i].bounce.setTo(.1, .5);
                 this.emitterArray_man1_parts[i].setXSpeed(-500, 500);
                 this.emitterArray_man1_parts[i].setYSpeed(-500, 500);
+                //this.emitterArray_man1_parts[i].particleAnchor.y = -100;
             }   
 
             // Blood

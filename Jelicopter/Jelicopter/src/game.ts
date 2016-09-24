@@ -8,7 +8,7 @@
             this.state.add('Boot', Boot, false);
             this.state.add('Preloader', Preloader, false);
             this.state.add('MainMenu', MainMenu, false);
-            this.state.add('Level01', MainGame, false);
+            this.state.add('MainGame', MainGame, false);
             this.state.add('GameOver', GameOver, false);
             this.state.start('Boot');
 

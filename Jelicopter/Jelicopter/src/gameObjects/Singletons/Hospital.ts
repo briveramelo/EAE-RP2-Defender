@@ -11,7 +11,7 @@
             super(game, 0, 0, 'Hospital', 0);
             this.level = level;
             this.game.add.sprite(0, 0, 'Hospital', 0);
-            this.position = new Phaser.Point(this.game.world.centerX+50, 710);
+            this.position = new Phaser.Point(this.game.world.centerX+50, 460);
             game.add.existing(this);
             game.physics.enable(this);
             this.loadAnimations();

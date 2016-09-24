@@ -14,14 +14,14 @@
         bullets: Bullet;
         wasJustPressed: boolean;
         health: number;
-        maxHeight: number = 748;
-        minHeight: number = 300;
+        maxHeight: number = 540;
+        minHeight: number = 30;
         maxVelocityFrame: number = 11;
         lastFrame: number = 28;
         isGoingRight: boolean;
         bulletSpawnOffset: Phaser.Point = new Phaser.Point(148, 90);
         tailOffset: number = 95;
-
+        personBeingCarried: Person;
         stretchAnim: Phaser.Animation;
         contractAnim: Phaser.Animation;
 
@@ -41,25 +41,60 @@
             this.body.setCircle(20);
             this.bullets = bullets;
             this.health = 3;
+
+            
+        }
+
+        isFast: boolean;
+        wasJustDown: boolean;
+        toggleShipSpeed() {
+            var isDown: boolean = this.game.input.keyboard.isDown(Phaser.KeyCode.F);
+            if (isDown && !this.wasJustDown) {
+                this.isFast = !this.isFast;
+                this.shipSpeed.x = this.isFast ? 3000 : 600;
+            }
+            this.wasJustDown = isDown; 
+        }
+
+        CollectPerson(person: Person) {
+            this.personBeingCarried = person;
+        }
+
+        DropPerson() {
+            this.personBeingCarried = null;
         }
 
         update() {
             if (this.alive) {
+                this.toggleShipSpeed();
                 this.isGoingRight = this.scale.x === 1;
                 if (!this.level.gamepadManager.joyStickIsActive) {
                     this.move(this.isGoingRight);
                     this.animate(this.isGoingRight);   
-                    this.checkShoot();
+                    this.checkAction();
                 }            
             }
         }
 
-        checkShoot() {
+        checkAction() {
             var isPressed = this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR);
             if (isPressed && !this.wasJustPressed) {
-                this.fireBullet();
+
+                if (this.personBeingCarried != null) {
+                    this.flingPerson();
+                }
+                else {
+                    this.fireBullet();
+                }
             }
             this.wasJustPressed = isPressed;
+        }
+
+        flingPerson() {
+            var launchVelocity: Phaser.Point = new Phaser.Point(this.body.velocity.x, this.body.velocity.y);            
+            this.personBeingCarried.getFlung(launchVelocity);
+            this.level.humanManager.dropPerson();
+            //this.DropPerson();
         }
 
 
