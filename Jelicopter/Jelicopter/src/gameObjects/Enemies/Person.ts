@@ -9,6 +9,7 @@
         isPausedForFlinging: boolean;
         launchSpeedMultiplier: number = 1.75;
         isBeingHeld: boolean;
+        runSpeed: number;
 
         constructor(game: Phaser.Game, ship: Ship, level:MainGame) {
             super(game, 0, 0, 'JumpingMale');
@@ -26,11 +27,10 @@
             this.body.gravity.y = 600;
             //this.body.collideWorldBounds = true;
 
-            this.spawn();
             this.animations.add('wave', [0, 1, 2, 3, 4], 15, true);
             this.play('wave');
             this.scale.set(0.62);
-            this.revive();      
+            this.remove();      
         }
 
         floorNumber: number=535;
@@ -60,21 +60,18 @@
                     }
                 }
             }
-        }
+        }        
 
-        chargeHospital() {
-            this.body.velocity.x
-        }
-
-        spawn() {
+        spawn(startPosition: Phaser.Point) {
             this.revive();
             this.isBeingHeld = false;
             this.isPausedForFlinging = false;
             this.body.velocity.x = 0;
             this.body.velocity.y = 0;
-
-            var xSpawnPosition = this.game.rnd.between(this.ship.position.x - this.level.backgroundImageWidth / 2, this.ship.position.x + this.level.backgroundImageWidth / 2);
-            this.position = new Phaser.Point(xSpawnPosition, this.floorNumber-10);
+            
+            this.position.x = startPosition.x;
+            this.position.y = this.floorNumber - 10;
+            this.body.velocity.x = this.runSpeed;
         }
 
         getFlung(launchVelocity: Phaser.Point) {

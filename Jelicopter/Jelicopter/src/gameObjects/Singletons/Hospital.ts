@@ -3,9 +3,9 @@
     export class Hospital extends Phaser.Sprite {
 
         myCollider: CircleCollider;
-        level: MainGame
-        allPatientSaved: boolean = false;
-        patientSaved: number = 0;
+        level: MainGame;
+        health: number;
+        startHealth: number;
 
         constructor(game: Phaser.Game, level: MainGame) {
             super(game, 0, 0, 'Hospital', 0);
@@ -17,6 +17,8 @@
             this.loadAnimations();
             this.myCollider = new CircleCollider(this, 30, new Phaser.Point(0, this.height));
             this.anchor.set(0.5);
+            this.startHealth = 9;
+            this.health = this.startHealth;
         }
 
         loadAnimations() {
@@ -29,36 +31,26 @@
             this.animations.add('shake7', [18, 19, 20, 21], 10, false);
             this.animations.add('shake8', [14, 15, 16, 17], 10, false);
             this.animations.add('shake9', [10, 11, 12, 13], 10, false);
-        }
-      
-        savePatient() {
-            if (this.patientSaved != 10) {
-                this.patientSaved++;
-                this.frame = this.patientSaved;
-            }
-
-            if (this.patientSaved >= 9) {
-                this.allPatientSaved = true
-                this.level.roundManager.initiateUFOWave();
-            }
-        }
+        }              
 
         takeDamage() {
-            if (this.allPatientSaved) {
-                var animationName:string = 'shake' + this.patientSaved;
-                this.animations.play(animationName);                
-                this.patientSaved--;
-                
-                if (this.patientSaved <= 0) {
-                    this.game.state.start('GameOver', true, false);
-                }
+            var animationName: string = 'shake' + (this.startHealth - this.health + 1);
+            this.animations.play(animationName);
+            this.health--;
+
+            if (this.health <= 0) {
+                //transition a bit more
+                this.game.time.events.add(Phaser.Timer.SECOND * 3, this.endGame, this);
             }
+        }
+
+        endGame() {
+            this.game.state.start('GameOver', true, false);
         }
 
         resetHospital() {
-            this.patientSaved = 0;
+            this.health = this.startHealth;
             this.frame = 0;
-            this.allPatientSaved = false;
         }
         
     }

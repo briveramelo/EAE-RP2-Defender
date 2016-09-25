@@ -13,27 +13,33 @@
         bomberUFOs: Phaser.Group;
         enemyBullets: Phaser.Group;
         enemyMissiles: Phaser.Group;
-
-        playerBullets: Bullet;
-        playerShip: Ship;
         people: Phaser.Group;
 
-        //Singletons
+        //PLAYER
+        playerBullets: Bullet;
+        playerShip: Ship;
+
+        //SINGELTONS
         hospital: Hospital;
         scoreboard: ScoreBoard;
         pauser: Pauser;
         roundManager: RoundManager;
-        humanManager: HumanManager;
+        tractorBeam: TractorBeam;
         wrapManager: WrapManager;
         overlapManager: OverlapManager;
-        ufoSpawner: UFOSpawner;
-        bomberUFOSpawner: BomberUFOSpawner;
         gamepadManager: GamepadManager;
         explosionManager: ExplosionManager;
         peopleExplosionManager: PeopleExplosionManager;
         shipTrailManager: ShipTrailManager;
         soundManager: SoundManager;
 
+        //SPAWNERS
+        ufoSpawner: ParagliderPlaneSpawner;
+        bomberUFOSpawner: BomberUFOSpawner;
+        personSpawner: PersonSpawner;
+        vehicleSpawner: VehicleSpawner;
+
+        //NUMBERS
         backgroundImageWidth: number = 3072;
         heightOffset: number = 0;
         gameHeight: number = 580;
@@ -54,6 +60,7 @@
             this.createCityMid();
             this.createCityFront();
 
+            //CREATE OBJECTS
             this.allObjects = [];
             var i:number = 0;
             i = this.createBuildings(i);
@@ -68,16 +75,20 @@
             this.gamepadManager = new GamepadManager(this.game, this);
             this.scoreboard = new ScoreBoard(this.game);
             this.pauser = new Pauser(this.game);
-            this.humanManager = new HumanManager(this.game, this, this.people, this.hospital);
+            this.tractorBeam = new TractorBeam(this.game, this, this.people);
             this.wrapManager = new WrapManager(this.game, this);
             this.overlapManager = new OverlapManager(this.game, this);
-            this.ufoSpawner = new UFOSpawner(this.game, this);
-            this.bomberUFOSpawner = new BomberUFOSpawner(this.game, this);
             this.roundManager = new RoundManager(this.game, this);
             this.explosionManager = new ExplosionManager(this.game, this);
             this.peopleExplosionManager = new PeopleExplosionManager(this.game, this);
             this.shipTrailManager = new ShipTrailManager(this.game, this);
             this.soundManager = new SoundManager(this.game);
+
+            //CREATE SPAWNERS
+            this.personSpawner = new PersonSpawner(this.game, this);
+            this.ufoSpawner = new ParagliderPlaneSpawner(this.game, this);
+            this.bomberUFOSpawner = new BomberUFOSpawner(this.game, this);
+            this.vehicleSpawner = new VehicleSpawner(this.game, this);
 
             this.game.camera.follow(this.playerShip);
         }        
@@ -148,7 +159,7 @@
         }
         createPeople(objStartIndex: number) {
             this.people = this.game.add.group();
-            for (var i = 0; i < 10; i++) {
+            for (var i = 0; i < 50; i++) {
                 this.people.add(new Person(this.game, this.playerShip, this));
             }
             this.people.forEach(function (person) {

@@ -16,12 +16,11 @@
         health: number;
         maxHeight: number = 540;
         minHeight: number = 30;
-        maxVelocityFrame: number = 11;
+        maxVelocityFrame: number = 5;
         lastFrame: number = 28;
         isGoingRight: boolean;
         bulletSpawnOffset: Phaser.Point = new Phaser.Point(148, 90);
         tailOffset: number = 95;
-        personBeingCarried: Person;
         stretchAnim: Phaser.Animation;
         contractAnim: Phaser.Animation;
 
@@ -32,8 +31,8 @@
             this.pivot.set(0, 0);
             this.level = level;
 
-            this.stretchAnim = this.animations.add('stretch', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 60, false);
-            this.contractAnim = this.animations.add('contract', [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 0], 60, false);
+            this.stretchAnim = this.animations.add('stretch', [0, 1, 2, 3, 4, 5], 60, false);
+            this.contractAnim = this.animations.add('contract', [20, 21, 22, 23, 24, 25, 26, 27, 28, 0], 60, false);
 
             game.add.existing(this);
             game.physics.enable(this, Phaser.Physics.ARCADE);
@@ -54,20 +53,11 @@
                 this.shipSpeed.x = this.isFast ? 3000 : 600;
             }
             this.wasJustDown = isDown; 
-        }
-
-        CollectPerson(person: Person) {
-            this.personBeingCarried = person;
-            this.level.soundManager.playSound(SoundFX.Abduct);
-        }
-
-        DropPerson() {
-            this.personBeingCarried = null;
-        }
+        }        
 
         update() {
             if (this.alive) {
-                this.toggleShipSpeed();
+                this.toggleShipSpeed();//for debugging -- take out in release
                 this.isGoingRight = this.scale.x === 1;
                 if (!this.level.gamepadManager.joyStickIsActive) {
                     this.move(this.isGoingRight);
@@ -81,8 +71,8 @@
             var isPressed = this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR);
             if (isPressed && !this.wasJustPressed) {
 
-                if (this.personBeingCarried != null) {
-                    this.flingPerson();
+                if (this.level.tractorBeam.personBeingCarried != null) {
+                    this.level.tractorBeam.flingPerson();
                 }
                 else {
                     this.fireBullet();
@@ -90,14 +80,6 @@
             }
             this.wasJustPressed = isPressed;
         }
-
-        flingPerson() {
-            var launchVelocity: Phaser.Point = new Phaser.Point(this.body.velocity.x, this.body.velocity.y);            
-            this.personBeingCarried.getFlung(launchVelocity);
-            this.level.humanManager.dropPerson();
-            //this.DropPerson();
-        }
-
 
         fireBullet() {
             this.level.soundManager.playSound(SoundFX.FireShot);

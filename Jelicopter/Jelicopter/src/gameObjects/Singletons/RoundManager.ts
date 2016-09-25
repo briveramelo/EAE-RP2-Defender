@@ -1,24 +1,58 @@
 ﻿module Jelicopter.Client {
 
-    export class RoundManager  {
+    class Round {        
+        constructor(
+            public personCount: number,
+            public paragliderPlaneCount: number,
+            public vehicleCount: number
+        ) {}
+    }
+
+    export class RoundManager extends Phaser.Sprite {
 
         game: Phaser.Game;
         level: MainGame;
+        rounds: Round[];
         roundNumber: number;
+        roundIndex: number;
         roundText;
         waveText;
         showCount: number;
         isTransitioningBetweenRounds: boolean;
 
         constructor(game: Phaser.Game, level: MainGame) {
+            super(game, 0, 0, 'EnemyBullet');
             this.game = game;
             this.level = level;
-            
+            game.add.existing(this);
+            game.physics.enable(this, Phaser.Physics.ARCADE);
+
+            this.rounds = [];
+            this.rounds[0] = new Round(30, 0, 0);
+            this.rounds[1] = new Round(30, 3, 0);
+            this.rounds[2] = new Round(40, 3, 0);
+            this.rounds[3] = new Round(10, 4, 0);
+            this.rounds[4] = new Round(14, 4, 3);
+            this.rounds[5] = new Round(17, 4, 3);
+            this.rounds[6] = new Round(20, 5, 4);
+            this.rounds[7] = new Round(25, 5, 4);
+            this.rounds[8] = new Round(30, 5, 5);
 
             this.roundNumber = 0;
+            this.roundIndex = -1;
+
             this.createRoundText();
             this.displayNewRound();
             this.createWaveText();
+        }
+
+        update() {
+            if (this.level.people.countLiving() == 0 &&
+                this.level.ufos.countLiving() == 0 &&
+                !this.level.roundManager.isTransitioningBetweenRounds) {
+
+                this.level.roundManager.startNewRound();
+            }
         }
 
         createRoundText() {
@@ -36,7 +70,6 @@
         }
 
         displayNewRound() {
-            this.roundNumber++;
             this.roundText.text = 'Round: ' + this.roundNumber;
             this.showCount = 0;
             this.showRound();
@@ -76,25 +109,26 @@
         }
 
         startNewRound() {
+            console.log(this.roundIndex);
+            this.roundIndex++;
+            this.roundNumber++;
+
             this.level.hospital.resetHospital();
             this.displayNewRound();
             this.isTransitioningBetweenRounds = true;
-            this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.respawnHumans, this);
             this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.endRoundTransition, this);
-            this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.level.ufoSpawner.spawnShips, this);
+            this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.triggerSpawning, this);
         }
 
-        respawnHumans() {
-            this.level.people.forEach(function (person: Person) {
-                person.remove();
-                person.spawn();
-            }, this);
+        triggerSpawning() {
+            this.level.personSpawner.spawn(this.rounds[this.roundIndex].personCount);
+            this.level.ufoSpawner.spawnShips(this.rounds[this.roundIndex].paragliderPlaneCount);
+            //this.level.ufoSpawner.spawnShips(this.rounds[this.roundIndex].vehicleCount);
         }
 
         endRoundTransition() {
             this.isTransitioningBetweenRounds = false;
         }
     }
-
 
 }
