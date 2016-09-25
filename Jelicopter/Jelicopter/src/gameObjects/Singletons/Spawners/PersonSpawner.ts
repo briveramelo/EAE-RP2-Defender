@@ -11,7 +11,6 @@
         }
 
         spawn(peopleToSpawn: number) {
-            console.log(peopleToSpawn);
             for (var i: number = 0; i < peopleToSpawn; i++) {
                 var person: Person = this.level.people.getFirstDead(false);
                 var playerX: number = this.level.playerShip.position.x;

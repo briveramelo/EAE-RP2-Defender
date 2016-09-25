@@ -42,7 +42,6 @@
             this.roundIndex = -1;
 
             this.createRoundText();
-            this.displayNewRound();
             this.createWaveText();
         }
 
