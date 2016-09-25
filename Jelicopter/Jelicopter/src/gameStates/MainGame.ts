@@ -32,6 +32,7 @@
         explosionManager: ExplosionManager;
         peopleExplosionManager: PeopleExplosionManager;
         shipTrailManager: ShipTrailManager;
+        soundManager: SoundManager;
 
         backgroundImageWidth: number = 3072;
         heightOffset: number = 0;
@@ -76,6 +77,7 @@
             this.explosionManager = new ExplosionManager(this.game, this);
             this.peopleExplosionManager = new PeopleExplosionManager(this.game, this);
             this.shipTrailManager = new ShipTrailManager(this.game, this);
+            this.soundManager = new SoundManager(this.game);
 
             this.game.camera.follow(this.playerShip);
         }        

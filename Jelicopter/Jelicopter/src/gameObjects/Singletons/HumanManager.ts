@@ -31,7 +31,7 @@
                         if (!this.level.hospital.allPatientSaved) {
                             if (!this.level.roundManager.isTransitioningBetweenRounds) {
                                 if (this.isOverlapping(this.level.playerShip, this.level.hospital)) {
-                                    this.getPointsForPerson();
+                                    this.personBeingCarried.remove();
                                     this.dropPerson();
                                     this.hospital.savePatient();
                                 }
@@ -43,10 +43,8 @@
                     }
                 }
             }
-            if (!this.level.hospital.allPatientSaved && this.level.people.countLiving() == 0 && !this.level.roundManager.isTransitioningBetweenRounds) {
-                //This logic is causing occassional bugs
-                console.log("game over because : everyone died and you didn't fill the hospital");
-                this.game.state.start('GameOver', true, false);
+            if (this.level.people.countLiving() == 0 && !this.level.roundManager.isTransitioningBetweenRounds) {
+                this.level.roundManager.startNewRound();
             }
         }
 
@@ -81,11 +79,6 @@
             this.personBeingCarried = null;
             this.level.playerShip.DropPerson();
         }
-
-        getPointsForPerson() {
-            this.level.scoreboard.updateScore(10);
-            this.personBeingCarried.remove();
-        }        
 
         isOverlapping(spriteA, spriteB) {
             var boundsA = spriteA.getBounds();

@@ -19,7 +19,6 @@
             this.anchor.x = 0.5;
             this.myCollider = new CircleCollider(this, 35, new Phaser.Point(0, 0));
             this.game.add.sprite(0, 0, 'JumpingMale', 1);
-            this.spawn();
             
             game.add.existing(this);
             game.physics.enable(this);
@@ -27,28 +26,53 @@
             this.body.gravity.y = 600;
             //this.body.collideWorldBounds = true;
 
+            this.spawn();
             this.animations.add('wave', [0, 1, 2, 3, 4], 15, true);
             this.play('wave');
             this.scale.set(0.62);
             this.revive();      
         }
 
-        floorNumber: number=495;
+        floorNumber: number=535;
+        maxYSpeedBeforeDeath: number = 500;
+        maxTotalSpeedBeforeDeath: number =599;
+        isFlying: boolean;
 
         update() {
-            this.play('wave');
-            if ((this.position.y) > this.floorNumber && !this.isBeingHeld) {
-                if ((this.isPausedForFlinging && this.body.velocity.y > 0) || !this.isPausedForFlinging){                    
-                    this.body.position.y = this.floorNumber;
-                    this.body.velocity.x = 0;
+            if (this.alive) {
+                this.play('wave');
+                if ((this.position.y) > this.floorNumber && !this.isBeingHeld) {
+                    this.isFlying = false;
+                    if (this.body.velocity.y > this.maxYSpeedBeforeDeath) {
+                        this.kill(Points.Human);                                              
+                    }
+                    else if ((this.isPausedForFlinging && this.body.velocity.y > 0) || !this.isPausedForFlinging) {
+                        this.position.y = this.floorNumber;
+                        this.body.velocity.x = 0;
+                        this.body.velocity.y = 0;
+                    }
+                }
+                else {
+                    this.isFlying = true;
+                    if (this.isBeingHeld) {
+                        this.body.velocity.y = this.level.playerShip.body.velocity.y;
+                        this.body.velocity.x = this.level.playerShip.body.velocity.x;
+                    }
                 }
             }
+        }
+
+        chargeHospital() {
+            this.body.velocity.x
         }
 
         spawn() {
             this.revive();
             this.isBeingHeld = false;
             this.isPausedForFlinging = false;
+            this.body.velocity.x = 0;
+            this.body.velocity.y = 0;
+
             var xSpawnPosition = this.game.rnd.between(this.ship.position.x - this.level.backgroundImageWidth / 2, this.ship.position.x + this.level.backgroundImageWidth / 2);
             this.position = new Phaser.Point(xSpawnPosition, this.floorNumber-10);
         }
@@ -73,10 +97,19 @@
             super.kill();
         }
 
-        kill() {
+        kill(points?: Points, shouldPlay?:boolean) {
             this.level.peopleExplosionManager.explodeBody(this.position);
             this.isBeingHeld = false;
-            super.kill();
+
+            if (shouldPlay) {
+                this.level.soundManager.playSound(SoundFX.PersonDeath);
+            }
+            if (points) {
+                this.level.scoreboard.updateScore(points);  
+            }
+
+            super.kill();            
+
             return this;
         }
         

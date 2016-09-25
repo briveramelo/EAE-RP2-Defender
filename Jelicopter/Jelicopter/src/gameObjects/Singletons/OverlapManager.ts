@@ -17,9 +17,28 @@
             if (this.level.playerShip.alive) {
                 //this.checkUFOToPlayerOverlaps();
             }
+            this.checkHumanHumanOverlaps();
             //this.checkEnemyBulletOverlaps();
             this.checkPlayerBulletOverlaps();
-            this.checkEnemyMissileOverlaps();
+            //this.checkEnemyMissileOverlaps();
+        }
+
+        checkHumanHumanOverlaps() {
+            this.level.people.forEach(function (person1: Person) {
+                if (person1.alive && person1.isFlying) {
+                    this.level.people.forEach(function (person2: Person) {
+                        if (person2.alive) {
+                            if (person1.myCollider.isColliding(person2.myCollider)) {
+                                var velDiff: number = new Phaser.Point(person1.body.velocity.x - person2.body.velocity.x, person1.body.velocity.y - person2.body.velocity.y).getMagnitude();
+                                if (velDiff > person1.maxTotalSpeedBeforeDeath) {
+                                    person1.kill(Points.HumanToHuman);
+                                    person2.kill();                                    
+                                }
+                            }
+                        }
+                    }, this);
+                }
+            }, this);
         }
 
         checkEnemyMissileOverlaps() {
@@ -36,7 +55,7 @@
                 this.level.people.forEach(function (person: Person) {
                     if (person.alive) {
                         if (person.myCollider.isColliding(missile.myCollider)) {
-                            //this.level.scoreboard.updateScore(30); //Don't award them for killing people
+                            this.level.scoreboard.updateScore(30);
                             missile.kill();
                             person.kill();
                         }
@@ -51,9 +70,11 @@
                 this.level.people.forEach(function (person: Person) {
                     if (person.alive) {
                         if (person.myCollider.isColliding(bullet.myCollider)) {
-                            //this.level.scoreboard.updateScore(30); //Don't award them for killing people
                             bullet.kill();
-                            person.kill();
+                            person.kill(Points.Human, true);
+                            if (this.level.people.countLiving() == 0) {
+                                this.level.roundManager.startNewRound();
+                            }
                         }
                     }
                 }, this);
@@ -104,7 +125,7 @@
                             if (person.myCollider.isColliding(bullet.myCollider)) {
                                 //this.level.scoreboard.updateScore(30); //Don't award them for killing people
                                 bullet.kill();
-                                person.kill();
+                                person.kill();                                
                                 //person.destroy();
                             }
                         }

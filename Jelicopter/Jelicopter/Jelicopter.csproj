@@ -60,6 +60,7 @@
     <TypeScriptCompile Include="src\gameObjects\Singletons\Scoreboard.ts" />
     <TypeScriptCompile Include="src\gameObjects\shipExplosion.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\ShipTrailManager.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\SoundManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\UFO.ts" />
     <TypeScriptCompile Include="src\gameObjects\Ship.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\UFOSpawner.ts" />

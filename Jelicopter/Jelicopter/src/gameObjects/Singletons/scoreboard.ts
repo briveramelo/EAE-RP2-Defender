@@ -1,5 +1,24 @@
 ﻿module Jelicopter.Client {
 
+    export enum Points {
+        Human = 50,
+        Paraglider = 50,
+        PPlane = 100,
+        Vehicle = 100,
+
+        HumanToHuman = 200,
+        HumanToVehicle = 400,
+        HumanToParaglider = 500,
+        HumanToPPlane = 700,
+
+        ParagliderToVehicle = 500,
+        ParagliderToParaglider = 600,
+        ParagliderToPPlane = 800,
+
+        VehicleToVehicle = 800,        
+        VehicleToPPlane = 1000
+    }
+
     export class ScoreBoard{
 
         score: number = 0;
@@ -22,7 +41,7 @@
             // this.scoreText.setTextBounds(0, 100, 800, 100);
         }
 
-        updateScore(pointsToAdd: number) {
+        updateScore(pointsToAdd: Points) {
             this.score += pointsToAdd;
             this.scoreText.text = 'Score: ' + this.score;
         }

@@ -15,8 +15,11 @@
             this.load.image('logo', './assets/ui/Jelicopter.png');
 
             //Audio
-            //this.load.audio('aliensSong', './assets/sounds/BackgroundTunes/Aliens.ogg', true);
+            this.load.audio('Aliens', './assets/sounds/BackgroundTunes/Aliens.mp3', true);
             this.load.audio('click', './assets/sounds/click.ogg', true);
+            this.load.audio('personDeath', './assets/sounds/SoundFX/Explosion5.wav', true);
+            this.load.audio('fireShot', './assets/sounds/SoundFX/Laser_Shoot2.wav', true);
+            this.load.audio('abduct', './assets/sounds/SoundFX/Abduction.wav', true);
 
             //Backgrounds
             this.load.image('GameBackground', './assets/sprites/Background/background_base.jpg');

@@ -58,6 +58,7 @@
 
         CollectPerson(person: Person) {
             this.personBeingCarried = person;
+            this.level.soundManager.playSound(SoundFX.Abduct);
         }
 
         DropPerson() {
@@ -99,19 +100,16 @@
 
 
         fireBullet() {
-            if (this.game.time.now > this.bullets.bulletTime) {
-                this.bullets.bullet = this.bullets.getFirstExists(false);
+            this.level.soundManager.playSound(SoundFX.FireShot);
+            this.bullets.bullet = this.bullets.getFirstExists(false);
 
-                if (this.bullets.bullet) {
-                    var bulletSpawnPoint: Phaser.Point = new Phaser.Point(this.body.x + (this.isGoingRight ? 1 : -1) * this.bulletSpawnOffset.x, this.body.y + this.bulletSpawnOffset.y);                    
-                    this.bullets.bullet.lifespan = 1000;
-                    this.bullets.bullet.reset(bulletSpawnPoint.x, bulletSpawnPoint.y);
-                    this.bullets.bullet.scale.x = this.isGoingRight ? 1 : -1;
-                    this.game.physics.arcade.velocityFromAngle( (this.isGoingRight ? 0 : 180), this.bullets.bulletSpeed, this.bullets.bullet.body.velocity);                    
-                    this.bullets.bulletTime = this.game.time.now-1;
-                }
+            if (this.bullets.bullet) {
+                var bulletSpawnPoint: Phaser.Point = new Phaser.Point(this.body.x + (this.isGoingRight ? 1 : -1) * this.bulletSpawnOffset.x, this.body.y + this.bulletSpawnOffset.y);                    
+                this.bullets.bullet.lifespan = 1000;
+                this.bullets.bullet.reset(bulletSpawnPoint.x, bulletSpawnPoint.y);
+                this.bullets.bullet.scale.x = this.isGoingRight ? 1 : -1;
+                this.game.physics.arcade.velocityFromAngle( (this.isGoingRight ? 0 : 180), this.bullets.bulletSpeed, this.bullets.bullet.body.velocity);                    
             }
-
         }
 
         takeDamage() {
