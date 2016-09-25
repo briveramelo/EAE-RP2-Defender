@@ -26,8 +26,6 @@
             this.body.setCircle(20);
             this.bullets = bullets;
             this.health = 3;
-
-            console.debug(this.position.x.toString());
         }
 
         update() {
@@ -98,8 +96,8 @@
 
                 if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
                     this.body.velocity.x = -this.shipSpeed.x;
-
-                    
+                    console.debug(this.position.x.toString());
+                    this.level.maps.updatePositionOfPlayerInMap(this.body.velocity.x);
                     if (this.scale.x === 1) {
                         this.scale.x = -1;
                     }
@@ -121,7 +119,6 @@
                         this.body.velocity.y = -this.shipSpeed.y;
                     } 
                 }
-                this.level.maps.updatePositionOfPlayerInMap(this.body.velocity);
                 this.animations.play('fly');
             }
             else {
