@@ -53,6 +53,7 @@
 
 
             //Ships
+            this.load.image('invisibleDot', 'assets/sprites/Ship/invisibleDot.png');
             this.load.atlasJSONHash('Ship', './assets/sprites/Ship/Ship_1.png', './assets/sprites/Ship/Ship_1.json');
             this.load.atlasJSONHash('Jelicopter', './assets/sprites/Ship/Jelicopter_Stretch.png', './assets/sprites/Ship/Jelicopter_Stretch.json');
             this.load.atlasJSONHash('UFO', './assets/sprites/UFO/UFO_1.png', './assets/sprites/UFO/UFO_1.json');

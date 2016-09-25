@@ -23,6 +23,7 @@
         tailOffset: number = 95;
         stretchAnim: Phaser.Animation;
         contractAnim: Phaser.Animation;
+        camTarget: Phaser.Sprite;
 
 
         constructor(game: Phaser.Game, level: MainGame, x: number, y: number, bullets: Bullet) {
@@ -36,6 +37,11 @@
 
             game.add.existing(this);
             game.physics.enable(this, Phaser.Physics.ARCADE);
+            this.camTarget = this.game.add.sprite(0, 0, 'invisibleDot');
+            this.camTarget.position.x = this.position.x + (this.isGoingRight ? 1 : -1) * this.camOffset;
+            this.camTarget.position.y = this.position.y;
+
+
             this.myCollider = new CircleCollider(this, 30, new Phaser.Point(0,0));
             this.body.setCircle(20);
             this.bullets = bullets;
@@ -43,6 +49,8 @@
 
             
         }
+
+        camOffset: number = 300;
 
         isFast: boolean;
         wasJustDown: boolean;
@@ -59,6 +67,11 @@
             if (this.alive) {
                 this.toggleShipSpeed();//for debugging -- take out in release
                 this.isGoingRight = this.scale.x === 1;
+
+                this.camTarget.position.x = this.position.x + (this.isGoingRight ? 1 : -1) * this.camOffset;
+                this.camTarget.position.y = this.position.y;
+
+
                 if (!this.level.gamepadManager.joyStickIsActive) {
                     this.move(this.isGoingRight);
                     this.animate(this.isGoingRight);   

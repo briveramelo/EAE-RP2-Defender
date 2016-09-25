@@ -90,7 +90,11 @@
             this.bomberUFOSpawner = new BomberUFOSpawner(this.game, this);
             this.vehicleSpawner = new VehicleSpawner(this.game, this);
 
-            this.game.camera.follow(this.playerShip);
+            //HANDLE CAMERA
+            this.game.camera.roundPx = false;
+            this.game.renderer.renderSession.roundPixels = false;
+            this.game.camera.setPosition(this.playerShip.camTarget.x, this.playerShip.camTarget.y);
+            this.game.camera.follow(this.playerShip.camTarget, Phaser.Camera.FOLLOW_LOCKON, 0.05);
         }        
 
         createBackgrounds() {
