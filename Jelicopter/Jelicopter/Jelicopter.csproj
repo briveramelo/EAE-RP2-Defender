@@ -26,6 +26,9 @@
     <Content Include="build\assets\sprites\Explosions\Explosion.png" />
     <Content Include="build\assets\sprites\Explosions\slime_sprite.png" />
     <Content Include="build\assets\sprites\Explosions\smoke_sprite.png" />
+    <Content Include="build\assets\sprites\Maps\map_back.png" />
+    <Content Include="build\assets\sprites\Maps\map_frame.png" />
+    <Content Include="build\assets\sprites\Maps\map_mid.png" />
     <Content Include="build\assets\sprites\Score\score_sprite.png" />
     <Content Include="build\assets\sprites\UFO\bomb_drop.png" />
     <Content Include="build\styles\default.css" />
@@ -45,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\Components\collider.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Maps.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\ExplosionManager.ts" />
     <TypeScriptCompile Include="src\game.ts" />
     <TypeScriptCompile Include="src\gameObjects\BackgroundLayer.ts" />

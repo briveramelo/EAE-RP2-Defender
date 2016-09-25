@@ -20,6 +20,11 @@
             this.load.image('CityBack', './assets/sprites/Background/city_back.png');
             this.load.image('CityMid', './assets/sprites/Background/city_mid.png');
 
+            //Maps
+            this.load.image('MapCityMid', './assets/sprites/Maps/map_mid.png');
+            this.load.image('MapCityBack', './assets/sprites/Maps/map_back.png');
+            this.load.image('MapCityFrame', './assets/sprites/Maps/map_frame.png');
+
             //Bullets
             this.load.image('EnemyBullet', './assets/sprites/UFO/EnemyBullet.png');
             this.load.image('Bullet', './assets/sprites/Ship/bullet02.png');

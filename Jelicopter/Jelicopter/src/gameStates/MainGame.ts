@@ -19,6 +19,7 @@
 
         //Singletons
         hospital: Hospital;
+        maps: Maps;
         scoreboard: ScoreBoard;
         pauser: Pauser;
         roundManager: RoundManager;
@@ -67,8 +68,8 @@
             this.ufoSpawner = new UFOSpawner(this.game, this);
             this.bomberUFOSpawner = new BomberUFOSpawner(this.game, this);
             this.roundManager = new RoundManager(this.game, this);
-            this.explosionManager = new ExplosionManager(this.game,this);
-
+            this.explosionManager = new ExplosionManager(this.game, this);
+            this.maps = new Maps(this.game,this);
             this.game.camera.follow(this.playerShip);
         }        
 
