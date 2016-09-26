@@ -7,6 +7,7 @@
         person;
         parachute;
         gun;
+        isSafeOnGround: boolean=false;
 
         constructor(game: Phaser.Game, x: number, y: number, level: MainGame) {
             super(game,x,y,'JumpingFemale',0);
@@ -25,7 +26,8 @@
         }
 
         update() {
-            if (this.alive) { 
+            if (this.alive) {             
+            this.onGround();
             if (this.position.y < 540) {
                 if(this.children.indexOf(this.parachute)>-1)
                     this.position.y += 1;
@@ -34,13 +36,25 @@
             }
             else {
                 if (this.children.indexOf(this.parachute) > -1) {
+                    this.isSafeOnGround = true;
                     this.removeChild(this.parachute);
                     this.addChild(this.gun);
                 }
-                else {
+                else if (!this.isSafeOnGround) {
                     this.level.peopleExplosionManager.explodeBody(this.position);
                     this.kill(Points.Human,true);
                 }
+             }
+            }
+        }
+
+        onGround() {
+            if (this.isSafeOnGround) {
+                if (this.level.playerShip.position.x  > this.position.x) {
+                    this.gun.frame = 1;
+                }
+                else {
+                    this.gun.frame = 0;
                 }
             }
         }
