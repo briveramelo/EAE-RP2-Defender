@@ -46,6 +46,7 @@
     <TypeScriptCompile Include="src\gameObjects\BackgroundLayer.ts" />
     <TypeScriptCompile Include="src\gameObjects\bullet.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Hospital.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\ParticleManagers\LaserManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\BomberUFOSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Controls\GamepadManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\PlayerShip\TractorBeam.ts" />

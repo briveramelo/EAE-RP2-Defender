@@ -10,30 +10,59 @@
         launchSpeedMultiplier: number = 1.75;
         isBeingHeld: boolean;
         runSpeed: number;
+        personType: PersonType;
 
-        constructor(game: Phaser.Game, ship: Ship, level:MainGame) {
-            super(game, 0, 0, 'JumpingMale');
+        constructor(game: Phaser.Game, ship: Ship, level: MainGame, personType: PersonType) {
+            super(game, 0, 0, PersonType[personType]);
             this.game = game;
             this.ship = ship;
             this.level = level;
             this.anchor.y = 0.5;
             this.anchor.x = 0.5;
-            this.myCollider = new CircleCollider(this, 35, new Phaser.Point(0, 0));
-            this.game.add.sprite(0, 0, 'JumpingMale', 1);
-            
+            this.personType = personType;
+            this.myCollider = new CircleCollider(this, 50, new Phaser.Point(0, 0));
+            this.game.add.sprite(0, 0, PersonType[personType], 1);
+            this.name = PersonType[personType];
             game.add.existing(this);
             game.physics.enable(this);
             this.body.setCircle(20);
             this.body.gravity.y = 600;
             //this.body.collideWorldBounds = true;
+            var animationIndices;
+            var scale;
+            var frameRate;
+            switch (personType) {
+                case PersonType.Male1:
+                    scale = 1;
+                    animationIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+                    frameRate = 15;
+                    break;
+                case PersonType.Male2:
+                    scale = .25;
+                    animationIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+                    frameRate = 30;
+                    break;
+                case PersonType.Female1:
+                    scale = 1;
+                    animationIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+                    frameRate = 15;
+                    break;
+                case PersonType.Female2:
+                    scale = 1;
+                    animationIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+                    frameRate = 15;
+                    break;
+            }
 
-            this.animations.add('wave', [0, 1, 2, 3, 4], 15, true);
+
+            this.animations.add('wave', animationIndices, frameRate, true);
             this.play('wave');
-            this.scale.set(0.62);
+            this.scale.set(scale);
+            this.pivot.set(0, 0);
             this.remove();      
         }
 
-        floorNumber: number=535;
+        floorNumber: number=520;
         maxYSpeedBeforeDeath: number = 500;
         maxTotalSpeedBeforeDeath: number =599;
         isFlying: boolean;
@@ -70,7 +99,7 @@
             this.body.velocity.y = 0;
             
             this.position.x = startPosition.x;
-            this.position.y = this.floorNumber - 10;
+            this.position.y = this.floorNumber - 20;
             this.body.velocity.x = this.runSpeed;
         }
 
@@ -94,13 +123,12 @@
             super.kill();
         }
 
-        kill(points?: Points, shouldPlay?:boolean) {
-            this.level.peopleExplosionManager.explodeBody(this.position);
+        kill(points?: Points) {
+            this.level.peopleExplosionManager.explodeBody(this.position, this.personType);
             this.isBeingHeld = false;
 
-            if (shouldPlay) {
-                this.level.soundManager.playSound(SoundFX.PersonDeath);
-            }
+            
+            this.level.soundManager.playSound(SoundFX.PersonDeath);
             if (points) {
                 this.level.scoreboard.updateScore(points);  
             }

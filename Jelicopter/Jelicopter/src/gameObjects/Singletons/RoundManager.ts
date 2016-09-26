@@ -19,16 +19,18 @@
         waveText;
         showCount: number;
         isTransitioningBetweenRounds: boolean;
+        people: Phaser.Group;
 
-        constructor(game: Phaser.Game, level: MainGame) {
+        constructor(game: Phaser.Game, level: MainGame, people: Phaser.Group) {
             super(game, 0, 0, 'EnemyBullet');
             this.game = game;
             this.level = level;
+            this.people = people;
             game.add.existing(this);
             game.physics.enable(this, Phaser.Physics.ARCADE);
 
             this.rounds = [];
-            this.rounds[0] = new Round(30, 0, 0);
+            this.rounds[0] = new Round(10, 0, 0);
             this.rounds[1] = new Round(30, 3, 0);
             this.rounds[2] = new Round(40, 3, 0);
             this.rounds[3] = new Round(10, 4, 0);
@@ -46,7 +48,7 @@
         }
 
         update() {
-            if (this.level.people.countLiving() == 0 &&
+            if (this.people.countLiving() == 0 &&
                 this.level.ufos.countLiving() == 0 &&
                 !this.level.roundManager.isTransitioningBetweenRounds) {
 
@@ -108,7 +110,6 @@
         }
 
         startNewRound() {
-            console.log(this.roundIndex);
             this.roundIndex++;
             this.roundNumber++;
 
@@ -116,7 +117,8 @@
             this.displayNewRound();
             this.isTransitioningBetweenRounds = true;
             this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.endRoundTransition, this);
-            this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.triggerSpawning, this);
+            //this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.triggerSpawning, this);
+            this.triggerSpawning();
         }
 
         triggerSpawning() {

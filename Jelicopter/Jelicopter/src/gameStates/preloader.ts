@@ -36,11 +36,16 @@
             
 
             ///VISUAL FX
+            //LASER
+            this.game.load.spritesheet('laser', 'assets/sprites/VisualFX/laser.png', 32, 32);
             //Blue UFO Explosion
             this.load.spritesheet('blue_fire', './assets/sprites/VisualFX/blue_sprite.png', 115, 104);
             this.load.spritesheet('ship_smoke', './assets/sprites/VisualFX/smoke_sprite.png', 115, 104);
             //Body Explosion
-            this.load.spritesheet('man1_parts', 'assets/sprites/VisualFX/man1_parts_sprite.png', 124, 124);
+            this.load.spritesheet('Male1_Parts', 'assets/sprites/VisualFX/male1_parts_sprite.png', 124, 124);
+            this.load.spritesheet('Male2_Parts', 'assets/sprites/VisualFX/male2_parts_sprite.png', 124, 124);
+            this.load.spritesheet('Female1_Parts', 'assets/sprites/VisualFX/female1_parts_sprite.png', 124, 124);
+            this.load.spritesheet('Female2_Parts', 'assets/sprites/VisualFX/female2_parts_sprite.png', 124, 124);
             this.load.image('blood', 'assets/sprites/VisualFX/blood_drop.png');
             this.load.spritesheet('guts', 'assets/sprites/VisualFX/guts_sprite.png', 64, 64);
             //Ship Trail
@@ -62,7 +67,10 @@
 
 
             //People
-            this.load.atlasJSONHash('JumpingMale', './assets/sprites/People/Jumping_male.png', './assets/sprites/People/Jumping_male.json');
+            this.load.atlasJSONHash('Male1', './assets/sprites/People/Male1.png', './assets/sprites/People/Male1.json');
+            this.load.atlasJSONHash('Male2', './assets/sprites/People/Male2.png', './assets/sprites/People/Male2.json');
+            this.load.atlasJSONHash('Female1', './assets/sprites/People/Female1.png', './assets/sprites/People/Female1.json');
+            this.load.atlasJSONHash('Female2', './assets/sprites/People/Female2.png', './assets/sprites/People/Female2.json');
 
             // Hospital
             this.load.atlasJSONHash('Hospital', './assets/sprites/Buildings/safe_place.png', './assets/sprites/Buildings/safe_place.json');

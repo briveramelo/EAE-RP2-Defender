@@ -13,7 +13,11 @@
         bomberUFOs: Phaser.Group;
         enemyBullets: Phaser.Group;
         enemyMissiles: Phaser.Group;
-        people: Phaser.Group;
+        allPeople: Phaser.Group;
+        male1People: Phaser.Group;
+        male2People: Phaser.Group;
+        female1People: Phaser.Group;
+        female2People: Phaser.Group;
 
         //PLAYER
         playerBullets: Bullet;
@@ -32,6 +36,7 @@
         peopleExplosionManager: PeopleExplosionManager;
         shipTrailManager: ShipTrailManager;
         soundManager: SoundManager;
+        laserManager: LaserManager;
 
         //SPAWNERS
         ufoSpawner: ParagliderPlaneSpawner;
@@ -58,7 +63,7 @@
             this.createBackgrounds();
             this.createCityBack();
             this.createCityMid();
-            this.createCityFront();
+            //this.createCityFront();
 
             //CREATE OBJECTS
             this.allObjects = [];
@@ -71,24 +76,26 @@
             i = this.createUFOs(i);
             i = this.createBomberUFOs(i);
 
-            //CREATE SINGLETONS
-            this.gamepadManager = new GamepadManager(this.game, this);
-            this.scoreboard = new ScoreBoard(this.game);
-            this.pauser = new Pauser(this.game);
-            this.tractorBeam = new TractorBeam(this.game, this, this.people);
-            this.wrapManager = new WrapManager(this.game, this);
-            this.overlapManager = new OverlapManager(this.game, this);
-            this.roundManager = new RoundManager(this.game, this);
-            this.explosionManager = new ExplosionManager(this.game, this);
-            this.peopleExplosionManager = new PeopleExplosionManager(this.game, this);
-            this.shipTrailManager = new ShipTrailManager(this.game, this);
-            this.soundManager = new SoundManager(this.game);
-
             //CREATE SPAWNERS
+            console.log(this.male1People);
             this.personSpawner = new PersonSpawner(this.game, this);
             this.ufoSpawner = new ParagliderPlaneSpawner(this.game, this);
             this.bomberUFOSpawner = new BomberUFOSpawner(this.game, this);
             this.vehicleSpawner = new VehicleSpawner(this.game, this);
+
+            //CREATE SINGLETONS
+            this.gamepadManager = new GamepadManager(this.game, this);
+            this.scoreboard = new ScoreBoard(this.game);
+            this.pauser = new Pauser(this.game);
+            this.tractorBeam = new TractorBeam(this.game, this, this.allPeople);
+            this.wrapManager = new WrapManager(this.game, this);
+            this.overlapManager = new OverlapManager(this.game, this, this.allPeople);
+            this.roundManager = new RoundManager(this.game, this, this.allPeople);
+            this.explosionManager = new ExplosionManager(this.game, this);
+            this.peopleExplosionManager = new PeopleExplosionManager(this.game, this);
+            this.shipTrailManager = new ShipTrailManager(this.game, this);
+            this.soundManager = new SoundManager(this.game);
+            this.laserManager = new LaserManager(this.game, this);
 
             //HANDLE CAMERA
             this.game.camera.roundPx = false;
@@ -162,11 +169,34 @@
             return objStartIndex;
         }
         createPeople(objStartIndex: number) {
-            this.people = this.game.add.group();
-            for (var i = 0; i < 50; i++) {
-                this.people.add(new Person(this.game, this.playerShip, this));
+            this.allPeople = this.game.add.group();
+            this.male1People = this.game.add.group();
+            this.male2People = this.game.add.group();
+            this.female1People = this.game.add.group();
+            this.female2People = this.game.add.group();
+
+            for (var i = 0; i < 30; i++) {
+                var person = new Person(this.game, this.playerShip, this, PersonType.Male1);
+                this.male1People.add(person);
+                this.allPeople.add(person);
             }
-            this.people.forEach(function (person) {
+            console.log(this.male1People);
+            for (var i = 0; i < 30; i++) {
+                var person = new Person(this.game, this.playerShip, this, PersonType.Male2);
+                this.male2People.add(person);
+                this.allPeople.add(person);
+            }
+            for (var i = 0; i < 30; i++) {
+                var person = new Person(this.game, this.playerShip, this, PersonType.Female1);
+                this.female1People.add(person);
+                this.allPeople.add(person);
+            }
+            for (var i = 0; i < 30; i++) {
+                var person = new Person(this.game, this.playerShip, this, PersonType.Female2);
+                this.female2People.add(person);
+                this.allPeople.add(person);
+            }
+            this.allPeople.forEach(function (person) {
                 this.allObjects[objStartIndex] = person;
                 objStartIndex++;
             }, this);
