@@ -63,6 +63,8 @@
 
             //People
             this.load.atlasJSONHash('JumpingMale', './assets/sprites/People/Jumping_male.png', './assets/sprites/People/Jumping_male.json');
+            this.load.spritesheet('fire_sprite', 'assets/sprites/VisualFX/fire_sprite.png', 115, 104);
+            this.load.spritesheet('JumpingFemale', './assets/sprites/People/Jumping_female.png', 128,128);
 
             // Hospital
             this.load.atlasJSONHash('Hospital', './assets/sprites/Buildings/safe_place.png', './assets/sprites/Buildings/safe_place.json');

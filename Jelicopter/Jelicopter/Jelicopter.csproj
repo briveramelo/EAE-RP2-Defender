@@ -41,6 +41,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\Components\collider.ts" />
     <TypeScriptCompile Include="src\gameObjects\Enemies\ParagliderPlane.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Enemies\ParaTrooper.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\ParticleManagers\ExplosionManager.ts" />
     <TypeScriptCompile Include="src\game.ts" />
     <TypeScriptCompile Include="src\gameObjects\BackgroundLayer.ts" />
@@ -60,6 +61,7 @@
     <TypeScriptCompile Include="src\gameObjects\Enemies\UFO.ts" />
     <TypeScriptCompile Include="src\gameObjects\PlayerShip\Ship.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\ParagliderPlaneSpawner.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\ParaTrooperSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\PersonSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\VehicleSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\WrapManager.ts" />

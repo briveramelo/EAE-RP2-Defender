@@ -47,6 +47,10 @@
 
         checkPlayerBulletOverlaps() {
             this.level.playerBullets.forEachAlive(function (bullet) {
+                if (this.isOverlapping(this.level.paraTrooper.parachute, bullet)) {
+                    this.level.paraTrooper.removeChild(this.level.paraTrooper.parachute);
+                    console.debug("hello");
+                }
                 this.level.people.forEach(function (person: Person) {
                     if (person.alive) {
                         if (person.myCollider.isColliding(bullet.myCollider)) {
@@ -54,7 +58,7 @@
                             person.kill(Points.Human, true);                            
                         }
                     }
-                }, this);
+                } , this);
 
                 this.level.ufos.forEachAlive(function (ufo: UFO) {
                     if (ufo.myCollider.isColliding(bullet.myCollider)) {

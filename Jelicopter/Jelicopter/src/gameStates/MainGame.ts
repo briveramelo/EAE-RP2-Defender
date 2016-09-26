@@ -19,6 +19,8 @@
         playerBullets: Bullet;
         playerShip: Ship;
 
+        paraTrooper: ParaTrooper;
+
         //SINGELTONS
         hospital: Hospital;
         scoreboard: ScoreBoard;
@@ -71,6 +73,8 @@
             i = this.createUFOs(i);
             i = this.createBomberUFOs(i);
 
+
+
             //CREATE SINGLETONS
             this.gamepadManager = new GamepadManager(this.game, this);
             this.scoreboard = new ScoreBoard(this.game);
@@ -95,6 +99,8 @@
             this.game.renderer.renderSession.roundPixels = false;
             this.game.camera.setPosition(this.playerShip.camTarget.x, this.playerShip.camTarget.y);
             this.game.camera.follow(this.playerShip.camTarget, Phaser.Camera.FOLLOW_LOCKON, 0.05);
+
+            this.paraTrooper = new ParaTrooper(this.game, this.game.world.centerX, 0, this);
         }        
 
         createBackgrounds() {
