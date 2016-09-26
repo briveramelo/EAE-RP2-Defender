@@ -39,14 +39,25 @@
                 }
                 else {
                     this.level.peopleExplosionManager.explodeBody(this.position);
-                    this.kill();
+                    this.kill(Points.Human,true);
                 }
                 }
             }
         }
 
-        comeAlive(startPosition: Phaser.Point): void {
-           
+        kill(points?: Points, shouldPlay?: boolean) {
+            this.level.peopleExplosionManager.explodeBody(this.position);
+
+            if (shouldPlay) {
+                this.level.soundManager.playSound(SoundFX.PersonDeath);
+            }
+            if (points) {
+                this.level.scoreboard.updateScore(points);
+            }
+
+            super.kill();
+
+            return this;
         }
 
        
