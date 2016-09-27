@@ -74,17 +74,14 @@
                 if (angleBetweenShipAndTrooper < 3 && angleBetweenShipAndTrooper > 1.6) {
                     this.person.frame = 0; // Player is to the right of paratrooper
                     this.person.scale.x = 1;
-                    console.debug("To the right " + angleBetweenShipAndTrooper);
                 }
                 else if (angleBetweenShipAndTrooper > 0 && angleBetweenShipAndTrooper < 1.25){
                     this.person.frame = 0;
-                    this.person.scale.x = -1;
-                    console.debug("To the left " + angleBetweenShipAndTrooper);// Player is to the left of paratrooper
+                    this.person.scale.x = -1;// Player is to the left of paratrooper
                 }
                 else {
                     this.person.frame = 1;
                     this.person.scale.x = 1;//center
-                    console.debug("Center " + angleBetweenShipAndTrooper);
                 }
                 this.checkToShoot();
             }
@@ -100,8 +97,6 @@
         }
 
         shootMissile(): void {
-
-            console.debug("hello");
             var myBullet = this.level.enemyBullets.getFirstDead(false);
             myBullet.reset(this.position.x, this.position.y );
             var angleOfShotRadians;
