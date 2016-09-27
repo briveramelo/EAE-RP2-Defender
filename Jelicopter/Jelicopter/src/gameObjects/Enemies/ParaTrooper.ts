@@ -15,6 +15,14 @@
         maxMissileShootDistance: number = 900;
         timeToShootMissile: number = 3;
         floorNumber: number = 515;
+        isPausedForFlinging: boolean;
+        launchSpeedMultiplier: number = 1.75;
+        isBeingHeld: boolean;
+        runSpeed: number;
+
+        maxYSpeedBeforeDeath: number = 500;
+        maxTotalSpeedBeforeDeath: number = 599;
+        isFlying: boolean;
 
         constructor(game: Phaser.Game, level: MainGame) {
             super(game, 0, 0, null, 0);
@@ -139,8 +147,29 @@
             this.level.soundManager.playSound(SoundFX.PersonDeath);          
         }
 
-        comeAlive(): void {
+        getFlung(launchVelocity: Phaser.Point) {
+            this.person.body.velocity.x = launchVelocity.x * this.launchSpeedMultiplier;
+            this.person.body.velocity.y = launchVelocity.y * this.launchSpeedMultiplier;
+            this.isPausedForFlinging = true;
+            this.isBeingHeld = false;
+            this.game.time.events.add(Phaser.Timer.SECOND * 1, this.allowForCatching, this);
+        }
+
+        allowForCatching() {
+            this.isPausedForFlinging = false;
+        }
+
+        getGrabbed() {
+            this.isBeingHeld = true;
+        }
+
+        comeAlive(startPosition: Phaser.Point): void {
             this.revive();
+            //this.body.velocity.x = 0;
+            //this.body.velocity.y = 0;
+            //this.position.x = startPosition.x;
+            //this.position.y = startPosition.y;
+            //this.body.velocity.x = this.runSpeed;
            // this.timerAllowsShooting = true;
             //this.setPositionOfTrooper();
             //this.alternateUpDown();

@@ -79,7 +79,17 @@
                             paratrooper.animateAndSound();
                         }
                     }
+
+                    if (paratrooper.isSafeOnGround) {
+                        if (this.isOverlapping(paratrooper.person, bullet)) {
+                            bullet.kill();
+                            paratrooper.kill();
+                            paratrooper.animateAndSound();
+                        }
+                    }
                 }, this);
+
+                    
 
 
                 //if (this.isOverlapping(this.level.paraTrooper.parachute, bullet)) {
