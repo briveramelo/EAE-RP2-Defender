@@ -52,7 +52,7 @@
                 this.level.ufos.countLiving() == 0 &&
                 !this.level.roundManager.isTransitioningBetweenRounds) {
 
-                this.level.roundManager.startNewRound();
+                this.startNewRound();
             }
         }
 

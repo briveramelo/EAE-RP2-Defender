@@ -29,6 +29,7 @@
                                 var velDiff: number = new Phaser.Point(person1.body.velocity.x - person2.body.velocity.x, person1.body.velocity.y - person2.body.velocity.y).getMagnitude();
                                 if (velDiff > person1.maxTotalSpeedBeforeDeath) {
                                     person1.kill(Points.HumanToHuman);
+                                    this.level.scoreboard.giveFeedbackOfScore(person1.position, 1);
                                     person2.kill();                                    
                                 }
                             }
@@ -52,8 +53,9 @@
                 this.people.forEach(function (person: Person) {
                     if (person.alive) {
                         if (person.myCollider.isColliding(bullet.myCollider)) {
-                            bullet.kill();
                             person.kill(Points.Human);
+                            this.level.scoreboard.giveFeedbackOfScore(person.position, 0);
+                            bullet.kill();
                         }
                     }
                 }, this);
@@ -63,15 +65,18 @@
                         this.level.scoreboard.updateScore(30);
                         bullet.kill();
                         ufo.kill();
-                        this.level.explosionManager.particleBurst(ufo.position);
+                        this.level.scoreboard.giveFeedbackOfScore(ufo.position, 3);
+                        this.level.explosionManager.particleBurst(ufo.position, "blueShip");
                     }
                 }, this);
 
                 this.level.bomberUFOs.forEachAlive(function (bomberUFO: UFO) {
                     if (bomberUFO.myCollider.isColliding(bullet.myCollider)) {
-                        this.level.scoreboard.updateScore(50);
                         bullet.kill();
                         bomberUFO.kill();
+                        this.level.scoreboard.updateScore(50);
+                        this.level.scoreboard.giveFeedbackOfScore(bomberUFO.position, 2);
+                        this.level.explosionManager.particleBurst(bomberUFO.position, "slimeShip");
                     }
                 }, this);
 

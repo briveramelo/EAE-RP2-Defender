@@ -54,6 +54,9 @@
             //this.load.spritesheet('ship_smoke', 'assets/smoke_sprite.png', 115, 104);
             //BuildingExplosion
             //
+            //SCORE
+            this.load.spritesheet('score_feedback', './assets/sprites/VisualFX/score_sprite.png', 90, 90);
+
 
 
 

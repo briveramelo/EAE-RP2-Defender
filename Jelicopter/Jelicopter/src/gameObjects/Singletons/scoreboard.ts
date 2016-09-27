@@ -24,10 +24,22 @@
         score: number = 0;
         scoreText;
         game: Phaser.Game;
+        score_animation;
 
         constructor(game: Phaser.Game) {
             this.game = game;
+            this.createScoreParticleEmitter();
             this.displayScore();
+        }
+
+        createScoreParticleEmitter() {
+            this.score_animation = this.game.add.emitter(1, 1, 100);
+
+            this.score_animation.gravity = -150;
+            this.score_animation.setAlpha(1, 0, 5000);
+            this.score_animation.setScale(.2, 1.2, .2, 1.2, 5000, Phaser.Easing.Quintic.Out);
+            this.score_animation.minRotation = 0;
+            this.score_animation.maxRotation = 0.1;
         }
 
         displayScore() {
@@ -44,6 +56,17 @@
         updateScore(pointsToAdd: Points) {
             this.score += pointsToAdd;
             this.scoreText.text = 'Score: ' + this.score;
+        }
+
+        giveFeedbackOfScore(position, number) {
+            this.score_animation.x = position.x;
+            this.score_animation.y = position.y;
+            this.score_animation.makeParticles('score_feedback', [number], 900, true, true);
+            //  The first parameter sets the effect to "explode" which means all particles are emitted at once
+            //  The second gives each particle a 2000ms lifespan
+            //  The third is ignored when using burst/explode mode
+            //  The final parameter (10) is how many particles will be emitted in this single burst
+            this.score_animation.start(true, 5000, 2000, 1);
         }
     }
 }

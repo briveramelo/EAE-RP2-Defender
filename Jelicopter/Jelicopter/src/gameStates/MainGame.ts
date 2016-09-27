@@ -85,7 +85,6 @@
 
             //CREATE SINGLETONS
             this.gamepadManager = new GamepadManager(this.game, this);
-            this.scoreboard = new ScoreBoard(this.game);
             this.pauser = new Pauser(this.game);
             this.tractorBeam = new TractorBeam(this.game, this, this.allPeople);
             this.wrapManager = new WrapManager(this.game, this);
@@ -96,6 +95,7 @@
             this.shipTrailManager = new ShipTrailManager(this.game, this);
             this.soundManager = new SoundManager(this.game);
             this.laserManager = new LaserManager(this.game, this);
+            this.scoreboard = new ScoreBoard(this.game);
 
             //HANDLE CAMERA
             this.game.camera.roundPx = false;
