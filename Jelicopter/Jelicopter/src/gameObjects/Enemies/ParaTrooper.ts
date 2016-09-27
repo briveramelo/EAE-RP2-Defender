@@ -8,17 +8,19 @@
         parachute;
         parachuteCollider: CircleCollider;
         personCollider: CircleCollider;
-        gun;
         isSafeOnGround: boolean = false;
+        isOnParachute: boolean = true;
         positionOffset: Phaser.Point = new Phaser.Point(-64, -64);
         missileTimerAllowsShooting: boolean = true;
         maxMissileShootDistance: number = 900;
         timeToShootMissile: number = 3;
         floorNumber: number = 515;
+
         isPausedForFlinging: boolean;
         launchSpeedMultiplier: number = 1.75;
         isBeingHeld: boolean;
         runSpeed: number;
+        myCollider;
 
         maxYSpeedBeforeDeath: number = 500;
         maxTotalSpeedBeforeDeath: number = 599;
@@ -38,7 +40,7 @@
             this.parachute = this.game.add.sprite(10, -40, 'Parachute');
             this.parachute.anchor.setTo(0.5);
             this.parachute.pivot.set(0, 0);
-
+            this.myCollider = new CircleCollider(this, 50, new Phaser.Point(0, 0));
             this.addChild(this.parachute);
             this.addChild(this.person);
             game.physics.enable(this);
@@ -57,10 +59,14 @@
                 this.throwToGround();
                 this.onGround();
                 if (this.position.y < this.floorNumber) {
-                    if (this.children.indexOf(this.parachute) > -1)
+                    if (this.children.indexOf(this.parachute) > -1) {
                         this.position.y += 1;
-                    else
+                        this.isOnParachute = true;
+                    }
+                    else {
                         this.position.y += 8;
+                        this.isOnParachute = false;
+                    }
                 }
                 else {
                     if (this.children.indexOf(this.parachute) > -1) {
