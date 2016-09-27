@@ -14,9 +14,10 @@
         missileTimerAllowsShooting: boolean = true;
         maxMissileShootDistance: number = 900;
         timeToShootMissile: number = 3;
+        floorNumber: number = 515;
 
-        constructor(game: Phaser.Game, x: number, y: number, level: MainGame) {
-            super(game, x, y, null, 0);
+        constructor(game: Phaser.Game, level: MainGame) {
+            super(game, 0, 0, null, 0);
             this.level = level;
             this.anchor.setTo(0.5);
             this.pivot.set(0, 0);
@@ -33,6 +34,7 @@
             this.addChild(this.parachute);
             this.addChild(this.person);
             game.add.existing(this);
+            this.kill();
         }
         myPosition(): Phaser.Point {
             return new Phaser.Point(this.position.x - 64, this.position.y - 64);
@@ -115,8 +117,8 @@
         }
 
         kill() {
-            this.level.peopleExplosionManager.explodeBody(this.position, PersonType.Male1);
-            this.level.soundManager.playSound(SoundFX.PersonDeath);          
+            //this.level.peopleExplosionManager.explodeBody(this.position, PersonType.Male1);
+            //this.level.soundManager.playSound(SoundFX.PersonDeath);          
 
             super.kill();
 
@@ -132,7 +134,19 @@
             this.missileTimerAllowsShooting = true;
         }
 
+        animateAndSound() {
+            this.level.peopleExplosionManager.explodeBody(this.position, PersonType.Male1);
+            this.level.soundManager.playSound(SoundFX.PersonDeath);          
+        }
 
+        comeAlive(): void {
+            this.revive();
+           // this.timerAllowsShooting = true;
+            //this.setPositionOfTrooper();
+            //this.alternateUpDown();
+        }
+
+       
 
     }
 }

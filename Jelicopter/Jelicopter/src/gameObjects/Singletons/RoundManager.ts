@@ -4,7 +4,8 @@
         constructor(
             public personCount: number,
             public paragliderPlaneCount: number,
-            public vehicleCount: number
+            public vehicleCount: number,
+            public paratrooperCount: number
         ) {}
     }
 
@@ -37,15 +38,15 @@
             this.peopleOnScreen = [5];
 
             this.rounds = [];
-            this.rounds[0] = new Round(10, 2, 0);
-            this.rounds[1] = new Round(30, 3, 0);
-            this.rounds[2] = new Round(40, 3, 0);
-            this.rounds[3] = new Round(10, 4, 0);
-            this.rounds[4] = new Round(14, 4, 3);
-            this.rounds[5] = new Round(17, 4, 3);
-            this.rounds[6] = new Round(20, 5, 4);
-            this.rounds[7] = new Round(25, 5, 4);
-            this.rounds[8] = new Round(30, 5, 5);
+            this.rounds[0] = new Round(10, 2, 0,2);
+            this.rounds[1] = new Round(30, 3, 0,0);
+            this.rounds[2] = new Round(40, 3, 0,0);
+            this.rounds[3] = new Round(10, 4, 0,0);
+            this.rounds[4] = new Round(14, 4, 3,0);
+            this.rounds[5] = new Round(17, 4, 3,0);
+            this.rounds[6] = new Round(20, 5, 4,0);
+            this.rounds[7] = new Round(25, 5, 4,0);
+            this.rounds[8] = new Round(30, 5, 5,0);
 
             this.roundNumber = 0;
             this.roundIndex = -1;
@@ -133,6 +134,7 @@
         triggerSpawning() {
             this.level.personSpawner.spawn(this.rounds[this.roundIndex].personCount);
             this.level.dropShipSpawner.spawnShips(this.rounds[this.roundIndex].paragliderPlaneCount);
+            this.level.paratrooperSpawner.spawnShips(this.rounds[this.roundIndex].paratrooperCount);
             //this.level.ufoSpawner.spawnShips(this.rounds[this.roundIndex].vehicleCount);
         }
 

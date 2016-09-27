@@ -10,6 +10,7 @@
 
         music: Phaser.Sound;
         helis: Phaser.Group;
+        paratroopers: Phaser.Group;
         enemyBullets: Phaser.Group;
         enemyMissiles: Phaser.Group;
         allPeople: Phaser.Group;
@@ -43,6 +44,7 @@
         dropShipSpawner: HeliSpawner;
         personSpawner: PersonSpawner;
         vehicleSpawner: VehicleSpawner;
+        paratrooperSpawner: ParatrooperSpawner;
 
         //NUMBERS
         backgroundImageWidth: number = 3072;
@@ -74,11 +76,13 @@
             i = this.createEnemyBullets(i);
             i = this.createEnemyMissiles(i);
             i = this.createDropShips(i);
+            i = this.createParaTroopers(i);
 
             //CREATE SPAWNERS
             this.personSpawner = new PersonSpawner(this.game, this);
             this.dropShipSpawner = new HeliSpawner(this.game, this);
             this.vehicleSpawner = new VehicleSpawner(this.game, this);
+            this.paratrooperSpawner = new ParatrooperSpawner(this.game,this);
 
             //CREATE SINGLETONS
             this.gamepadManager = new GamepadManager(this.game, this);
@@ -100,7 +104,7 @@
             this.game.camera.setPosition(this.playerShip.camTarget.x, this.playerShip.camTarget.y);
             this.game.camera.follow(this.playerShip.camTarget, Phaser.Camera.FOLLOW_LOCKON, 0.05);
 
-            this.paraTrooper = new ParaTrooper(this.game, this.game.world.centerX, 0, this);
+            //this.paraTrooper = new ParaTrooper(this.game, this.game.world.centerX, 0, this);
         }        
 
         createBackgrounds() {
@@ -244,7 +248,20 @@
             }, this);
             
             return objStartIndex;
-        }        
+        }    
+
+        createParaTroopers(objStartIndex: number) {
+            this.paratroopers = this.game.add.group();
+            for (var i = 0; i < 30; i++) {
+                this.paratroopers.add(new ParaTrooper(this.game, this));
+            }
+            this.paratroopers.forEach(function (paratrooper) {
+                this.allObjects[objStartIndex] = paratrooper;
+                objStartIndex++;
+            }, this);
+            return objStartIndex;
+        }    
+            
 
         update() {
                                   
