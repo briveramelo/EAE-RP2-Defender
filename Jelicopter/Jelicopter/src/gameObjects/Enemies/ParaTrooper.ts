@@ -41,7 +41,11 @@
 
             this.addChild(this.parachute);
             this.addChild(this.person);
+            game.physics.enable(this);
+            //this.body.setCircle(20);
+            //this.body.gravity.y = 600;
             game.add.existing(this);
+
             this.kill();
         }
         myPosition(): Phaser.Point {
@@ -50,8 +54,9 @@
 
         update() {
             if (this.alive) {
+                this.throwToGround();
                 this.onGround();
-                if (this.position.y < 520) {
+                if (this.position.y < this.floorNumber) {
                     if (this.children.indexOf(this.parachute) > -1)
                         this.position.y += 1;
                     else
@@ -59,6 +64,7 @@
                 }
                 else {
                     if (this.children.indexOf(this.parachute) > -1) {
+                        
                         this.isSafeOnGround = true;
                         this.removeChild(this.parachute);
                         //this.addChild(this.gun);
@@ -70,6 +76,32 @@
                 }
             }
         }
+
+
+        throwToGround() {
+            
+            if ((this.position.y) > this.floorNumber && !this.isBeingHeld) {                
+                this.isFlying = false;
+                if (this.body.velocity.y > this.maxYSpeedBeforeDeath) {
+                    this.kill();
+                    this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Human);
+                }
+                else if ((this.isPausedForFlinging && this.body.velocity.y > 0) || !this.isPausedForFlinging) {
+                    this.position.y = this.floorNumber;
+                    this.body.velocity.x = 0;
+                    this.body.velocity.y = 0;
+                }
+            }
+            else {
+                this.isFlying = true;
+                if (this.isBeingHeld) {
+                    this.body.velocity.y = this.level.playerShip.body.velocity.y;
+                    this.body.velocity.x = this.level.playerShip.body.velocity.x;
+                }
+            }
+        }
+
+
 
         onGround() {
             if (this.isSafeOnGround) {
@@ -147,9 +179,10 @@
             this.level.soundManager.playSound(SoundFX.PersonDeath);          
         }
 
-        getFlung(launchVelocity: Phaser.Point) {
-            this.person.body.velocity.x = launchVelocity.x * this.launchSpeedMultiplier;
-            this.person.body.velocity.y = launchVelocity.y * this.launchSpeedMultiplier;
+        getFlung(launchVelocity: Phaser.Point, paraTrooper: ParaTrooper) {
+            this.body.gravity.y = 600;
+            paraTrooper.body.velocity.x = launchVelocity.x * this.launchSpeedMultiplier;
+            paraTrooper.body.velocity.y = launchVelocity.y * this.launchSpeedMultiplier;
             this.isPausedForFlinging = true;
             this.isBeingHeld = false;
             this.game.time.events.add(Phaser.Timer.SECOND * 1, this.allowForCatching, this);

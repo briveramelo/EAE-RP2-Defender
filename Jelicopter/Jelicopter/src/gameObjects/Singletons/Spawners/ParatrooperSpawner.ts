@@ -13,7 +13,6 @@
         spawnShips(paraTroopersToSpawn: number) {
             for (var i: number = 0; i < paraTroopersToSpawn; i++) {
                 var trooper = this.level.paratroopers.getFirstDead(false);
-                console.debug(trooper);
                 var playerX: number = this.level.playerShip.position.x;
                 trooper.reset(this.game.rnd.between(playerX - this.level.backgroundImageWidth / 2, playerX + this.level.backgroundImageWidth / 2), this.game.rnd.between(this.level.heightOffset, this.level.gameHeight / 2));
                 trooper.comeAlive();

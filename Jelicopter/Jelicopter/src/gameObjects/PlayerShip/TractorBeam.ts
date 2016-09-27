@@ -111,6 +111,13 @@
             this.level.soundManager.playSound(SoundFX.Abduct);
         }
 
+        flingParatrooper() {
+            var launchVelocity: Phaser.Point = new Phaser.Point(this.level.playerShip.body.velocity.x, this.level.playerShip.body.velocity.y);
+            this.paratrooperBeingCarried.getFlung(launchVelocity, this.paratrooperBeingCarried);
+            this.dropParaTrooper();
+        }
+
+
 
         isOverlapping(spriteA, spriteB) {
             var boundsA = spriteA.getBounds();
