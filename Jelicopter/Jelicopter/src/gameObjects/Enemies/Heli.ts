@@ -3,20 +3,22 @@
     export class Heli extends Phaser.Sprite {
 
         constructor(game: Phaser.Game, level: MainGame) {
-            super(game, 0, 0, 'DropShip');
+            super(game, 0, 0, 'Heli');
             this.level = level;
             this.anchor.setTo(0.5);
             this.pivot.set(0, 0);
-            this.animations.add('dropShipFly', [0, 1, 2], 30, true);
+            this.animations.add('heliFly', [0, 1, 2], 30, true);
             game.add.existing(this);
             // Physics
             this.myCollider = new CircleCollider(this, 50, this.positionOffset);
             game.physics.enable(this);
             this.body.setCircle(20);
             this.shipSpeed = new Phaser.Point(this.game.rnd.sign() * 250, 100);
-            this.kill();      
+            this.enemyType = EnemyType.Heli;
+            super.kill();      
         }
 
+        enemyType: EnemyType;
         goStraight: boolean;
         myCollider: CircleCollider;
         level: MainGame;
@@ -35,7 +37,7 @@
 
         update() {
             if (this.alive) {
-                this.animations.play('dropShipFly');
+                this.animations.play('heliFly');
                 this.checkToShoot();
                 this.checkFaceDirection();
             }
@@ -71,6 +73,9 @@
 
         kill(): Phaser.Sprite {
             super.kill();            
+            this.level.heliExplosionManager.particleBurst(this.position);
+            this.level.soundManager.playSound(SoundFX.HeliExplode);
+            this.level.roundManager.checkToRespawn(this.enemyType);
             return this;
         }
 

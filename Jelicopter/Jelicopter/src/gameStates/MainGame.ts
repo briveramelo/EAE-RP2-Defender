@@ -25,7 +25,7 @@
         paraTrooper: ParaTrooper;
 
         //SINGELTONS
-        hospital: Hospital;
+        //hospital: Hospital;
         scoreboard: ScoreBoard;
         pauser: Pauser;
         roundManager: RoundManager;
@@ -68,7 +68,7 @@
             //CREATE OBJECTS
             this.allObjects = [];
             var i:number = 0;
-            i = this.createBuildings(i);
+            //i = this.createBuildings(i);
             i = this.createPlayerShipAndBullets(i);
             i = this.createPeople(i);
             i = this.createEnemyBullets(i);
@@ -98,9 +98,9 @@
             this.game.camera.roundPx = false;
             this.game.renderer.renderSession.roundPixels = false;
             this.game.camera.setPosition(this.playerShip.camTarget.x, this.playerShip.camTarget.y);
-            this.game.camera.follow(this.playerShip.camTarget, Phaser.Camera.FOLLOW_LOCKON, 0.05);
+            this.game.camera.follow(this.playerShip.camTarget, Phaser.Camera.FOLLOW_LOCKON);//, 0.05);
 
-            this.paraTrooper = new ParaTrooper(this.game, this.game.world.centerX, 0, this);
+            //this.paraTrooper = new ParaTrooper(this.game, this.game.world.centerX, 0, this);
         }        
 
         createBackgrounds() {
@@ -150,12 +150,12 @@
             }
         }
 
-        createBuildings(objStartIndex: number) {
-            this.hospital = new Hospital(this.game, this);
-            this.allObjects[objStartIndex] = this.hospital;
-            objStartIndex++;
-            return objStartIndex;
-        }
+        //createBuildings(objStartIndex: number) {
+        //    this.hospital = new Hospital(this.game, this);
+        //    this.allObjects[objStartIndex] = this.hospital;
+        //    objStartIndex++;
+        //    return objStartIndex;
+        //}
         createPlayerShipAndBullets(objStartIndex: number) {
             this.playerBullets = new Bullet(this.game);
             this.playerShip = new Ship(this.game, this, this.world.centerX, this.world.centerY, this.playerBullets);

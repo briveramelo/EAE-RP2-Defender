@@ -29,9 +29,9 @@
                             if (person1.myCollider.isColliding(person2.myCollider)) {
                                 var velDiff: number = new Phaser.Point(person1.body.velocity.x - person2.body.velocity.x, person1.body.velocity.y - person2.body.velocity.y).getMagnitude();
                                 if (velDiff > person1.maxTotalSpeedBeforeDeath) {
+                                    this.level.scoreboard.giveFeedbackOfScore(person1.position, Points.HumanToHuman);
                                     person1.kill();
                                     person2.kill();                                    
-                                    this.level.scoreboard.giveFeedbackOfScore(person1.position, Points.HumanToHuman);
                                 }
                             }
                         }
@@ -40,11 +40,9 @@
 
                     this.level.helis.forEachAlive(function (heli: Heli) {
                         if (heli.myCollider.isColliding(person1.myCollider)) {
+                            this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.HumanToHeli);                            
                             person1.kill();
-                            heli.kill();
-                            this.level.soundManager.playSound(SoundFX.HeliExplode);
-                            this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.HumanToHeli);
-                            this.level.heliExplosionManager.particleBurst(heli.position, "blueShip");
+                            heli.kill();                            
                         }
                     }, this);
 
@@ -63,38 +61,35 @@
 
         checkPlayerBulletOverlaps() {
             this.level.playerBullets.forEachAlive(function (bullet) {
-                if (this.isOverlapping(this.level.paraTrooper.parachute, bullet)) {
-                    //this.level.paraTrooper.kill();
-                    this.level.paraTrooper.removeChild(this.level.paraTrooper.parachute);
-                    bullet.kill();
-                    //break;
-                }
+                //if (this.isOverlapping(this.level.paraTrooper.parachute, bullet)) {
+                //    //this.level.paraTrooper.kill();
+                //    this.level.paraTrooper.removeChild(this.level.paraTrooper.parachute);
+                //    bullet.kill();
+                //    //break;
+                //}
 
-                if (this.level.paraTrooper.children.indexOf(this.level.paraTrooper.parachute) > -1) {
-                    if (this.isOverlapping(this.level.paraTrooper.person, bullet)) {
-                        bullet.kill();
-                        this.level.paraTrooper.kill();
-
-                    }
-                }
+                //if (this.level.paraTrooper.children.indexOf(this.level.paraTrooper.parachute) > -1) {
+                //    if (this.isOverlapping(this.level.paraTrooper.person, bullet)) {
+                //        bullet.kill();
+                //        this.level.paraTrooper.kill();
+                //    }
+                //}
 
                 this.people.forEach(function (person: Person) {
                     if (person.alive) {
                         if (person.myCollider.isColliding(bullet.myCollider)) {
+                            this.level.scoreboard.giveFeedbackOfScore(person.position, Points.Human);
                             person.kill();
                             bullet.kill();
-                            this.level.scoreboard.giveFeedbackOfScore(person.position, Points.Human);
                         }
                     }
                 }, this);
 
                 this.level.helis.forEachAlive(function (heli: Heli) {
                     if (heli.myCollider.isColliding(bullet.myCollider)) {
+                        this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.Heli);                        
                         bullet.kill();
-                        heli.kill();
-                        this.level.soundManager.playSound(SoundFX.HeliExplode);
-                        this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.Heli);
-                        this.level.heliExplosionManager.particleBurst(heli.position, "blueShip");
+                        heli.kill();                        
                     }
                 }, this);                
 

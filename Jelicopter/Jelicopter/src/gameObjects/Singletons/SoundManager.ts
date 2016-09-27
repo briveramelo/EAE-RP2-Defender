@@ -21,7 +21,7 @@
             this.soundLibrary[SoundFX.PersonDeath] = this.game.add.audio('personDeath');
             this.soundLibrary[SoundFX.FireShot] = this.game.add.audio('fireShot');
             this.soundLibrary[SoundFX.Abduct] = this.game.add.audio('abduct');
-            this.soundLibrary[SoundFX.HeliExplode] = this.game.add.audio('dropShipExplode');
+            this.soundLibrary[SoundFX.HeliExplode] = this.game.add.audio('heliExplode');
         }        
 
         playSound(soundFX: SoundFX) {

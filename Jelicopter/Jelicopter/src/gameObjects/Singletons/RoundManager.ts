@@ -1,18 +1,15 @@
-﻿module Jelicopter.Client {
+﻿module Jelicopter.Client {    
 
-    class Round {        
-        constructor(
-            public personCount: number,
-            public paragliderPlaneCount: number,
-            public vehicleCount: number
-        ) {}
+    export enum EnemyType {
+        Heli = 0,
+        Paratrooper = 1,
+        Vehicle =2
     }
 
     export class RoundManager extends Phaser.Sprite {
 
         game: Phaser.Game;
         level: MainGame;
-        rounds: Round[];
         roundNumber: number;
         roundIndex: number;
         roundText;
@@ -21,8 +18,13 @@
         isTransitioningBetweenRounds: boolean;
         people: Phaser.Group;
 
-        helisOnScreen: number[];
-        peopleOnScreen: number[];
+        currentChallengeIndex: number;
+        maxHelisOnScreen: number[];
+        minHelisOnScreen: number[];
+        maxPeopleOnScreen: number[];
+        minPeopleOnScreen: number[];        
+        maxParaTroopersOnScreen: number[];
+        minParaTroopersOnScreen: number[];
 
         constructor(game: Phaser.Game, level: MainGame, people: Phaser.Group) {
             super(game, 0, 0, 'EnemyBullet');
@@ -32,113 +34,50 @@
             game.add.existing(this);
             game.physics.enable(this, Phaser.Physics.ARCADE);
 
+            this.currentChallengeIndex = 0;
+            this.maxHelisOnScreen = [];
+            this.minHelisOnScreen = [];
+            this.maxParaTroopersOnScreen = [];
+            this.minParaTroopersOnScreen = [];
+            this.maxPeopleOnScreen = [];
+            this.minPeopleOnScreen = [];
 
-            this.helisOnScreen = [1, 2, 1, 3, 2, 4, 3, 6, 5, 4, 7, 5, 8, 7];
-            this.peopleOnScreen = [5];
+            for (var i: number = 0; i < 100; i++) {
+                this.maxHelisOnScreen[i] = 1 + Math.ceil(i / 4);
+                this.minHelisOnScreen[i] = 1 + Math.floor(i / 6);
 
-            this.rounds = [];
-            this.rounds[0] = new Round(10, 2, 0);
-            this.rounds[1] = new Round(30, 3, 0);
-            this.rounds[2] = new Round(40, 3, 0);
-            this.rounds[3] = new Round(10, 4, 0);
-            this.rounds[4] = new Round(14, 4, 3);
-            this.rounds[5] = new Round(17, 4, 3);
-            this.rounds[6] = new Round(20, 5, 4);
-            this.rounds[7] = new Round(25, 5, 4);
-            this.rounds[8] = new Round(30, 5, 5);
+                this.maxParaTroopersOnScreen[i] = 0 + Math.ceil(i / 4);
+                this.minParaTroopersOnScreen[i] = 0 + Math.ceil(i / 6);
 
-            this.roundNumber = 0;
-            this.roundIndex = -1;
-
-            this.createRoundText();
-            this.createWaveText();
-        }
-
-        update() {
-            if (this.people.countLiving() == 0 &&
-                this.level.helis.countLiving() == 0 &&
-                !this.level.roundManager.isTransitioningBetweenRounds) {
-
-                this.startNewRound();
+                this.maxPeopleOnScreen[i] = 4 + Math.ceil(i / 8);
+                this.minPeopleOnScreen[i] = 4 + Math.ceil(i / 12);
             }
+            
+            this.level.dropShipSpawner.spawnShips(this.maxHelisOnScreen[0]);
+            this.level.personSpawner.spawn(this.maxPeopleOnScreen[0]);
         }
 
-        createRoundText() {
-            var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-            this.roundText = this.game.add.text(this.game.width/2-55, 200, "Round: 1", style);
-            this.roundText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-            this.roundText.fixedToCamera = true;
-        }
+        checkToRespawn(enemyType: EnemyType) {
+            switch (enemyType) {
+                case EnemyType.Heli:
+                    if (this.level.helis.countLiving() <= this.minHelisOnScreen[this.currentChallengeIndex]) {
+                        this.currentChallengeIndex++;
+                        var numHelisToSpawn = this.maxHelisOnScreen[this.currentChallengeIndex] - this.level.helis.countLiving();
+                        var numPeopleToSpawn = this.maxPeopleOnScreen[this.currentChallengeIndex] - this.level.allPeople.countLiving();
+                        //var numParaTroopersToSpawn = this.maxParaTroopersOnScreen[this.currentChallengeIndex] - this.level.allParaTroopers.countLiving();
+                        this.level.dropShipSpawner.spawnShips(numHelisToSpawn);
+                        this.level.personSpawner.spawn(numPeopleToSpawn);
+                        //this.level.paraTrooperSpawner.spawn(numParaTroopersToSpawn);
+                    }
+                    break;
+                case EnemyType.Paratrooper:
 
-        createWaveText() {
-            var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-            this.waveText = this.game.add.text(this.game.width / 2 - 125, 100, "", style);
-            this.waveText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-            this.waveText.fixedToCamera = true;
-        }
+                    break;
+                case EnemyType.Vehicle:
 
-        displayNewRound() {
-            this.roundText.text = 'Round: ' + this.roundNumber;
-            this.showCount = 0;
-            this.showRound();
-        }
-
-        displayUFOWave() {
-            this.waveText.text = 'INCOMING WAVE';
-            this.showCount = 0;
-            this.showWave();
-        }
-
-        showRound() {
-            var show: boolean = (this.showCount % 2 == 0);
-            var textToShow: string = show ? 'Round: ' + this.roundNumber : '';
-            this.roundText.text = textToShow;
-            var showTime: number = show ? .8 : 0.3;
-            this.showCount++;
-            if (this.showCount <= 7) {
-                this.game.time.events.add(Phaser.Timer.SECOND * showTime, this.showRound, this);
+                    break;
             }
         }        
-
-        showWave() {
-            var show: boolean = (this.showCount % 2 == 0);
-            var textToShow: string = show ? 'INCOMING WAVE': '';
-            this.waveText.text = textToShow;
-            var showTime: number = show ? .8 : 0.3;
-            this.showCount++;
-            if (this.showCount <= 7) {
-                this.game.time.events.add(Phaser.Timer.SECOND * showTime, this.showWave, this);
-            }
-        }
-
-        initiateUFOWave() {
-            this.displayUFOWave();            
-        }
-
-        startNewRound() {
-            this.roundIndex++;
-            this.roundNumber++;
-            if (this.roundIndex >= this.rounds.length) {
-                this.roundIndex = this.rounds.length - 1;
-            }
-
-            this.level.hospital.resetHospital();
-            this.displayNewRound();
-            this.isTransitioningBetweenRounds = true;
-            this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.endRoundTransition, this);
-            //this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.triggerSpawning, this);
-            this.triggerSpawning();
-        }
-
-        triggerSpawning() {
-            this.level.personSpawner.spawn(this.rounds[this.roundIndex].personCount);
-            this.level.dropShipSpawner.spawnShips(this.rounds[this.roundIndex].paragliderPlaneCount);
-            //this.level.ufoSpawner.spawnShips(this.rounds[this.roundIndex].vehicleCount);
-        }
-
-        endRoundTransition() {
-            this.isTransitioningBetweenRounds = false;
-        }
     }
 
 }

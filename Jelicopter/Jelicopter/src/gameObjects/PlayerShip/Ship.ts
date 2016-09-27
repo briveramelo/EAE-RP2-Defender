@@ -38,7 +38,7 @@
             game.add.existing(this);
             game.physics.enable(this, Phaser.Physics.ARCADE);
             this.camTarget = this.game.add.sprite(0, 0, 'invisibleDot');
-            this.camTarget.position.x = this.position.x + (this.isGoingRight ? 1 : -1) * this.camOffset;
+            this.camTarget.position.x = this.position.x;// + (this.isGoingRight ? 1 : -1) * this.camOffset;
             this.camTarget.position.y = this.position.y;
 
 
@@ -67,7 +67,7 @@
                 this.toggleShipSpeed();//for debugging -- take out in release
                 this.isGoingRight = this.scale.x === 1;
 
-                this.camTarget.position.x = this.position.x + (this.isGoingRight ? 1 : -1) * this.camOffset;
+                this.camTarget.position.x = this.position.x;// + (this.isGoingRight ? 1 : -1) * this.camOffset;
                 this.camTarget.position.y = this.position.y;
 
 
@@ -125,8 +125,8 @@
             return this;
         }
 
-        move(isGoingRight:boolean) {
-            this.body.velocity.x = (isGoingRight ? 1 : -1) * this.baseSpeed;
+        move(isGoingRight: boolean) {
+            this.body.velocity.x = (isGoingRight ? 1 : -1) * (this.baseSpeed);
             this.body.velocity.y = 0;            
             
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
@@ -135,13 +135,13 @@
                 this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
 
                 if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-                    this.body.velocity.x = -this.shipSpeed.x;
+                    this.body.velocity.x -= this.shipSpeed.x;
                     if (this.scale.x === 1) {
                         this.scale.x = -1;
                     }
                 }
                 else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-                    this.body.velocity.x = this.shipSpeed.x;
+                    this.body.velocity.x += this.shipSpeed.x;
                     if (this.scale.x === -1) {
                         this.scale.x = 1;
                     }

@@ -11,7 +11,7 @@
 
         game: Phaser.Game;
         level: MainGame;
-        emitterArray_bodyParts;
+        emitterArray_bodyParts: Phaser.Particles.Arcade.Emitter[];
         emitter_blood: Phaser.Particles.Arcade.Emitter;
         emitter_guts: Phaser.Particles.Arcade.Emitter;
 
@@ -29,10 +29,11 @@
                 this.emitterArray_bodyParts[j].makeParticles(bodyPartKey, [0,1,2,3,4,5,6,7,8], 900, true, true);
                 this.emitterArray_bodyParts[j].gravity = 400;
                 this.emitterArray_bodyParts[j].setAlpha(1, 0, 4000);
-                this.emitterArray_bodyParts[j].setScale(.6, .6, 4000, Phaser.Easing.Quintic.Out);
+                this.emitterArray_bodyParts[j].setScale(.6, .6, 0.6, 0.6, 4000, Phaser.Easing.Quintic.Out);
                 this.emitterArray_bodyParts[j].bounce.setTo(.1, .5);
                 this.emitterArray_bodyParts[j].setXSpeed(-500, 500);
                 this.emitterArray_bodyParts[j].setYSpeed(-500, 500);
+                this.emitterArray_bodyParts[j].lifespan = 4000;
                 //this.emitterArray_man1_parts[i].particleAnchor.y = -100;
             }
 
@@ -46,7 +47,7 @@
             this.emitter_blood.setYSpeed(-400, 10);
             // Guts
             this.emitter_guts = game.add.emitter(0, 0, 900);
-            this.emitter_guts.makeParticles('guts', [0, 1, 2], 900, true, true);
+            this.emitter_guts.makeParticles('guts', [0, 1, 2], 30, true, true);
             this.emitter_guts.gravity = 800;
             this.emitter_guts.setAlpha(.8, 0, 4000);
             this.emitter_guts.setScale(1, .9, 1, .9, 4000, Phaser.Easing.Quintic.Out);
@@ -59,7 +60,7 @@
             this.emitterArray_bodyParts[bodyType].x = position.x;
             this.emitterArray_bodyParts[bodyType].y = position.y;
             //this.emitterArray_bodyParts[bodyType].start(true, 6000, null, 9);
-            this.emitterArray_bodyParts[bodyType].lifeSpan = 6000;
+            
             var bodyPartKey: string = PersonType[bodyType] + "_Parts";
             for (var i: number = 0; i < 9; i++){
                 this.emitterArray_bodyParts[bodyType].emitParticle(position.x, position.y, bodyPartKey, i);        

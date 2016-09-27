@@ -17,7 +17,7 @@
             game.add.existing(this);
 
             this.emitter_trail = game.add.emitter(game.world.centerX, game.world.centerY, 200);
-            this.emitter_trail.makeParticles('player-ship-trail', [0, 1], 100, false, true);
+            this.emitter_trail.makeParticles('player-ship-trail', [0, 1], 100, false, false);
             this.emitter_trail.gravity = 0;
             this.emitter_trail.setAlpha(1, 0, 1500);
             this.emitter_trail.setScale(1.8, .1, 1.8, .1, 1500);
