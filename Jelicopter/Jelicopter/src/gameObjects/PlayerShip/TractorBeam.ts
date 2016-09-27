@@ -7,7 +7,8 @@
         people: Phaser.Group;
 
         isCarryingPerson: boolean = false;
-        personBeingCarried:Person;
+        personBeingCarried: Person;
+        paratrooperBeingCarried: ParaTrooper;
 
         constructor(game: Phaser.Game, level: MainGame, people: Phaser.Group) {
             super(game, 0, 0, 'EnemyBullet');
@@ -24,12 +25,22 @@
                     this.checkToCollectPeople();
                 }
                 else {
-                    if (this.personBeingCarried.alive) {
-                        this.carryPerson();                        
+                    if (this.personBeingCarried != null) {
+                        if (this.personBeingCarried.alive)
+                            this.carryPerson(); 
+                        else {
+                            this.dropPerson();
+                        }                       
                     }
-                    else {
-                        this.dropPerson();
+
+                    if (this.paratrooperBeingCarried != null) {
+                        if (this.paratrooperBeingCarried.alive)
+                            this.carryParaTrooper();
+                        else {
+                            this.dropParaTrooper();
+                        }
                     }
+                   
                 }
             }            
         }
@@ -40,6 +51,15 @@
                 if (person.alive && !person.isPausedForFlinging && !this.isCarryingPerson) {
                     if (person.myCollider.isColliding(this.level.playerShip.myCollider)) {
                         this.collectPerson(person);                        
+                    }
+                }
+                i++;
+            }, this);
+            i = 0;
+            this.level.paratroopers.forEach(function (paratrooper: ParaTrooper) {
+                if (paratrooper.alive && !paratrooper.isPausedForFlinging && !this.isCarryingPerson) {
+                    if (this.isOverlapping(paratrooper, this.level.playerShip)) {
+                        this.collectParaTrooper(paratrooper);
                     }
                 }
                 i++;
@@ -68,6 +88,26 @@
             this.personBeingCarried = person;
             this.isCarryingPerson = true;
             person.getGrabbed();
+            this.level.soundManager.playSound(SoundFX.Abduct);
+        }
+
+        collectParaTrooper(paratrooper: ParaTrooper) {
+            paratrooper.removeChild(paratrooper.parachute);
+            this.paratrooperBeingCarried = paratrooper;
+            this.isCarryingPerson = true;
+            paratrooper.getGrabbed();
+            this.level.soundManager.playSound(SoundFX.Abduct);
+        }
+
+        carryParaTrooper() {
+            var xOffset: number = (this.level.playerShip.scale.x === 1 ? -1 : 1) * 30;
+            this.paratrooperBeingCarried.position.x = this.level.playerShip.position.x + xOffset;
+            this.paratrooperBeingCarried.position.y = this.level.playerShip.position.y + 50;
+        }
+
+        dropParaTrooper() {
+            this.isCarryingPerson = false;
+            this.paratrooperBeingCarried = null;
             this.level.soundManager.playSound(SoundFX.Abduct);
         }
 
