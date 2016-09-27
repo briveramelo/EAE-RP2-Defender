@@ -40,6 +40,7 @@
   <ItemGroup />
   <ItemGroup>
     <TypeScriptCompile Include="src\Components\collider.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Enemies\Heli.ts" />
     <TypeScriptCompile Include="src\gameObjects\Enemies\ParaTrooper.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\ParticleManagers\HeliExplosionManager.ts" />
     <TypeScriptCompile Include="src\game.ts" />
@@ -57,9 +58,9 @@
     <TypeScriptCompile Include="src\gameObjects\Singletons\Scoreboard.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\ParticleManagers\ShipTrailManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\SoundManager.ts" />
-    <TypeScriptCompile Include="src\gameObjects\Enemies\Heli.ts" />
     <TypeScriptCompile Include="src\gameObjects\PlayerShip\Ship.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\HeliSpawner.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\ParatrooperSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\PersonSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\VehicleSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\WrapManager.ts" />

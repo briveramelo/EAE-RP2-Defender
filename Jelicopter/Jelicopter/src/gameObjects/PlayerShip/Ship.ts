@@ -86,6 +86,9 @@
                 if (this.level.tractorBeam.personBeingCarried != null) {
                     this.level.tractorBeam.flingPerson();
                 }
+                else if (this.level.tractorBeam.paratrooperBeingCarried != null) {
+                    this.level.tractorBeam.flingParatrooper();
+                }
                 else {
                     this.fireBullet();
                 }

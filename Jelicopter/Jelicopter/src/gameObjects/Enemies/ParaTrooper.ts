@@ -8,15 +8,26 @@
         parachute;
         parachuteCollider: CircleCollider;
         personCollider: CircleCollider;
-        gun;
         isSafeOnGround: boolean = false;
+        isOnParachute: boolean = true;
         positionOffset: Phaser.Point = new Phaser.Point(-64, -64);
         missileTimerAllowsShooting: boolean = true;
         maxMissileShootDistance: number = 900;
         timeToShootMissile: number = 3;
+        floorNumber: number = 515;
 
-        constructor(game: Phaser.Game, x: number, y: number, level: MainGame) {
-            super(game, x, y, null, 0);
+        isPausedForFlinging: boolean;
+        launchSpeedMultiplier: number = 1.75;
+        isBeingHeld: boolean;
+        runSpeed: number;
+        myCollider;
+
+        maxYSpeedBeforeDeath: number = 500;
+        maxTotalSpeedBeforeDeath: number = 599;
+        isFlying: boolean;
+
+        constructor(game: Phaser.Game, level: MainGame) {
+            super(game, 0, 0, null, 0);
             this.level = level;
             this.anchor.setTo(0.5);
             this.pivot.set(0, 0);
@@ -29,10 +40,15 @@
             this.parachute = this.game.add.sprite(10, -40, 'Parachute');
             this.parachute.anchor.setTo(0.5);
             this.parachute.pivot.set(0, 0);
-
+            this.myCollider = new CircleCollider(this, 50, new Phaser.Point(0, 0));
             this.addChild(this.parachute);
             this.addChild(this.person);
+            game.physics.enable(this);
+            //this.body.setCircle(20);
+            //this.body.gravity.y = 600;
             game.add.existing(this);
+
+            this.kill();
         }
         myPosition(): Phaser.Point {
             return new Phaser.Point(this.position.x - 64, this.position.y - 64);
@@ -40,15 +56,21 @@
 
         update() {
             if (this.alive) {
+                this.throwToGround();
                 this.onGround();
-                if (this.position.y < 520) {
-                    if (this.children.indexOf(this.parachute) > -1)
+                if (this.position.y < this.floorNumber) {
+                    if (this.children.indexOf(this.parachute) > -1) {
                         this.position.y += 1;
-                    else
+                        this.isOnParachute = true;
+                    }
+                    else {
                         this.position.y += 8;
+                        this.isOnParachute = false;
+                    }
                 }
                 else {
                     if (this.children.indexOf(this.parachute) > -1) {
+                        
                         this.isSafeOnGround = true;
                         this.removeChild(this.parachute);
                         //this.addChild(this.gun);
@@ -60,6 +82,32 @@
                 }
             }
         }
+
+
+        throwToGround() {
+            
+            if ((this.position.y) > this.floorNumber && !this.isBeingHeld) {                
+                this.isFlying = false;
+                if (this.body.velocity.y > this.maxYSpeedBeforeDeath) {
+                    this.kill();
+                    this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Human);
+                }
+                else if ((this.isPausedForFlinging && this.body.velocity.y > 0) || !this.isPausedForFlinging) {
+                    this.position.y = this.floorNumber;
+                    this.body.velocity.x = 0;
+                    this.body.velocity.y = 0;
+                }
+            }
+            else {
+                this.isFlying = true;
+                if (this.isBeingHeld) {
+                    this.body.velocity.y = this.level.playerShip.body.velocity.y;
+                    this.body.velocity.x = this.level.playerShip.body.velocity.x;
+                }
+            }
+        }
+
+
 
         onGround() {
             if (this.isSafeOnGround) {
@@ -115,8 +163,8 @@
         }
 
         kill() {
-            this.level.peopleExplosionManager.explodeBody(this.position, PersonType.Male1);
-            this.level.soundManager.playSound(SoundFX.PersonDeath);          
+            //this.level.peopleExplosionManager.explodeBody(this.position, PersonType.Male1);
+            //this.level.soundManager.playSound(SoundFX.PersonDeath);          
 
             super.kill();
 
@@ -132,7 +180,41 @@
             this.missileTimerAllowsShooting = true;
         }
 
+        animateAndSound() {
+            this.level.peopleExplosionManager.explodeBody(this.position, PersonType.Male1);
+            this.level.soundManager.playSound(SoundFX.PersonDeath);          
+        }
 
+        getFlung(launchVelocity: Phaser.Point, paraTrooper: ParaTrooper) {
+            this.body.gravity.y = 600;
+            paraTrooper.body.velocity.x = launchVelocity.x * this.launchSpeedMultiplier;
+            paraTrooper.body.velocity.y = launchVelocity.y * this.launchSpeedMultiplier;
+            this.isPausedForFlinging = true;
+            this.isBeingHeld = false;
+            this.game.time.events.add(Phaser.Timer.SECOND * 1, this.allowForCatching, this);
+        }
+
+        allowForCatching() {
+            this.isPausedForFlinging = false;
+        }
+
+        getGrabbed() {
+            this.isBeingHeld = true;
+        }
+
+        comeAlive(startPosition: Phaser.Point): void {
+            this.revive();
+            //this.body.velocity.x = 0;
+            //this.body.velocity.y = 0;
+            //this.position.x = startPosition.x;
+            //this.position.y = startPosition.y;
+            //this.body.velocity.x = this.runSpeed;
+           // this.timerAllowsShooting = true;
+            //this.setPositionOfTrooper();
+            //this.alternateUpDown();
+        }
+
+       
 
     }
 }

@@ -4,6 +4,7 @@
         Heli = 0,
         Paratrooper = 1,
         Vehicle =2
+
     }
 
     export class RoundManager extends Phaser.Sprite {
@@ -46,8 +47,9 @@
                 this.maxHelisOnScreen[i] = 1 + Math.ceil(i / 4);
                 this.minHelisOnScreen[i] = 1 + Math.floor(i / 6);
 
-                this.maxParaTroopersOnScreen[i] = 0 + Math.ceil(i / 4);
-                this.minParaTroopersOnScreen[i] = 0 + Math.ceil(i / 6);
+                this.maxParaTroopersOnScreen[i] = 1 + Math.ceil(i / 4);
+                this.minParaTroopersOnScreen[i] = 1 + Math.ceil(i / 6);
+
 
                 this.maxPeopleOnScreen[i] = 4 + Math.ceil(i / 8);
                 this.minPeopleOnScreen[i] = 4 + Math.ceil(i / 12);
@@ -55,6 +57,7 @@
             
             this.level.dropShipSpawner.spawnShips(this.maxHelisOnScreen[0]);
             this.level.personSpawner.spawn(this.maxPeopleOnScreen[0]);
+            //this.level.paratrooperSpawner.spawnShips(this.maxPeopleOnScreen[0]);
         }
 
         checkToRespawn(enemyType: EnemyType) {
@@ -64,9 +67,10 @@
                         this.currentChallengeIndex++;
                         var numHelisToSpawn = this.maxHelisOnScreen[this.currentChallengeIndex] - this.level.helis.countLiving();
                         var numPeopleToSpawn = this.maxPeopleOnScreen[this.currentChallengeIndex] - this.level.allPeople.countLiving();
-                        //var numParaTroopersToSpawn = this.maxParaTroopersOnScreen[this.currentChallengeIndex] - this.level.allParaTroopers.countLiving();
+                        var numParaTroopersToSpawn = this.maxParaTroopersOnScreen[this.currentChallengeIndex] - this.level.paratroopers.countLiving();
                         this.level.dropShipSpawner.spawnShips(numHelisToSpawn);
                         this.level.personSpawner.spawn(numPeopleToSpawn);
+                        //this.level.paratrooperSpawner.spawnShips(numParaTroopersToSpawn);
                         //this.level.paraTrooperSpawner.spawn(numParaTroopersToSpawn);
                     }
                     break;

@@ -19,6 +19,35 @@
             this.checkHumanHumanOverlaps();
             this.checkPlayerBulletOverlaps();
             this.checkEnemyBulletOverlaps();
+            this.checkParaTrooperOverlaps();
+        }
+
+        checkParaTrooperOverlaps() {
+            this.level.paratroopers.forEachAlive(function (paratrooper: ParaTrooper) {
+                if (!paratrooper.isOnParachute) { 
+                this.people.forEach(function (person2: Person) {
+                    if (person2.alive && !paratrooper.isBeingHeld) {
+                            if (this.isOverlapping(paratrooper, person2)) {
+                                var velDiff: number = new Phaser.Point(paratrooper.body.velocity.x - person2.body.velocity.x, paratrooper.body.velocity.y - person2.body.velocity.y).getMagnitude();
+                                if (velDiff > paratrooper.maxTotalSpeedBeforeDeath) {
+                                    paratrooper.kill();
+                                    person2.kill();
+                                    this.level.scoreboard.giveFeedbackOfScore(paratrooper.position, Points.HumanToHuman);
+                                }
+                            }
+                        }
+                    }, this);
+                this.level.helis.forEachAlive(function (heli: Heli) {
+                    if (heli.myCollider.isColliding(paratrooper.myCollider) && !paratrooper.isBeingHeld) {
+                            paratrooper.kill();
+                            heli.kill();
+                            this.level.soundManager.playSound(SoundFX.HeliExplode);
+                            this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.HumanToHeli);
+                            this.level.heliExplosionManager.particleBurst(heli.position, "blueShip");
+                        }
+                    }, this); 
+                }
+            }, this);       
         }
 
         checkHumanHumanOverlaps() {
@@ -44,10 +73,14 @@
                             person1.kill();
                             heli.kill();                            
                         }
-                    }, this);
+                    }, this);                   
 
                 }
             }, this);
+
+           
+
+
         }
 
         checkEnemyBulletOverlaps() {
@@ -61,19 +94,30 @@
 
         checkPlayerBulletOverlaps() {
             this.level.playerBullets.forEachAlive(function (bullet) {
-                //if (this.isOverlapping(this.level.paraTrooper.parachute, bullet)) {
-                //    //this.level.paraTrooper.kill();
-                //    this.level.paraTrooper.removeChild(this.level.paraTrooper.parachute);
-                //    bullet.kill();
-                //    //break;
-                //}
 
-                //if (this.level.paraTrooper.children.indexOf(this.level.paraTrooper.parachute) > -1) {
-                //    if (this.isOverlapping(this.level.paraTrooper.person, bullet)) {
-                //        bullet.kill();
-                //        this.level.paraTrooper.kill();
-                //    }
-                //}
+
+                this.level.paratroopers.forEachAlive(function (paratrooper: ParaTrooper) {
+                    if (this.isOverlapping(paratrooper.parachute, bullet)) {
+                        paratrooper.removeChild(paratrooper.parachute);
+                        bullet.kill();
+                    }
+
+                    if (paratrooper.children.indexOf(paratrooper.parachute) > -1) {
+                        if (this.isOverlapping(paratrooper.person, bullet)) {
+                            bullet.kill();
+                            paratrooper.kill();
+                            paratrooper.animateAndSound();
+                        }
+                    }
+
+                    if (paratrooper.isSafeOnGround) {
+                        if (this.isOverlapping(paratrooper.person, bullet)) {
+                            bullet.kill();
+                            paratrooper.kill();
+                            paratrooper.animateAndSound();
+                        }
+                    }
+                }, this);
 
                 this.people.forEach(function (person: Person) {
                     if (person.alive) {
