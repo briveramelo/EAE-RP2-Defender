@@ -90,10 +90,8 @@
                     }
                 }
                 else {
-                    if (this.children.indexOf(this.parachute) > -1) {
-                        
+                    if (this.children.indexOf(this.parachute) > -1) {                        
                         this.land();
-                        //this.addChild(this.gun);
                     }
                     else if (!this.isSafeOnGround) {                        
                         this.kill();
@@ -106,7 +104,6 @@
             this.isSafeOnGround = true;
             this.removeChild(this.parachute);
         }
-
 
         throwToGround() {
             
@@ -221,14 +218,16 @@
 
         comeAlive(startPosition: Phaser.Point): void {
             this.revive();
-            //this.body.velocity.x = 0;
-            //this.body.velocity.y = 0;
-            //this.position.x = startPosition.x;
-            //this.position.y = startPosition.y;
-            //this.body.velocity.x = this.runSpeed;
-           // this.timerAllowsShooting = true;
-            //this.setPositionOfTrooper();
-            //this.alternateUpDown();
+
+            //Reset all values
+            this.removeChild(this.person);
+            this.body.gravity.y = 0;
+            this.addChild(this.parachute);
+            this.addChild(this.person);
+
+            this.isSafeOnGround = false;
+            this.isOnParachute = true;
+          
         }
 
        

@@ -58,6 +58,7 @@
             this.level.heliSpawner.spawn(this.maxHelisOnScreen[0]);
             this.level.personSpawner.spawn(this.maxPeopleOnScreen[0]);
             this.level.paratrooperSpawner.spawn(this.maxPeopleOnScreen[0]);
+
         }
 
         checkToRespawn(enemyType: EnemyType) {
@@ -73,6 +74,7 @@
                         this.level.heliSpawner.spawn(numHelisToSpawn);
                         this.level.personSpawner.spawn(numPeopleToSpawn);
                         this.level.paratrooperSpawner.spawn(numParaTroopersToSpawn);
+
                     }
                     break;
                 case EnemyType.Paratrooper:
