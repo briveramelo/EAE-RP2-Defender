@@ -74,6 +74,8 @@
             this.load.atlasJSONHash('Male2', './assets/sprites/People/Male2.png', './assets/sprites/People/Male2.json');
             this.load.atlasJSONHash('Female1', './assets/sprites/People/Female1.png', './assets/sprites/People/Female1.json');
             this.load.atlasJSONHash('Female2', './assets/sprites/People/Female2.png', './assets/sprites/People/Female2.json');
+            this.load.spritesheet('Bob', './assets/sprites/People/bob.png', 128, 128);
+            this.load.image('Parachute', './assets/sprites/People/parachute.png');
 
             // Hospital
             this.load.atlasJSONHash('Hospital', './assets/sprites/Buildings/safe_place.png', './assets/sprites/Buildings/safe_place.json');

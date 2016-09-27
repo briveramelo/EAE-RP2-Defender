@@ -63,6 +63,21 @@
 
         checkPlayerBulletOverlaps() {
             this.level.playerBullets.forEachAlive(function (bullet) {
+                if (this.isOverlapping(this.level.paraTrooper.parachute, bullet)) {
+                    //this.level.paraTrooper.kill();
+                    this.level.paraTrooper.removeChild(this.level.paraTrooper.parachute);
+                    bullet.kill();
+                    //break;
+                }
+
+                if (this.level.paraTrooper.children.indexOf(this.level.paraTrooper.parachute) > -1) {
+                    if (this.isOverlapping(this.level.paraTrooper.person, bullet)) {
+                        bullet.kill();
+                        this.level.paraTrooper.kill();
+
+                    }
+                }
+
                 this.people.forEach(function (person: Person) {
                     if (person.alive) {
                         if (person.myCollider.isColliding(bullet.myCollider)) {

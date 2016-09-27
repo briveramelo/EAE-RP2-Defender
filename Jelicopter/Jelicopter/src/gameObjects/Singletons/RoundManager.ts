@@ -21,6 +21,9 @@
         isTransitioningBetweenRounds: boolean;
         people: Phaser.Group;
 
+        helisOnScreen: number[];
+        peopleOnScreen: number[];
+
         constructor(game: Phaser.Game, level: MainGame, people: Phaser.Group) {
             super(game, 0, 0, 'EnemyBullet');
             this.game = game;
@@ -28,6 +31,10 @@
             this.people = people;
             game.add.existing(this);
             game.physics.enable(this, Phaser.Physics.ARCADE);
+
+
+            this.helisOnScreen = [1, 2, 1, 3, 2, 4, 3, 6, 5, 4, 7, 5, 8, 7];
+            this.peopleOnScreen = [5];
 
             this.rounds = [];
             this.rounds[0] = new Round(10, 2, 0);
