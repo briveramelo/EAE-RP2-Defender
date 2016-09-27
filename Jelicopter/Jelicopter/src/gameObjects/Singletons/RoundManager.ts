@@ -57,7 +57,7 @@
             
             this.level.dropShipSpawner.spawnShips(this.maxHelisOnScreen[0]);
             this.level.personSpawner.spawn(this.maxPeopleOnScreen[0]);
-            //this.level.paratrooperSpawner.spawnShips(this.maxPeopleOnScreen[0]);
+            this.level.paratrooperSpawner.spawnShips(this.maxPeopleOnScreen[0]);
         }
 
         checkToRespawn(enemyType: EnemyType) {
@@ -70,7 +70,7 @@
                         var numParaTroopersToSpawn = this.maxParaTroopersOnScreen[this.currentChallengeIndex] - this.level.paratroopers.countLiving();
                         this.level.dropShipSpawner.spawnShips(numHelisToSpawn);
                         this.level.personSpawner.spawn(numPeopleToSpawn);
-                        //this.level.paratrooperSpawner.spawnShips(numParaTroopersToSpawn);
+                        this.level.paratrooperSpawner.spawnShips(numParaTroopersToSpawn);
                         //this.level.paraTrooperSpawner.spawn(numParaTroopersToSpawn);
                     }
                     break;

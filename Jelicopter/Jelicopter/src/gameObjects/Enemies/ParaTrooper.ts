@@ -56,10 +56,32 @@
 
         update() {
             if (this.alive) {
-                this.throwToGround();
+                if ((this.position.y) > this.floorNumber && !this.isBeingHeld) {
+                    this.isFlying = false;
+                    if (this.body.velocity.y > this.maxYSpeedBeforeDeath) {
+                        this.kill();
+                        this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Human);
+                    }
+                    else if ((this.isPausedForFlinging && this.body.velocity.y > 0) || !this.isPausedForFlinging) {
+                        this.position.y = this.floorNumber;
+                        this.body.velocity.x = 0;
+                        this.body.velocity.y = 0;
+                    }
+                }
+                else {
+                    this.isFlying = true;
+                    if (this.isBeingHeld) {
+                        this.body.velocity.y = this.level.playerShip.body.velocity.y;
+                        this.body.velocity.x = this.level.playerShip.body.velocity.x;
+                    }
+                }
+
+
                 this.onGround();
+
                 if (this.position.y < this.floorNumber) {
                     if (this.children.indexOf(this.parachute) > -1) {
+                        console.debug("how?");
                         this.position.y += 1;
                         this.isOnParachute = true;
                     }
@@ -84,31 +106,6 @@
         }
 
 
-        throwToGround() {
-            
-            if ((this.position.y) > this.floorNumber && !this.isBeingHeld) {                
-                this.isFlying = false;
-                if (this.body.velocity.y > this.maxYSpeedBeforeDeath) {
-                    this.kill();
-                    this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Human);
-                }
-                else if ((this.isPausedForFlinging && this.body.velocity.y > 0) || !this.isPausedForFlinging) {
-                    this.position.y = this.floorNumber;
-                    this.body.velocity.x = 0;
-                    this.body.velocity.y = 0;
-                }
-            }
-            else {
-                this.isFlying = true;
-                if (this.isBeingHeld) {
-                    this.body.velocity.y = this.level.playerShip.body.velocity.y;
-                    this.body.velocity.x = this.level.playerShip.body.velocity.x;
-                }
-            }
-        }
-
-
-
         onGround() {
             if (this.isSafeOnGround) {
 
@@ -131,7 +128,7 @@
 
         checkToShoot(): void {
             if (this.level.playerShip.alive) {
-                if (this.myPosition().distance(this.level.playerShip.myPosition()) < this.maxMissileShootDistance && this.missileTimerAllowsShooting) {
+                if (this.myPosition().distance(this.level.playerShip.myPosition()) < this.maxMissileShootDistance && this.missileTimerAllowsShooting && !this.isBeingHeld) {
                     this.shootMissile();
                 }
             }
@@ -204,14 +201,16 @@
 
         comeAlive(startPosition: Phaser.Point): void {
             this.revive();
-            //this.body.velocity.x = 0;
-            //this.body.velocity.y = 0;
-            //this.position.x = startPosition.x;
-            //this.position.y = startPosition.y;
-            //this.body.velocity.x = this.runSpeed;
-           // this.timerAllowsShooting = true;
-            //this.setPositionOfTrooper();
-            //this.alternateUpDown();
+
+            //Reset all values
+            this.removeChild(this.person);
+            this.body.gravity.y = 0;
+            this.addChild(this.parachute);
+            this.addChild(this.person);
+
+            this.isSafeOnGround = false;
+            this.isOnParachute = true;
+          
         }
 
        
