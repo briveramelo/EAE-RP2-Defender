@@ -111,6 +111,9 @@
         startNewRound() {
             this.roundIndex++;
             this.roundNumber++;
+            if (this.roundIndex >= this.rounds.length) {
+                this.roundIndex = this.rounds.length - 1;
+            }
 
             this.level.hospital.resetHospital();
             this.displayNewRound();
