@@ -18,34 +18,47 @@
         update() {            
             this.checkHumanHumanOverlaps();
             this.checkPlayerBulletOverlaps();
+            this.checkEnemyBulletOverlaps();
         }
 
         checkHumanHumanOverlaps() {
             this.people.forEach(function (person1: Person) {
-                if (person1.alive && person1.isFlying) {
+                if (person1.alive && person1.isFlying && !person1.isBeingHeld) {
                     this.people.forEach(function (person2: Person) {
                         if (person2.alive) {
                             if (person1.myCollider.isColliding(person2.myCollider)) {
                                 var velDiff: number = new Phaser.Point(person1.body.velocity.x - person2.body.velocity.x, person1.body.velocity.y - person2.body.velocity.y).getMagnitude();
                                 if (velDiff > person1.maxTotalSpeedBeforeDeath) {
-                                    person1.kill(Points.HumanToHuman);
-                                    this.level.scoreboard.giveFeedbackOfScore(person1.position, 1);
+                                    person1.kill();
                                     person2.kill();                                    
+                                    this.level.scoreboard.giveFeedbackOfScore(person1.position, Points.HumanToHuman);
                                 }
                             }
                         }
                     }, this);
+
+
+                    this.level.dropShips.forEachAlive(function (dropShip: DropShip) {
+                        if (dropShip.myCollider.isColliding(person1.myCollider)) {
+                            person1.kill();
+                            dropShip.kill();
+                            this.level.soundManager.playSound(SoundFX.DropShipExplode);
+                            this.level.scoreboard.giveFeedbackOfScore(dropShip.position, Points.HumanToPPlane);
+                            this.level.dropShipExplosionManager.particleBurst(dropShip.position, "blueShip");
+                        }
+                    }, this);
+
                 }
             }, this);
         }
 
-        checkEnemyMissileOverlaps() {
-            this.level.enemyMissiles.forEachAlive(function (missile) {                
-                if (this.isOverlapping(missile, this.level.hospital)) {
-                    this.level.hospital.takeDamage();
-                    missile.kill();
+        checkEnemyBulletOverlaps() {
+            this.level.enemyBullets.forEachAlive(function (bullet) {
+                if (this.level.playerShip.alive && this.level.playerShip.myCollider.isColliding(bullet.myCollider)) {
+                    this.level.playerShip.takeDamage();
+                    bullet.kill();
                 }                
-            }, this);      
+            }, this);
         }
 
         checkPlayerBulletOverlaps() {
@@ -53,32 +66,22 @@
                 this.people.forEach(function (person: Person) {
                     if (person.alive) {
                         if (person.myCollider.isColliding(bullet.myCollider)) {
-                            person.kill(Points.Human);
-                            this.level.scoreboard.giveFeedbackOfScore(person.position, 0);
+                            person.kill();
                             bullet.kill();
+                            this.level.scoreboard.giveFeedbackOfScore(person.position, Points.Human);
                         }
                     }
                 }, this);
 
-                this.level.ufos.forEachAlive(function (ufo: UFO) {
-                    if (ufo.myCollider.isColliding(bullet.myCollider)) {
-                        this.level.scoreboard.updateScore(30);
+                this.level.dropShips.forEachAlive(function (dropShip: DropShip) {
+                    if (dropShip.myCollider.isColliding(bullet.myCollider)) {
                         bullet.kill();
-                        ufo.kill();
-                        this.level.scoreboard.giveFeedbackOfScore(ufo.position, 3);
-                        this.level.explosionManager.particleBurst(ufo.position, "blueShip");
+                        dropShip.kill();
+                        this.level.soundManager.playSound(SoundFX.DropShipExplode);
+                        this.level.scoreboard.giveFeedbackOfScore(dropShip.position, Points.PPlane);
+                        this.level.dropShipExplosionManager.particleBurst(dropShip.position, "blueShip");
                     }
-                }, this);
-
-                this.level.bomberUFOs.forEachAlive(function (bomberUFO: UFO) {
-                    if (bomberUFO.myCollider.isColliding(bullet.myCollider)) {
-                        bullet.kill();
-                        bomberUFO.kill();
-                        this.level.scoreboard.updateScore(50);
-                        this.level.scoreboard.giveFeedbackOfScore(bomberUFO.position, 2);
-                        this.level.explosionManager.particleBurst(bomberUFO.position, "slimeShip");
-                    }
-                }, this);
+                }, this);                
 
             }, this);
         }

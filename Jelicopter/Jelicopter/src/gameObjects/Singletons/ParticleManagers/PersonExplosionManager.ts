@@ -41,7 +41,7 @@
             this.emitter_blood.makeParticles('blood', 1, 900, true, true);
             this.emitter_blood.gravity = 700;
             this.emitter_blood.setAlpha(1, 0, 4000);
-            this.emitter_blood.setScale(.08, .1, .08, .1, 3500, Phaser.Easing.Quintic.Out);
+            this.emitter_blood.setScale(.08, .1, .08, .1, 4000, Phaser.Easing.Quintic.Out);
             this.emitter_blood.setXSpeed(-30, 30);
             this.emitter_blood.setYSpeed(-400, 10);
             // Guts
@@ -75,8 +75,8 @@
             //  The third is ignored when using burst/explode mode
             //  The final parameter (10) is how many particles will be emitted in this single burst
 
-            this.emitter_guts.start(true, 6000, null, 3);
-            this.emitter_blood.start(true, 6000, null, 150);
+            this.emitter_guts.start(true, 4000, null, 3);
+            this.emitter_blood.start(true, 4000, null, 150);
         }
 
     }

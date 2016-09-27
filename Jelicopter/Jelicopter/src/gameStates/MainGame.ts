@@ -9,8 +9,7 @@
         allBackgrounds: Phaser.Group;
 
         music: Phaser.Sound;
-        ufos: Phaser.Group;
-        bomberUFOs: Phaser.Group;
+        dropShips: Phaser.Group;
         enemyBullets: Phaser.Group;
         enemyMissiles: Phaser.Group;
         allPeople: Phaser.Group;
@@ -32,15 +31,14 @@
         wrapManager: WrapManager;
         overlapManager: OverlapManager;
         gamepadManager: GamepadManager;
-        explosionManager: ExplosionManager;
+        dropShipExplosionManager: DropShipExplosionManager;
         peopleExplosionManager: PeopleExplosionManager;
         shipTrailManager: ShipTrailManager;
         soundManager: SoundManager;
         laserManager: LaserManager;
 
         //SPAWNERS
-        ufoSpawner: ParagliderPlaneSpawner;
-        bomberUFOSpawner: BomberUFOSpawner;
+        dropShipSpawner: ParagliderPlaneSpawner;
         personSpawner: PersonSpawner;
         vehicleSpawner: VehicleSpawner;
 
@@ -73,14 +71,11 @@
             i = this.createPeople(i);
             i = this.createEnemyBullets(i);
             i = this.createEnemyMissiles(i);
-            i = this.createUFOs(i);
-            i = this.createBomberUFOs(i);
+            i = this.createDropShips(i);
 
             //CREATE SPAWNERS
-            console.log(this.male1People);
             this.personSpawner = new PersonSpawner(this.game, this);
-            this.ufoSpawner = new ParagliderPlaneSpawner(this.game, this);
-            this.bomberUFOSpawner = new BomberUFOSpawner(this.game, this);
+            this.dropShipSpawner = new ParagliderPlaneSpawner(this.game, this);
             this.vehicleSpawner = new VehicleSpawner(this.game, this);
 
             //CREATE SINGLETONS
@@ -90,7 +85,7 @@
             this.wrapManager = new WrapManager(this.game, this);
             this.overlapManager = new OverlapManager(this.game, this, this.allPeople);
             this.roundManager = new RoundManager(this.game, this, this.allPeople);
-            this.explosionManager = new ExplosionManager(this.game, this);
+            this.dropShipExplosionManager = new DropShipExplosionManager(this.game, this);
             this.peopleExplosionManager = new PeopleExplosionManager(this.game, this);
             this.shipTrailManager = new ShipTrailManager(this.game, this);
             this.soundManager = new SoundManager(this.game);
@@ -180,7 +175,6 @@
                 this.male1People.add(person);
                 this.allPeople.add(person);
             }
-            console.log(this.male1People);
             for (var i = 0; i < 30; i++) {
                 var person = new Person(this.game, this.playerShip, this, PersonType.Male2);
                 this.male2People.add(person);
@@ -235,30 +229,18 @@
         }
 
 
-        createUFOs(objStartIndex: number) {
-            this.ufos = this.game.add.group();
+        createDropShips(objStartIndex: number) {
+            this.dropShips = this.game.add.group();
             for (var i = 0; i < 30; i++){
-                this.ufos.add(new UFO(this.game, this));
+                this.dropShips.add(new DropShip(this.game, this));
             }
-            this.ufos.forEach(function (ufo) {
+            this.dropShips.forEach(function (ufo) {
                 this.allObjects[objStartIndex] = ufo;
                 objStartIndex++;
             }, this);
             
             return objStartIndex;
-        }
-
-        createBomberUFOs(objStartIndex: number) {
-            this.bomberUFOs = this.game.add.group();
-            for (var i = 0; i < 30; i++) {
-                this.bomberUFOs.add(new BomberUFO(this.game, this));
-            }
-            this.bomberUFOs.forEach(function (bomberUFO) {
-                this.allObjects[objStartIndex] = bomberUFO;
-                objStartIndex++;
-            }, this);
-            return objStartIndex;
-        }
+        }        
 
         update() {
                                   

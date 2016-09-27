@@ -1,0 +1,36 @@
+{"frames": [
+
+{
+	"filename": "sprite_0.png",
+	"frame": {"x":0,"y":0,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "sprite_1.png",
+	"frame": {"x":128,"y":0,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "sprite_2.png",
+	"frame": {"x":256,"y":0,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "Drop ship.png",
+	"format": "RGBA8888",
+	"size": {"w":384,"h":128},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:23039fec37f8a83704780a7cd30c9ea0:18c62b1f846b57ddaa7124dfe43715fb:00cf341cb85f0bb0ed4acf294336496f$"
+}
+}

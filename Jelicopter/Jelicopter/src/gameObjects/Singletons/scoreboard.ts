@@ -1,45 +1,67 @@
 ﻿module Jelicopter.Client {
 
     export enum Points {
-        Human = 50,
-        Paraglider = 50,
-        PPlane = 100,
-        Vehicle = 100,
+        Human = 0,
+        Paraglider = 1,
+        PPlane = 2,
+        Vehicle = 3,
 
-        HumanToHuman = 200,
-        HumanToVehicle = 400,
-        HumanToParaglider = 500,
-        HumanToPPlane = 700,
+        HumanToHuman = 4,
+        HumanToVehicle = 5,
+        HumanToParaglider = 6,
+        HumanToPPlane = 7,
 
-        ParagliderToVehicle = 500,
-        ParagliderToParaglider = 600,
-        ParagliderToPPlane = 800,
+        ParagliderToParaglider = 8,
+        ParagliderToVehicle = 9,
+        ParagliderToPPlane = 10,
 
-        VehicleToVehicle = 800,        
-        VehicleToPPlane = 1000
+        VehicleToVehicle = 11,
+        VehicleToPPlane = 12
     }
 
-    export class ScoreBoard{
+    export class ScoreBoard {
 
         score: number = 0;
         scoreText;
         game: Phaser.Game;
-        score_animation;
+        scoreLibrary: number[];
+        score_animationEmitter: Phaser.Particles.Arcade.Emitter;
 
         constructor(game: Phaser.Game) {
             this.game = game;
+
+            this.scoreLibrary = [];
+            this.scoreLibrary[0] = 100;
+            this.scoreLibrary[1] = 100;
+            this.scoreLibrary[2] = 300;
+            this.scoreLibrary[3] = 300;
+
+            this.scoreLibrary[4] = 300;
+            this.scoreLibrary[5] = 500;
+            this.scoreLibrary[6] = 500;
+            this.scoreLibrary[7] = 700;
+
+            this.scoreLibrary[8] = 600;
+            this.scoreLibrary[9] = 700;
+            this.scoreLibrary[10] = 800;
+
+            this.scoreLibrary[11] = 1000;
+            this.scoreLibrary[12] = 1500;
+
             this.createScoreParticleEmitter();
             this.displayScore();
         }
 
         createScoreParticleEmitter() {
-            this.score_animation = this.game.add.emitter(1, 1, 100);
+            this.score_animationEmitter = this.game.add.emitter(1, 1, 100);
+            this.score_animationEmitter
 
-            this.score_animation.gravity = -150;
-            this.score_animation.setAlpha(1, 0, 5000);
-            this.score_animation.setScale(.2, 1.2, .2, 1.2, 5000, Phaser.Easing.Quintic.Out);
-            this.score_animation.minRotation = 0;
-            this.score_animation.maxRotation = 0.1;
+            this.score_animationEmitter.gravity = -150;
+            this.score_animationEmitter.setAlpha(1, 0, 5000);
+            this.score_animationEmitter.setScale(.2, 1.2, .2, 1.2, 5000, Phaser.Easing.Quintic.Out);
+            this.score_animationEmitter.minRotation = 0;
+            this.score_animationEmitter.maxRotation = 0.1;
+            this.score_animationEmitter.makeParticles('score_feedback', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 100, false, false);
         }
 
         displayScore() {
@@ -51,22 +73,23 @@
             this.scoreText.fixedToCamera = true;
             //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
             // this.scoreText.setTextBounds(0, 100, 800, 100);
-        }
+        }       
 
-        updateScore(pointsToAdd: Points) {
-            this.score += pointsToAdd;
+        giveFeedbackOfScore(position, pointsToAdd: Points) {
+            this.score += this.scoreLibrary[pointsToAdd];
             this.scoreText.text = 'Score: ' + this.score;
-        }
+            this.score_animationEmitter.emitParticle(position.x, position.y, 'score_feedback', this.pointsToFrame(this.scoreLibrary[pointsToAdd]) );
 
-        giveFeedbackOfScore(position, number) {
-            this.score_animation.x = position.x;
-            this.score_animation.y = position.y;
-            this.score_animation.makeParticles('score_feedback', [number], 900, true, true);
             //  The first parameter sets the effect to "explode" which means all particles are emitted at once
             //  The second gives each particle a 2000ms lifespan
             //  The third is ignored when using burst/explode mode
             //  The final parameter (10) is how many particles will be emitted in this single burst
-            this.score_animation.start(true, 5000, 2000, 1);
+            
+        }
+
+        pointsToFrame(points) {
+            var frameCount = points / 100 -1;
+            return frameCount;
         }
     }
 }

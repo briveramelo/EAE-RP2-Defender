@@ -1,13 +1,13 @@
 ﻿module Jelicopter.Client {
 
-    export class UFO extends Phaser.Sprite {
+    export class DropShip extends Phaser.Sprite {
 
         constructor(game: Phaser.Game, level: MainGame) {
-            super(game, 0, 0, 'UFO');
+            super(game, 0, 0, 'DropShip');
             this.level = level;
             this.anchor.setTo(0.5);
-            this.pivot.set(64, 64);
-            this.animations.add('ufo_fly', [0, 1, 2], 30, true);
+            this.pivot.set(0, 0);
+            this.animations.add('dropShipFly', [0, 1, 2], 30, true);
             game.add.existing(this);
             // Physics
             this.myCollider = new CircleCollider(this, 50, this.positionOffset);
@@ -26,17 +26,27 @@
         timeMoving: number = 0;
         shootSpeed: number = 100;
         maxShootDistance: number = 900;
-        positionOffset: Phaser.Point = new Phaser.Point(-64, -64);
+        positionOffset: Phaser.Point = new Phaser.Point(0, 0);
         timerAllowsShooting: boolean = true;
         worldHeightShiftPadding: number = 200;
         myPosition(): Phaser.Point {
-            return new Phaser.Point(this.position.x - 64, this.position.y - 64);
+            return new Phaser.Point(this.position.x, this.position.y);
         }
 
         update() {
             if (this.alive) {
-                this.animations.play('ufo_fly');
+                this.animations.play('dropShipFly');
                 this.checkToShoot();
+                this.checkFaceDirection();
+            }
+        }
+
+        checkFaceDirection() {
+            if (this.level.playerShip.position.x > this.position.x) {
+                this.scale.x = 1;
+            }
+            else {
+                this.scale.x = -1;
             }
         }
 
@@ -60,7 +70,7 @@
         }
 
         kill(): Phaser.Sprite {
-            super.kill();
+            super.kill();            
             return this;
         }
 

@@ -40,14 +40,12 @@
   <ItemGroup />
   <ItemGroup>
     <TypeScriptCompile Include="src\Components\collider.ts" />
-    <TypeScriptCompile Include="src\gameObjects\Enemies\ParagliderPlane.ts" />
-    <TypeScriptCompile Include="src\gameObjects\Singletons\ParticleManagers\ExplosionManager.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\ParticleManagers\DropShipExplosionManager.ts" />
     <TypeScriptCompile Include="src\game.ts" />
     <TypeScriptCompile Include="src\gameObjects\BackgroundLayer.ts" />
     <TypeScriptCompile Include="src\gameObjects\bullet.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Hospital.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\ParticleManagers\LaserManager.ts" />
-    <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\BomberUFOSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Controls\GamepadManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\PlayerShip\TractorBeam.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\OverlapManager.ts" />
@@ -58,13 +56,12 @@
     <TypeScriptCompile Include="src\gameObjects\Singletons\Scoreboard.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\ParticleManagers\ShipTrailManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\SoundManager.ts" />
-    <TypeScriptCompile Include="src\gameObjects\Enemies\UFO.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Enemies\DropShip.ts" />
     <TypeScriptCompile Include="src\gameObjects\PlayerShip\Ship.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\ParagliderPlaneSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\PersonSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\VehicleSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\WrapManager.ts" />
-    <TypeScriptCompile Include="src\gameObjects\Enemies\BomberUFO.ts" />
     <TypeScriptCompile Include="src\gameStates\Boot.ts" />
     <TypeScriptCompile Include="src\gameStates\GameOver.ts" />
     <TypeScriptCompile Include="src\gameStates\MainGame.ts" />

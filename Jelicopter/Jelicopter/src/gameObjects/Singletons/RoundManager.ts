@@ -30,7 +30,7 @@
             game.physics.enable(this, Phaser.Physics.ARCADE);
 
             this.rounds = [];
-            this.rounds[0] = new Round(10, 0, 0);
+            this.rounds[0] = new Round(10, 2, 0);
             this.rounds[1] = new Round(30, 3, 0);
             this.rounds[2] = new Round(40, 3, 0);
             this.rounds[3] = new Round(10, 4, 0);
@@ -49,7 +49,7 @@
 
         update() {
             if (this.people.countLiving() == 0 &&
-                this.level.ufos.countLiving() == 0 &&
+                this.level.dropShips.countLiving() == 0 &&
                 !this.level.roundManager.isTransitioningBetweenRounds) {
 
                 this.startNewRound();
@@ -106,7 +106,6 @@
 
         initiateUFOWave() {
             this.displayUFOWave();            
-            this.game.time.events.add(Phaser.Timer.SECOND * 4.1, this.level.bomberUFOSpawner.spawnShips, this);
         }
 
         startNewRound() {
@@ -123,7 +122,7 @@
 
         triggerSpawning() {
             this.level.personSpawner.spawn(this.rounds[this.roundIndex].personCount);
-            this.level.ufoSpawner.spawnShips(this.rounds[this.roundIndex].paragliderPlaneCount);
+            this.level.dropShipSpawner.spawnShips(this.rounds[this.roundIndex].paragliderPlaneCount);
             //this.level.ufoSpawner.spawnShips(this.rounds[this.roundIndex].vehicleCount);
         }
 

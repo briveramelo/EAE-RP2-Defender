@@ -62,7 +62,7 @@
             this.remove();      
         }
 
-        floorNumber: number=520;
+        floorNumber: number=515;
         maxYSpeedBeforeDeath: number = 500;
         maxTotalSpeedBeforeDeath: number =599;
         isFlying: boolean;
@@ -73,7 +73,8 @@
                 if ((this.position.y) > this.floorNumber && !this.isBeingHeld) {
                     this.isFlying = false;
                     if (this.body.velocity.y > this.maxYSpeedBeforeDeath) {
-                        this.kill(Points.Human);                                              
+                        this.kill();
+                        this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Human);                                               
                     }
                     else if ((this.isPausedForFlinging && this.body.velocity.y > 0) || !this.isPausedForFlinging) {
                         this.position.y = this.floorNumber;
@@ -99,7 +100,7 @@
             this.body.velocity.y = 0;
             
             this.position.x = startPosition.x;
-            this.position.y = this.floorNumber - 20;
+            this.position.y = startPosition.y;
             this.body.velocity.x = this.runSpeed;
         }
 
@@ -123,16 +124,11 @@
             super.kill();
         }
 
-        kill(points?: Points) {
+        kill() {
             this.level.peopleExplosionManager.explodeBody(this.position, this.personType);
             this.isBeingHeld = false;
-
             
             this.level.soundManager.playSound(SoundFX.PersonDeath);
-            if (points) {
-                this.level.scoreboard.updateScore(points);  
-            }
-
             super.kill();            
 
             return this;

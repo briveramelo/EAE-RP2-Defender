@@ -16,24 +16,24 @@
         health: number;
         maxHeight: number = 540;
         minHeight: number = 30;
-        maxVelocityFrame: number = 5;
+        maxVelocityFrame: number = 10;
         lastFrame: number = 28;
         isGoingRight: boolean;
-        bulletSpawnOffset: Phaser.Point = new Phaser.Point(148, 90);
-        tailOffset: number = 95;
+        bulletSpawnOffset: Phaser.Point = new Phaser.Point(160, 95);
+        tailOffset: number = 70;
         stretchAnim: Phaser.Animation;
         contractAnim: Phaser.Animation;
         camTarget: Phaser.Sprite;
 
 
         constructor(game: Phaser.Game, level: MainGame, x: number, y: number, bullets: Bullet) {
-            super(game, x, y, 'Jelicopter', 0);
+            super(game, x, y, 'PlayerShip', 0);
             this.anchor.setTo(0.5);
             this.pivot.set(0, 0);
             this.level = level;
 
-            this.stretchAnim = this.animations.add('stretch', [0, 1, 2, 3, 4, 5], 60, false);
-            this.contractAnim = this.animations.add('contract', [20, 21, 22, 23, 24, 25, 26, 27, 28, 0], 60, false);
+            this.stretchAnim = this.animations.add('stretch', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 60, false);
+            this.contractAnim = this.animations.add('contract', [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0], 60, false);
 
             game.add.existing(this);
             game.physics.enable(this, Phaser.Physics.ARCADE);
@@ -99,7 +99,7 @@
             if (this.bullets.bullet) {
                 this.level.soundManager.playSound(SoundFX.FireShot);
                 var bulletSpawnPoint: Phaser.Point = new Phaser.Point(this.body.x + (this.isGoingRight ? 1 : -1) * this.bulletSpawnOffset.x, this.body.y + this.bulletSpawnOffset.y);                    
-                this.bullets.bullet.lifespan = 1000;
+                this.bullets.bullet.lifespan = 800;
                 this.bullets.bullet.reset(bulletSpawnPoint.x, bulletSpawnPoint.y);
                 this.bullets.bullet.scale.x = this.isGoingRight ? 1 : -1;
                 this.game.physics.arcade.velocityFromAngle((this.isGoingRight ? 0 : 180), this.bullets.bulletSpeed, this.bullets.bullet.body.velocity);

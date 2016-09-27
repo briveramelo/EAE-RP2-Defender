@@ -7,6 +7,13 @@
         restartText;
         quitText;
         button;
+        joystick: Phaser.SinglePad;
+        mainGame: MainGame;
+
+        constructor(mainGame: MainGame) {
+            super();
+            this.mainGame = mainGame;
+        }
 
         create() {
             this.background = this.add.sprite(0, 0, 'GameBackground');
@@ -23,15 +30,21 @@
             this.restartText.events.onInputOut.add(this.actionOnClick, this);
             this.restartText.events.onInputUp.add(this.actionOnClick, this);
 
-         
+            this.game.input.gamepad.start();
+            // To listen to buttons from a specific pad listen directly on that pad game.input.gamepad.padX, where X = pad 1-4
+            this.joystick = this.game.input.gamepad.pad1;
         }
 
-       actionOnClick() {
-           this.game.state.start('MainGame', true, false);
-    }
+        actionOnClick() {
+            this.mainGame.soundManager.backgroundMusic.stop();
+            this.game.state.start('MainGame', true, false);
+        }
 
         update() {
-            
+            if (this.game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR) ||
+                this.joystick.isDown(Phaser.Gamepad.BUTTON_0)) {
+                this.actionOnClick();
+            }
         }
     }
 }
