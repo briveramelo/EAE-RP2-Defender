@@ -1,6 +1,6 @@
 ﻿module Jelicopter.Client {
     
-    export class DropShipExplosionManager extends Phaser.Group {
+    export class HeliExplosionManager extends Phaser.Group {
 
         emitter_shipParts: Phaser.Particles.Arcade.Emitter;
         emitter_smoke;

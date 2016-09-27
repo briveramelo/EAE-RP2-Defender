@@ -2,21 +2,21 @@
 
     export enum Points {
         Human = 0,
-        Paraglider = 1,
-        PPlane = 2,
+        Paratrooper = 1,
+        Heli = 2,
         Vehicle = 3,
 
         HumanToHuman = 4,
         HumanToVehicle = 5,
-        HumanToParaglider = 6,
-        HumanToPPlane = 7,
+        HumanToParatrooper = 6,
+        HumanToHeli = 7,
 
-        ParagliderToParaglider = 8,
-        ParagliderToVehicle = 9,
-        ParagliderToPPlane = 10,
+        ParatrooperToParatrooper = 8,
+        ParatrooperToVehicle = 9,
+        ParatrooperToHeli = 10,
 
         VehicleToVehicle = 11,
-        VehicleToPPlane = 12
+        VehicleToHeli = 12
     }
 
     export class ScoreBoard {
@@ -32,7 +32,7 @@
 
             this.scoreLibrary = [];
             this.scoreLibrary[0] = 100;
-            this.scoreLibrary[1] = 100;
+            this.scoreLibrary[1] = 200;
             this.scoreLibrary[2] = 300;
             this.scoreLibrary[3] = 300;
 

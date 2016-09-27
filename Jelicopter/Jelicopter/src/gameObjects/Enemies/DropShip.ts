@@ -1,6 +1,6 @@
 ﻿module Jelicopter.Client {
 
-    export class DropShip extends Phaser.Sprite {
+    export class Heli extends Phaser.Sprite {
 
         constructor(game: Phaser.Game, level: MainGame) {
             super(game, 0, 0, 'DropShip');

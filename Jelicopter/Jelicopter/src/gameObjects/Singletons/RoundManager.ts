@@ -49,7 +49,7 @@
 
         update() {
             if (this.people.countLiving() == 0 &&
-                this.level.dropShips.countLiving() == 0 &&
+                this.level.helis.countLiving() == 0 &&
                 !this.level.roundManager.isTransitioningBetweenRounds) {
 
                 this.startNewRound();

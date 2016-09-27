@@ -38,13 +38,13 @@
                     }, this);
 
 
-                    this.level.dropShips.forEachAlive(function (dropShip: DropShip) {
-                        if (dropShip.myCollider.isColliding(person1.myCollider)) {
+                    this.level.helis.forEachAlive(function (heli: Heli) {
+                        if (heli.myCollider.isColliding(person1.myCollider)) {
                             person1.kill();
-                            dropShip.kill();
-                            this.level.soundManager.playSound(SoundFX.DropShipExplode);
-                            this.level.scoreboard.giveFeedbackOfScore(dropShip.position, Points.HumanToPPlane);
-                            this.level.dropShipExplosionManager.particleBurst(dropShip.position, "blueShip");
+                            heli.kill();
+                            this.level.soundManager.playSound(SoundFX.HeliExplode);
+                            this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.HumanToHeli);
+                            this.level.heliExplosionManager.particleBurst(heli.position, "blueShip");
                         }
                     }, this);
 
@@ -73,13 +73,13 @@
                     }
                 }, this);
 
-                this.level.dropShips.forEachAlive(function (dropShip: DropShip) {
-                    if (dropShip.myCollider.isColliding(bullet.myCollider)) {
+                this.level.helis.forEachAlive(function (heli: Heli) {
+                    if (heli.myCollider.isColliding(bullet.myCollider)) {
                         bullet.kill();
-                        dropShip.kill();
-                        this.level.soundManager.playSound(SoundFX.DropShipExplode);
-                        this.level.scoreboard.giveFeedbackOfScore(dropShip.position, Points.PPlane);
-                        this.level.dropShipExplosionManager.particleBurst(dropShip.position, "blueShip");
+                        heli.kill();
+                        this.level.soundManager.playSound(SoundFX.HeliExplode);
+                        this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.Heli);
+                        this.level.heliExplosionManager.particleBurst(heli.position, "blueShip");
                     }
                 }, this);                
 

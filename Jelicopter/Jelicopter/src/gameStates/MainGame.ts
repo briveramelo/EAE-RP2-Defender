@@ -9,7 +9,7 @@
         allBackgrounds: Phaser.Group;
 
         music: Phaser.Sound;
-        dropShips: Phaser.Group;
+        helis: Phaser.Group;
         enemyBullets: Phaser.Group;
         enemyMissiles: Phaser.Group;
         allPeople: Phaser.Group;
@@ -31,14 +31,14 @@
         wrapManager: WrapManager;
         overlapManager: OverlapManager;
         gamepadManager: GamepadManager;
-        dropShipExplosionManager: DropShipExplosionManager;
+        heliExplosionManager: HeliExplosionManager;
         peopleExplosionManager: PeopleExplosionManager;
         shipTrailManager: ShipTrailManager;
         soundManager: SoundManager;
         laserManager: LaserManager;
 
         //SPAWNERS
-        dropShipSpawner: ParagliderPlaneSpawner;
+        dropShipSpawner: HeliSpawner;
         personSpawner: PersonSpawner;
         vehicleSpawner: VehicleSpawner;
 
@@ -75,7 +75,7 @@
 
             //CREATE SPAWNERS
             this.personSpawner = new PersonSpawner(this.game, this);
-            this.dropShipSpawner = new ParagliderPlaneSpawner(this.game, this);
+            this.dropShipSpawner = new HeliSpawner(this.game, this);
             this.vehicleSpawner = new VehicleSpawner(this.game, this);
 
             //CREATE SINGLETONS
@@ -85,7 +85,7 @@
             this.wrapManager = new WrapManager(this.game, this);
             this.overlapManager = new OverlapManager(this.game, this, this.allPeople);
             this.roundManager = new RoundManager(this.game, this, this.allPeople);
-            this.dropShipExplosionManager = new DropShipExplosionManager(this.game, this);
+            this.heliExplosionManager = new HeliExplosionManager(this.game, this);
             this.peopleExplosionManager = new PeopleExplosionManager(this.game, this);
             this.shipTrailManager = new ShipTrailManager(this.game, this);
             this.soundManager = new SoundManager(this.game);
@@ -230,11 +230,11 @@
 
 
         createDropShips(objStartIndex: number) {
-            this.dropShips = this.game.add.group();
+            this.helis = this.game.add.group();
             for (var i = 0; i < 30; i++){
-                this.dropShips.add(new DropShip(this.game, this));
+                this.helis.add(new Heli(this.game, this));
             }
-            this.dropShips.forEach(function (ufo) {
+            this.helis.forEach(function (ufo) {
                 this.allObjects[objStartIndex] = ufo;
                 objStartIndex++;
             }, this);
