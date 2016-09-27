@@ -54,10 +54,10 @@
                 this.maxPeopleOnScreen[i] = 4 + Math.ceil(i / 8);
                 this.minPeopleOnScreen[i] = 4 + Math.ceil(i / 12);
             }
-            
-            this.level.dropShipSpawner.spawnShips(this.maxHelisOnScreen[0]);
+
+            this.level.heliSpawner.spawn(this.maxHelisOnScreen[0]);
             this.level.personSpawner.spawn(this.maxPeopleOnScreen[0]);
-            //this.level.paratrooperSpawner.spawnShips(this.maxPeopleOnScreen[0]);
+            this.level.paratrooperSpawner.spawn(this.maxPeopleOnScreen[0]);
         }
 
         checkToRespawn(enemyType: EnemyType) {
@@ -65,13 +65,14 @@
                 case EnemyType.Heli:
                     if (this.level.helis.countLiving() <= this.minHelisOnScreen[this.currentChallengeIndex]) {
                         this.currentChallengeIndex++;
+
                         var numHelisToSpawn = this.maxHelisOnScreen[this.currentChallengeIndex] - this.level.helis.countLiving();
                         var numPeopleToSpawn = this.maxPeopleOnScreen[this.currentChallengeIndex] - this.level.allPeople.countLiving();
                         var numParaTroopersToSpawn = this.maxParaTroopersOnScreen[this.currentChallengeIndex] - this.level.paratroopers.countLiving();
-                        this.level.dropShipSpawner.spawnShips(numHelisToSpawn);
+
+                        this.level.heliSpawner.spawn(numHelisToSpawn);
                         this.level.personSpawner.spawn(numPeopleToSpawn);
-                        //this.level.paratrooperSpawner.spawnShips(numParaTroopersToSpawn);
-                        //this.level.paraTrooperSpawner.spawn(numParaTroopersToSpawn);
+                        this.level.paratrooperSpawner.spawn(numParaTroopersToSpawn);
                     }
                     break;
                 case EnemyType.Paratrooper:

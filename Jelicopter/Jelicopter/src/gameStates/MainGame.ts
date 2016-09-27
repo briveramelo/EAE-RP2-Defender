@@ -5,7 +5,7 @@
         backgrounds: Phaser.Group;
         cityBackgrounds: Phaser.Group;
         cityMidgrounds: Phaser.Group;
-        cityFrontGrounds: Phaser.Group;
+        cityForeground: Phaser.Group;
         allBackgrounds: Phaser.Group;
 
         music: Phaser.Sound;
@@ -41,20 +41,26 @@
         laserManager: LaserManager;
 
         //SPAWNERS
-        dropShipSpawner: HeliSpawner;
+        heliSpawner: HeliSpawner;
         personSpawner: PersonSpawner;
         vehicleSpawner: VehicleSpawner;
         paratrooperSpawner: ParatrooperSpawner;
 
         //NUMBERS
-        backgroundImageWidth: number = 3072;
+        backgroundImageWidth: number = 4533;
         heightOffset: number = 0;
-        gameHeight: number = 580;
+        gameHeight: number;
 
         allObjects;
+        gameSize: Phaser.Point;
+
+        constructor(gameSize: Phaser.Point) {
+            super();
+            this.gameSize = gameSize;
+        }
 
         create() {
-            this.game.world.setBounds(0, this.heightOffset, 10000000000, this.gameHeight);
+            this.game.world.setBounds(0, this.heightOffset, 10000000000, this.gameSize.y);
             this.physics.startSystem(Phaser.Physics.ARCADE);
             this.physics.arcade.gravity.y = 100;
             this.scale.pageAlignHorizontally = true;
@@ -65,7 +71,7 @@
             this.createBackgrounds();
             this.createCityBack();
             this.createCityMid();
-            //this.createCityFront();
+            this.createCityForeground();
 
             //CREATE OBJECTS
             this.allObjects = [];
@@ -80,7 +86,7 @@
 
             //CREATE SPAWNERS
             this.personSpawner = new PersonSpawner(this.game, this);
-            this.dropShipSpawner = new HeliSpawner(this.game, this);
+            this.heliSpawner = new HeliSpawner(this.game, this);
             this.vehicleSpawner = new VehicleSpawner(this.game, this);
             this.paratrooperSpawner = new ParatrooperSpawner(this.game,this);
 
@@ -97,6 +103,7 @@
             this.soundManager = new SoundManager(this.game);
             this.laserManager = new LaserManager(this.game, this);
             this.scoreboard = new ScoreBoard(this.game);
+            //this.playerShip.addChild(this.tractorBeam);
 
             //HANDLE CAMERA
             this.game.camera.roundPx = false;
@@ -126,7 +133,7 @@
                 this.cityBackgrounds.add(background);
                 this.allBackgrounds.add(background);
                 background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
-                background.position.y = 0;
+                background.position.y = -50;
                 background.revive();
             }            
         }
@@ -138,15 +145,15 @@
                 this.cityBackgrounds.add(background);
                 this.allBackgrounds.add(background);
                 background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
-                background.position.y = 50;
+                background.position.y = 10;
                 background.revive();
             }
         }
-        createCityFront() {
-            this.cityFrontGrounds = this.add.group();
+        createCityForeground() {
+            this.cityForeground = this.add.group();
             for (var i = 0; i < 3; i++) {
-                var background = new BackgroundLayer(this.game, this, 'CityFront', 0, 0);
-                this.cityFrontGrounds.add(background);
+                var background = new BackgroundLayer(this.game, this, 'Foreground', 0, 0);
+                this.cityForeground.add(background);
                 this.allBackgrounds.add(background);
                 background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
                 background.position.y = 0;
@@ -162,7 +169,7 @@
         //}
         createPlayerShipAndBullets(objStartIndex: number) {
             this.playerBullets = new Bullet(this.game);
-            this.playerShip = new Ship(this.game, this, this.world.centerX, this.world.centerY, this.playerBullets);
+            this.playerShip = new Ship(this.game, this, this.playerBullets);
             this.playerBullets.forEach(function (bullet) {
                 this.allObjects[objStartIndex] = bullet;
                 objStartIndex++;

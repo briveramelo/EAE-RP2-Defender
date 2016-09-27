@@ -11,6 +11,10 @@
         isBeingHeld: boolean;
         runSpeed: number;
         personType: PersonType;
+        floorHeight: number;
+        maxYSpeedBeforeDeath: number = 500;
+        maxTotalSpeedBeforeDeath: number =599;
+        isFlying: boolean;
 
         constructor(game: Phaser.Game, ship: Ship, level: MainGame, personType: PersonType) {
             super(game, 0, 0, PersonType[personType]);
@@ -31,24 +35,25 @@
             var animationIndices;
             var scale;
             var frameRate;
+            var scaleMult = 0.8;
             switch (personType) {
                 case PersonType.Male1:
-                    scale = 1;
+                    scale = scaleMult;
                     animationIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
                     frameRate = 15;
                     break;
                 case PersonType.Male2:
-                    scale = .25;
+                    scale = .25 * scaleMult;
                     animationIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
                     frameRate = 30;
                     break;
                 case PersonType.Female1:
-                    scale = 1;
+                    scale = scaleMult;
                     animationIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
                     frameRate = 15;
                     break;
                 case PersonType.Female2:
-                    scale = 1;
+                    scale = scaleMult;
                     animationIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
                     frameRate = 15;
                     break;
@@ -59,25 +64,22 @@
             this.play('wave');
             this.scale.set(scale);
             this.pivot.set(0, 0);
+            this.floorHeight = this.level.gameSize.y - 88;
             this.remove();      
         }
 
-        floorNumber: number=515;
-        maxYSpeedBeforeDeath: number = 500;
-        maxTotalSpeedBeforeDeath: number =599;
-        isFlying: boolean;
 
         update() {
             if (this.alive) {
                 this.play('wave');
-                if ((this.position.y) > this.floorNumber && !this.isBeingHeld) {
+                if ((this.position.y) > this.floorHeight && !this.isBeingHeld) {
                     this.isFlying = false;
                     if (this.body.velocity.y > this.maxYSpeedBeforeDeath) {
                         this.kill();
                         this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Human);                                               
                     }
                     else if ((this.isPausedForFlinging && this.body.velocity.y > 0) || !this.isPausedForFlinging) {
-                        this.position.y = this.floorNumber;
+                        this.position.y = this.floorHeight;
                         this.body.velocity.x = 0;
                         this.body.velocity.y = 0;
                     }

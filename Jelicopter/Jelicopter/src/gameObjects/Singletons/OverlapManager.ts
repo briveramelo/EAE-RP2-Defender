@@ -26,24 +26,28 @@
             this.level.paratroopers.forEachAlive(function (paratrooper: ParaTrooper) {
                 if (!paratrooper.isOnParachute) { 
                 this.people.forEach(function (person2: Person) {
+
                     if (person2.alive && !paratrooper.isBeingHeld) {
                             if (this.isOverlapping(paratrooper, person2)) {
                                 var velDiff: number = new Phaser.Point(paratrooper.body.velocity.x - person2.body.velocity.x, paratrooper.body.velocity.y - person2.body.velocity.y).getMagnitude();
                                 if (velDiff > paratrooper.maxTotalSpeedBeforeDeath) {
+
+                                    this.level.scoreboard.giveFeedbackOfScore(paratrooper.position, Points.HumanToHuman);
                                     paratrooper.kill();
                                     person2.kill();
-                                    this.level.scoreboard.giveFeedbackOfScore(paratrooper.position, Points.HumanToHuman);
+
                                 }
                             }
                         }
                     }, this);
-                this.level.helis.forEachAlive(function (heli: Heli) {
-                    if (heli.myCollider.isColliding(paratrooper.myCollider) && !paratrooper.isBeingHeld) {
-                            paratrooper.kill();
-                            heli.kill();
-                            this.level.soundManager.playSound(SoundFX.HeliExplode);
-                            this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.HumanToHeli);
-                            this.level.heliExplosionManager.particleBurst(heli.position, "blueShip");
+
+                    this.level.helis.forEachAlive(function (heli: Heli) {
+                        if (heli.myCollider.isColliding(paratrooper.myCollider) && !paratrooper.isBeingHeld) {
+
+                            this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.HumanToHeli);                            
+                                paratrooper.kill();
+                                heli.kill();
+                                              
                         }
                     }, this); 
                 }
@@ -58,9 +62,11 @@
                             if (person1.myCollider.isColliding(person2.myCollider)) {
                                 var velDiff: number = new Phaser.Point(person1.body.velocity.x - person2.body.velocity.x, person1.body.velocity.y - person2.body.velocity.y).getMagnitude();
                                 if (velDiff > person1.maxTotalSpeedBeforeDeath) {
+
                                     this.level.scoreboard.giveFeedbackOfScore(person1.position, Points.HumanToHuman);
                                     person1.kill();
-                                    person2.kill();                                    
+                                    person2.kill(); 
+                                                                       
                                 }
                             }
                         }
@@ -69,9 +75,11 @@
 
                     this.level.helis.forEachAlive(function (heli: Heli) {
                         if (heli.myCollider.isColliding(person1.myCollider)) {
+
                             this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.HumanToHeli);                            
                             person1.kill();
-                            heli.kill();                            
+                            heli.kill();
+
                         }
                     }, this);                   
 
@@ -86,8 +94,10 @@
         checkEnemyBulletOverlaps() {
             this.level.enemyBullets.forEachAlive(function (bullet) {
                 if (this.level.playerShip.alive && this.level.playerShip.myCollider.isColliding(bullet.myCollider)) {
+
                     this.level.playerShip.takeDamage();
                     bullet.kill();
+
                 }                
             }, this);
         }
@@ -98,23 +108,19 @@
 
                 this.level.paratroopers.forEachAlive(function (paratrooper: ParaTrooper) {
                     if (this.isOverlapping(paratrooper.parachute, bullet)) {
+
                         paratrooper.removeChild(paratrooper.parachute);
                         bullet.kill();
+
                     }
 
-                    if (paratrooper.children.indexOf(paratrooper.parachute) > -1) {
+                    if (paratrooper.children.indexOf(paratrooper.parachute) > -1 || paratrooper.isSafeOnGround) {
                         if (this.isOverlapping(paratrooper.person, bullet)) {
-                            bullet.kill();
-                            paratrooper.kill();
-                            paratrooper.animateAndSound();
-                        }
-                    }
 
-                    if (paratrooper.isSafeOnGround) {
-                        if (this.isOverlapping(paratrooper.person, bullet)) {
+                            this.level.scoreboard.giveFeedbackOfScore(paratrooper.position, Points.Paratrooper);
                             bullet.kill();
                             paratrooper.kill();
-                            paratrooper.animateAndSound();
+                            
                         }
                     }
                 }, this);
@@ -131,9 +137,11 @@
 
                 this.level.helis.forEachAlive(function (heli: Heli) {
                     if (heli.myCollider.isColliding(bullet.myCollider)) {
+
                         this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.Heli);                        
                         bullet.kill();
-                        heli.kill();                        
+                        heli.kill();
+
                     }
                 }, this);                
 

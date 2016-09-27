@@ -54,14 +54,16 @@
 
         createScoreParticleEmitter() {
             this.score_animationEmitter = this.game.add.emitter(1, 1, 100);
-            this.score_animationEmitter
-
+            
+            var startScale = 1;
+            var endScale = 2.75;
             this.score_animationEmitter.gravity = -150;
-            this.score_animationEmitter.setAlpha(1, 0, 5000);
-            this.score_animationEmitter.setScale(.2, 1.2, .2, 1.2, 5000, Phaser.Easing.Quintic.Out);
+            this.score_animationEmitter.setAlpha(1, 0, 4000);
+            this.score_animationEmitter.setScale(startScale, endScale, startScale, endScale, 5000, Phaser.Easing.Quintic.Out);
             this.score_animationEmitter.minRotation = 0;
             this.score_animationEmitter.maxRotation = 0.1;
-            this.score_animationEmitter.makeParticles('score_feedback', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 100, false, false);
+            this.score_animationEmitter.makeParticles('score_feedback', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], 100, false, false);
+            this.score_animationEmitter.lifespan = 5000;
         }
 
         displayScore() {

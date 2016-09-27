@@ -23,10 +23,10 @@
             this.load.audio('heliExplode', './assets/sounds/SoundFX/Explosion8.wav', true);
 
             //Backgrounds
-            this.load.image('GameBackground', './assets/sprites/Background/background_base.jpg');
-            this.load.image('CityBack', './assets/sprites/Background/city_back.png');
-            this.load.image('CityMid', './assets/sprites/Background/city_mid.png');
-            this.load.image('CityFront', './assets/sprites/Background/city_front.png');
+            this.load.image('GameBackground', './assets/sprites/Background/background.jpg');
+            this.load.image('CityBack', './assets/sprites/Background/City-Back.png');
+            this.load.image('CityMid', './assets/sprites/Background/City-Mid.png');
+            this.load.image('Foreground', './assets/sprites/Background/Foreground.png');
 
             //Bullets
             this.load.image('EnemyBullet', './assets/sprites/Shots/EnemyBullet.png');
@@ -60,9 +60,6 @@
             //SCORE
             this.load.spritesheet('score_feedback', './assets/sprites/VisualFX/score_sprite.png', 90, 90);
 
-
-
-
             //Ships
             this.load.image('invisibleDot', 'assets/sprites/Ship/invisibleDot.png');
             this.load.atlasJSONHash('Heli', './assets/sprites/Ship/Heli.png', './assets/sprites/Ship/Heli.json');
@@ -78,7 +75,7 @@
             this.load.image('Parachute', './assets/sprites/People/parachute.png');
 
             // Hospital
-            this.load.atlasJSONHash('Hospital', './assets/sprites/Buildings/safe_place.png', './assets/sprites/Buildings/safe_place.json');
+            //this.load.atlasJSONHash('Hospital', './assets/sprites/Buildings/safe_place.png', './assets/sprites/Buildings/safe_place.json');
 
         }
 

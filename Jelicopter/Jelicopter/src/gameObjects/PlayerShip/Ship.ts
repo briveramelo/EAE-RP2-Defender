@@ -10,30 +10,36 @@
         lives: number = 3;
         timeToRevive: number = 3;
         baseSpeed: number = 200;
-        shipSpeed: Phaser.Point = new Phaser.Point(600, 300);
+        shipSpeed: Phaser.Point = new Phaser.Point(600, 450);
         bullets: Bullet;
         wasJustPressed: boolean;
         health: number;
-        maxHeight: number = 540;
-        minHeight: number = 30;
-        maxVelocityFrame: number = 10;
-        lastFrame: number = 28;
+        maxHeight: number;
+        minHeight: number;
+        maxVelocityFrame: number = 8;
         isGoingRight: boolean;
-        bulletSpawnOffset: Phaser.Point = new Phaser.Point(160, 95);
-        tailOffset: number = 70;
+        bulletSpawnOffset: Phaser.Point = new Phaser.Point(335, 72);
+        stretchSpawnOffset: Phaser.Point = new Phaser.Point(348, 75);
         stretchAnim: Phaser.Animation;
         contractAnim: Phaser.Animation;
         camTarget: Phaser.Sprite;
+        scaleMult: number;        
+        isStretched: boolean;
+        tailOffset(): number {
+            return (!this.isStretched ? 70 : 150);
+        }
 
-
-        constructor(game: Phaser.Game, level: MainGame, x: number, y: number, bullets: Bullet) {
-            super(game, x, y, 'PlayerShip', 0);
+        constructor(game: Phaser.Game, level: MainGame, bullets: Bullet) {
+            super(game, game.world.centerX, game.world.centerY, 'PlayerShip', 0);
+            this.position.y = 600;
             this.anchor.setTo(0.5);
             this.pivot.set(0, 0);
             this.level = level;
+            this.scaleMult = 1;
+            this.scale.set(this.scaleMult);
 
-            this.stretchAnim = this.animations.add('stretch', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 60, false);
-            this.contractAnim = this.animations.add('contract', [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0], 60, false);
+            this.stretchAnim = this.animations.add('stretch', [0, 1, 2, 3, 4, 5, 6, 7, 8], 60, false);
+            this.contractAnim = this.animations.add('contract', [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 0], 60, false);
 
             game.add.existing(this);
             game.physics.enable(this, Phaser.Physics.ARCADE);
@@ -42,11 +48,14 @@
             this.camTarget.position.y = this.position.y;
 
 
-            this.myCollider = new CircleCollider(this, 30, new Phaser.Point(0,0));
+            this.myCollider = new CircleCollider(this, 30, new Phaser.Point(0, 0));
+            
+
             this.body.setCircle(20);
             this.bullets = bullets;
-            this.health = 3;            
-            
+            this.health = 3;
+            this.maxHeight = this.level.gameSize.y - 180;
+            this.minHeight = this.level.heightOffset + 85;  
         }
 
         camOffset: number = 300;
@@ -65,7 +74,9 @@
         update() {
             if (this.alive) {
                 this.toggleShipSpeed();//for debugging -- take out in release
-                this.isGoingRight = this.scale.x === 1;
+
+                this.isGoingRight = this.scale.x === this.scaleMult;
+                this.isStretched = this.animations.frame >= 3 && this.animations.frame <= this.maxVelocityFrame;
 
                 this.camTarget.position.x = this.position.x;// + (this.isGoingRight ? 1 : -1) * this.camOffset;
                 this.camTarget.position.y = this.position.y;
@@ -101,7 +112,10 @@
 
             if (this.bullets.bullet) {
                 this.level.soundManager.playSound(SoundFX.FireShot);
-                var bulletSpawnPoint: Phaser.Point = new Phaser.Point(this.body.x + (this.isGoingRight ? 1 : -1) * this.bulletSpawnOffset.x, this.body.y + this.bulletSpawnOffset.y);                    
+                
+                var spawnChoice: Phaser.Point = this.isStretched ? this.stretchSpawnOffset : this.bulletSpawnOffset;
+                var bulletSpawnPoint: Phaser.Point = new Phaser.Point(this.body.x + (this.isGoingRight ? 1 : -1) * spawnChoice.x, this.body.y + spawnChoice.y);
+
                 this.bullets.bullet.lifespan = 800;
                 this.bullets.bullet.reset(bulletSpawnPoint.x, bulletSpawnPoint.y);
                 this.bullets.bullet.scale.x = this.isGoingRight ? 1 : -1;
@@ -139,14 +153,14 @@
 
                 if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
                     this.body.velocity.x -= this.shipSpeed.x;
-                    if (this.scale.x === 1) {
-                        this.scale.x = -1;
+                    if (this.scale.x === this.scaleMult) {
+                        this.scale.x = -this.scaleMult;
                     }
                 }
                 else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
                     this.body.velocity.x += this.shipSpeed.x;
-                    if (this.scale.x === -1) {
-                        this.scale.x = 1;
+                    if (this.scale.x === -this.scaleMult) {
+                        this.scale.x = this.scaleMult;
                     }
                 }
 
