@@ -17,6 +17,7 @@
 
         update() {            
             this.checkHumanHumanOverlaps();
+            this.checkHumanToHeliOverlaps();
             this.checkPlayerBulletOverlaps();
             this.checkEnemyBulletOverlaps();
             this.checkParaTrooperOverlaps();
@@ -24,33 +25,36 @@
 
         checkParaTrooperOverlaps() {
             this.level.paratroopers.forEachAlive(function (paratrooper: ParaTrooper) {
-                if (!paratrooper.isOnParachute) { 
                 this.people.forEach(function (person2: Person) {
 
-                    if (person2.alive && !paratrooper.isBeingHeld) {
-                            if (this.isOverlapping(paratrooper, person2)) {
-                                var velDiff: number = new Phaser.Point(paratrooper.body.velocity.x - person2.body.velocity.x, paratrooper.body.velocity.y - person2.body.velocity.y).getMagnitude();
-                                if (velDiff > paratrooper.maxTotalSpeedBeforeDeath) {
+                    if (person2.alive && !paratrooper.isBeingHeld && !person2.isBeingHeld && person2.isFlying) {
+                        if (this.isOverlapping(paratrooper, person2)) {
+                            var velDiff: number = new Phaser.Point(paratrooper.body.velocity.x - person2.body.velocity.x, paratrooper.body.velocity.y - person2.body.velocity.y).getMagnitude();
+                            if (velDiff > paratrooper.maxTotalSpeedBeforeDeath) {
 
-                                    this.level.scoreboard.giveFeedbackOfScore(paratrooper.position, Points.HumanToHuman);
-                                    paratrooper.kill();
-                                    person2.kill();
+                                this.level.scoreboard.giveFeedbackOfScore(paratrooper.position, Points.HumanToParatrooper);
+                                paratrooper.kill();
+                                person2.kill();
 
-                                }
                             }
                         }
-                    }, this);
+                    }
+                }, this);
+
+                if (!paratrooper.isOnParachute) { 
 
                     this.level.helis.forEachAlive(function (heli: Heli) {
                         if (heli.myCollider.isColliding(paratrooper.myCollider) && !paratrooper.isBeingHeld) {
 
-                            this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.HumanToHeli);                            
-                                paratrooper.kill();
-                                heli.kill();
+                            this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.ParatrooperToHeli);                            
+                            paratrooper.kill();
+                            heli.kill();
+                            console.log('ghost kill?');
                                               
                         }
                     }, this); 
                 }
+
             }, this);       
         }
 
@@ -70,25 +74,26 @@
                                 }
                             }
                         }
-                    }, this);
+                    }, this);                                    
 
+                }
+            }, this);            
+        }
 
-                    this.level.helis.forEachAlive(function (heli: Heli) {
-                        if (heli.myCollider.isColliding(person1.myCollider)) {
+        checkHumanToHeliOverlaps() {
+            this.level.helis.forEachAlive(function (heli: Heli) {
+                this.people.forEach(function (person: Person) {
+                    if (person.alive && !person.isBeingHeld && person.isFlying) {
+                        if (heli.myCollider.isColliding(person.myCollider)) {
 
-                            this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.HumanToHeli);                            
-                            person1.kill();
+                            this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.HumanToHeli);
+                            person.kill();
                             heli.kill();
 
                         }
-                    }, this);                   
-
-                }
-            }, this);
-
-           
-
-
+                    }
+                }, this);  
+            }, this);  
         }
 
         checkEnemyBulletOverlaps() {

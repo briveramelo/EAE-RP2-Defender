@@ -28,7 +28,7 @@
         minParaTroopersOnScreen: number[];
 
         constructor(game: Phaser.Game, level: MainGame, people: Phaser.Group) {
-            super(game, 0, 0, 'EnemyBullet');
+            super(game, 0, 0, 'invisibleDot');
             this.game = game;
             this.level = level;
             this.people = people;
@@ -56,9 +56,8 @@
             }
 
             this.level.heliSpawner.spawn(this.maxHelisOnScreen[0]);
-            this.level.personSpawner.spawn(this.maxPeopleOnScreen[0]);
-            this.level.paratrooperSpawner.spawn(this.maxPeopleOnScreen[0]);
-
+            this.level.personSpawner.spawn(10);
+            this.level.paratrooperSpawner.spawn(this.maxParaTroopersOnScreen[i]);
         }
 
         checkToRespawn(enemyType: EnemyType) {

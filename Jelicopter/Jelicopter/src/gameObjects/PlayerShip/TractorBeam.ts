@@ -68,7 +68,9 @@
             this.people.forEach(function (person: Person) {
                 if (person.alive && !person.isPausedForFlinging && !person.isBeingHeld) {
                     if (person.myCollider.isColliding(this.myCollider)) {
-                        this.collectPerson(person);
+                        if (!this.isFullyLoaded){
+                            this.collectPerson(person);
+                        }
                     }
                 }
                 i++;
@@ -162,7 +164,7 @@
             }
 
             this.peopleBeingCarried[clipIndex] = person;
-            if (clipIndex == this.maxClipSize) {
+            if (clipIndex == this.maxClipSize-1) {
                 this.isFullyLoaded = true;
             }
 

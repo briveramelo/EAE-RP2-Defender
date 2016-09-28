@@ -22,11 +22,15 @@
         isBeingHeld: boolean;
         runSpeed: number;
         myCollider;
+        lifeCount: number;
 
         maxYSpeedBeforeDeath: number = 500;
         maxTotalSpeedBeforeDeath: number = 599;
         isFlying: boolean;
         scaleMult: number;
+        parachuteSpeed: number = 1;
+        freeFallSpeed: number =8;
+
 
         constructor(game: Phaser.Game, level: MainGame) {
             super(game, 0, 0, null, 0);
@@ -53,6 +57,7 @@
             //this.body.gravity.y = 600;
             game.add.existing(this);
             this.floorHeight = this.level.gameSize.y - 65;
+            this.lifeCount = 0;
 
             super.kill();
         }
@@ -61,8 +66,7 @@
             this.removeChild(this.person);
             this.addChild(this.parachute);
             this.addChild(this.person);
-            this.body.gravity.y = 0;            
-
+            this.body.gravity.y = 0;
             super.reset(x, y);
             return this;
         }
@@ -94,6 +98,7 @@
                         this.land();
                     }
                     else if (!this.isSafeOnGround) {                        
+                        this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Paratrooper);
                         this.kill();
                     }
                 }
@@ -101,6 +106,7 @@
         }
 
         land() {
+            this.resetMissileShooting();
             this.isSafeOnGround = true;
             this.removeChild(this.parachute);
         }
@@ -110,8 +116,8 @@
             if ((this.position.y) > this.floorHeight && !this.isBeingHeld) {                
                 this.isFlying = false;
                 if (this.body.velocity.y > this.maxYSpeedBeforeDeath) {
-                    this.kill();
                     this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Paratrooper);
+                    this.kill();
                 }
                 else if ((this.isPausedForFlinging && this.body.velocity.y > 0) || !this.isPausedForFlinging) {
                     this.position.y = this.floorHeight;
@@ -182,6 +188,7 @@
         }
 
         kill() {
+            this.lifeCount++;
             this.level.peopleExplosionManager.explodeBody(this.position, PersonType.Male1);
             this.level.soundManager.playSound(SoundFX.PersonDeath);          
             super.kill();
@@ -191,11 +198,13 @@
 
         resetMissileShooting(): void {
             this.missileTimerAllowsShooting = false;
-            this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShootMissile, this.setMissileShootingToOk, this);
+            this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShootMissile, this.setMissileShootingToOk, this, this.lifeCount);
         }
 
-        setMissileShootingToOk(): void {
-            this.missileTimerAllowsShooting = true;
+        setMissileShootingToOk(startingLifeCount): void {
+            if (this.lifeCount == startingLifeCount) {
+                this.missileTimerAllowsShooting = true;
+            }
         }
 
         getFlung(launchVelocity: Phaser.Point) {
@@ -204,12 +213,14 @@
             this.body.velocity.y = launchVelocity.y * this.launchSpeedMultiplier;
             this.isPausedForFlinging = true;
             this.isBeingHeld = false;
-            this.game.time.events.add(Phaser.Timer.SECOND * 1, this.allowForCatching, this);
-            this.game.time.events.add(Phaser.Timer.SECOND * 1, this.resetMissileShooting, this);
+            this.game.time.events.add(Phaser.Timer.SECOND * 1, this.allowForCatching, this, this.lifeCount);
+            this.game.time.events.add(Phaser.Timer.SECOND * 1, this.setMissileShootingToOk, this, this.lifeCount);
         }
 
-        allowForCatching() {
-            this.isPausedForFlinging = false;
+        allowForCatching(startingLifeCount) {
+            if (startingLifeCount == this.lifeCount) {
+                this.isPausedForFlinging = false;
+            }
         }
 
         getGrabbed() {
@@ -225,6 +236,7 @@
             this.addChild(this.parachute);
             this.addChild(this.person);
 
+            this.missileTimerAllowsShooting = false; 
             this.isSafeOnGround = false;
             this.isOnParachute = true;
           

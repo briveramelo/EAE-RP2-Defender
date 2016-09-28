@@ -7,7 +7,7 @@
         }
         level: MainGame;
         myCollider: CircleCollider;
-        lives: number = 3;
+        lives: number = 30;
         timeToRevive: number = 3;
         baseSpeed: number = 200;
         shipSpeed: Phaser.Point = new Phaser.Point(600, 450);
