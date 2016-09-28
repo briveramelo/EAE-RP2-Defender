@@ -11,6 +11,7 @@
         music: Phaser.Sound;
         helis: Phaser.Group;
         paratroopers: Phaser.Group;
+        allObjectsInGame: Phaser.Group;
         vehicles: Phaser.Group;
         enemyBullets: Phaser.Group;
         enemyMissiles: Phaser.Group;
@@ -63,6 +64,7 @@
 
         create() {
             this.game.world.setBounds(0, this.heightOffset, 10000000000, this.gameSize.y);
+            this.allObjectsInGame = this.game.add.group();
             this.physics.startSystem(Phaser.Physics.ARCADE);
             this.physics.arcade.gravity.y = 100;
             this.scale.pageAlignHorizontally = true;
@@ -119,6 +121,13 @@
 
             this.soundManager.playSound(SoundFX.Background);
             //this.paraTrooper = new ParaTrooper(this.game, this.game.world.centerX, 0, this);
+            this.allPeople.forEachAlive(function (person: Person) {
+                this.allObjectsInGame.add(person);
+            }, this);
+
+            this.paratroopers.forEachAlive(function (paratrooper: ParaTrooper) {
+                this.allObjectsInGame.add(paratrooper);
+            }, this);
         }        
 
         createBackgrounds() {
