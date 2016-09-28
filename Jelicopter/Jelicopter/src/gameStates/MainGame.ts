@@ -111,6 +111,7 @@
             this.game.camera.setPosition(this.playerShip.camTarget.x, this.playerShip.camTarget.y);
             this.game.camera.follow(this.playerShip.camTarget, Phaser.Camera.FOLLOW_LOCKON);//, 0.05);
 
+            this.soundManager.playSound(SoundFX.Background);
             //this.paraTrooper = new ParaTrooper(this.game, this.game.world.centerX, 0, this);
         }        
 

@@ -47,7 +47,7 @@
         }
 
         actionOnClick() {
-            this.mainGame.soundManager.backgroundMusic.stop();
+            this.mainGame.soundManager.stopBackground();
             this.game.state.start('MainGame', true, false);
         }
 

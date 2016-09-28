@@ -16,7 +16,7 @@
                 var person: Person = this.level.allPeople.getRandom(randomNumber, randomNumber);
                 var playerX: number = this.level.playerShip.position.x;
                 var spawnX:number = this.game.rnd.between(playerX - this.level.backgroundImageWidth / 2, playerX + this.level.backgroundImageWidth / 2);
-                var spawnY: number = this.level.gameSize.y - 10;
+                var spawnY: number = this.level.gameSize.y;
                 person.spawn(new Phaser.Point(spawnX, spawnY));                
             }
         }

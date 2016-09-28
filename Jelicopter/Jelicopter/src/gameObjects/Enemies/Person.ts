@@ -15,6 +15,7 @@
         maxYSpeedBeforeDeath: number = 500;
         maxTotalSpeedBeforeDeath: number =599;
         isFlying: boolean;
+        rotationSpeed: number = 4;
 
         constructor(game: Phaser.Game, ship: Ship, level: MainGame, personType: PersonType) {
             super(game, 0, 0, PersonType[personType]);
@@ -75,13 +76,10 @@
                 if ((this.position.y) > this.floorHeight && !this.isBeingHeld) {
                     this.isFlying = false;
                     if (this.body.velocity.y > this.maxYSpeedBeforeDeath) {
-                        this.kill();
-                        this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Human);                                               
+                        this.dieOnFloor();                                               
                     }
                     else if ((this.isPausedForFlinging && this.body.velocity.y > 0) || !this.isPausedForFlinging) {
-                        this.position.y = this.floorHeight;
-                        this.body.velocity.x = 0;
-                        this.body.velocity.y = 0;
+                        this.standOnFloor();
                     }
                 }
                 else {
@@ -90,16 +88,36 @@
                         this.body.velocity.y = this.level.playerShip.body.velocity.y;
                         this.body.velocity.x = this.level.playerShip.body.velocity.x;
                     }
+                    else {
+                        this.rotate();
+                    }
                 }
             }
-        }        
+        }
+
+        rotate() {
+            this.angle += this.rotationSpeed;
+        }
+
+        dieOnFloor() {
+            this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Human);
+            this.kill();
+        }
+
+        standOnFloor() {
+            this.position.y = this.floorHeight;
+            this.body.velocity.x = 0;
+            this.body.velocity.y = 0;
+            this.angle = 0;
+        }
 
         spawn(startPosition: Phaser.Point) {
             this.revive();
             this.isBeingHeld = false;
-            this.isPausedForFlinging = false;
+            this.isPausedForFlinging = false
             this.body.velocity.x = 0;
             this.body.velocity.y = 0;
+            this.angle = 0;
             
             this.position.x = startPosition.x;
             this.position.y = startPosition.y;

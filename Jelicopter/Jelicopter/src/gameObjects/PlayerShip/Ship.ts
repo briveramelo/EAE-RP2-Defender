@@ -94,12 +94,12 @@
             var isPressed = this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR);
             if (isPressed && !this.wasJustPressed) {
 
-                if (this.level.tractorBeam.personBeingCarried != null) {
+                if (this.level.tractorBeam.peopleBeingCarried[0] != null) {
                     this.level.tractorBeam.flingPerson();
                 }
-                else if (this.level.tractorBeam.paratrooperBeingCarried != null) {
-                    this.level.tractorBeam.flingParatrooper();
-                }
+                //else if (this.level.tractorBeam.paratrooperBeingCarried != null) {
+                //    this.level.tractorBeam.flingParatrooper();
+                //}
                 else {
                     this.fireBullet();
                 }

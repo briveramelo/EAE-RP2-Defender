@@ -58,7 +58,7 @@
             this.people.forEach(function (person1: Person) {
                 if (person1.alive && person1.isFlying && !person1.isBeingHeld) {
                     this.people.forEach(function (person2: Person) {
-                        if (person2.alive) {
+                        if (person2.alive && !person2.isBeingHeld) {
                             if (person1.myCollider.isColliding(person2.myCollider)) {
                                 var velDiff: number = new Phaser.Point(person1.body.velocity.x - person2.body.velocity.x, person1.body.velocity.y - person2.body.velocity.y).getMagnitude();
                                 if (velDiff > person1.maxTotalSpeedBeforeDeath) {

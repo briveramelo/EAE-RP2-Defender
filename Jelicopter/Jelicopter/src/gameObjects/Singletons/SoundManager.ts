@@ -1,23 +1,23 @@
 ﻿module Jelicopter.Client {    
 
     export enum SoundFX{
-        PersonDeath = 0,
-        FireShot = 1,
-        Abduct = 2,
-        HeliExplode = 3,
+        Background=0,
+        PersonDeath = 1,
+        FireShot = 2,
+        Abduct = 3,
+        HeliExplode = 4,
     }
 
     export class SoundManager {
 
         soundLibrary: Phaser.Sound[];
-        backgroundMusic: Phaser.Sound;
         game: Phaser.Game;
 
         constructor(game: Phaser.Game) {
             this.game = game;            
-            this.backgroundMusic = this.game.add.audio('Aliens', 1, true).play();
 
             this.soundLibrary = [];
+            this.soundLibrary[SoundFX.Background] = this.game.add.audio('Aliens', 1, true);
             this.soundLibrary[SoundFX.PersonDeath] = this.game.add.audio('personDeath');
             this.soundLibrary[SoundFX.FireShot] = this.game.add.audio('fireShot');
             this.soundLibrary[SoundFX.Abduct] = this.game.add.audio('abduct');
@@ -26,6 +26,9 @@
 
         playSound(soundFX: SoundFX) {
             this.soundLibrary[soundFX].play();
+        }
+        stopBackground() {
+            this.soundLibrary[SoundFX.Background].stop();
         }
     }
 }

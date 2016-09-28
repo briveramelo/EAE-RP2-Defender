@@ -6,17 +6,12 @@
         level: MainGame;
         people: Phaser.Group;
         positionOffset: Phaser.Point = new Phaser.Point(96, 50);
-
-        isCarryingPerson: boolean = false;
-        personBeingCarried: Person;
+        clipPositions: Phaser.Point[];
+        isFullyLoaded: boolean = false;
+        peopleBeingCarried: Person[];
         paratrooperBeingCarried: ParaTrooper;
         myCollider: CircleCollider;
-        holdOffset(): Phaser.Point {
-            return this.position;
-            //var xOffset: number = (this.level.playerShip.scale.x === this.level.playerShip.scaleMult ? 1 : -1) * 96;
-            //var offSet = new Phaser.Point(xOffset, 50);
-            //return new Phaser.Point(this.level.playerShip.position.x + offSet.x, this.level.playerShip.position.y + offSet.y);
-        }
+        maxClipSize: number = 5;
 
         constructor(game: Phaser.Game, level: MainGame, people: Phaser.Group) {
             super(game, 0, 0, 'invisibleDot');
@@ -26,105 +21,140 @@
             game.add.existing(this);
             game.physics.enable(this, Phaser.Physics.ARCADE);
             this.myCollider = new CircleCollider(this, 40, new Phaser.Point(0, 0));
+            this.peopleBeingCarried = [];
+            this.clipPositions = [];
+            for (var i: number = 0; i < this.maxClipSize; i++) {
+                this.peopleBeingCarried[i] = null;
+                this.clipPositions[i] = new Phaser.Point(0, i * 30);
+            }
+            
         }
 
         update() {
+            if (this.level.playerShip.alive) {
+                this.setPosition();
+                this.carryDropPeople();
+                if (!this.isFullyLoaded) {
+                    this.checkToCollectPeople();
+                }                
+            }
+        }
+
+        setPosition() {
             this.position.x = this.level.playerShip.position.x + (this.level.playerShip.scale.x === this.level.playerShip.scaleMult ? 1 : -1) * this.positionOffset.x;
             this.position.y = this.level.playerShip.position.y + this.positionOffset.y;
-
-            if (this.level.playerShip.alive) {
-                if (!this.isCarryingPerson) {
-                    this.checkToCollectPeople();
-                }
-                else {
-                    if (this.personBeingCarried != null) {
-                        if (this.personBeingCarried.alive)
-                            this.carryPerson();
-                        else {
-                            this.dropPerson();
-                        }
-                    }
-
-                    if (this.paratrooperBeingCarried != null) {
-                        if (this.paratrooperBeingCarried.alive)
-                            this.carryParaTrooper();
-                        else {
-                            this.dropParaTrooper();
-                        }
-                    }
-
-                }
-            }
         }
 
         checkToCollectPeople() {
             var i: number = 0;
             this.people.forEach(function (person: Person) {
-                if (person.alive && !person.isPausedForFlinging && !this.isCarryingPerson) {
+                if (person.alive && !person.isPausedForFlinging && !person.isBeingHeld) {
                     if (person.myCollider.isColliding(this.myCollider)) {
                         this.collectPerson(person);
                     }
                 }
                 i++;
             }, this);
-            i = 0;
-            this.level.paratroopers.forEach(function (paratrooper: ParaTrooper) {
-                if (paratrooper.alive && !paratrooper.isPausedForFlinging && !this.isCarryingPerson) {
-                    if (paratrooper.myCollider.isColliding(this.myCollider)) {
-                        this.collectParaTrooper(paratrooper);
+
+            //////////////////
+            //AJAY, LETS GET PARATROOPERS IN THIS SAME LIST OF PEOPLE
+            //////////////////
+
+            //i = 0;
+            //this.level.paratroopers.forEach(function (paratrooper: ParaTrooper) {
+            //    if (paratrooper.alive && !paratrooper.isPausedForFlinging && !this.isCarryingPerson) {
+            //        if (paratrooper.myCollider.isColliding(this.myCollider)) {
+            //            this.collectParaTrooper(paratrooper);
+            //        }
+            //    }
+            //    i++;
+            //}, this);
+        }
+
+        carryDropPeople() {            
+            var i: number = 0;
+            for (var i: number = 0; i < this.maxClipSize; i++) {
+                if (this.peopleBeingCarried[i] != null) {
+                    if (this.peopleBeingCarried[i].alive) {
+                        this.carryPerson(i);
+                    }
+                    else {
+                        this.dropPerson(i);
                     }
                 }
-                i++;
-            }, this);
+            }
         }
 
-        carryPerson() {
-            this.personBeingCarried.position.x = this.holdOffset().x;
-            this.personBeingCarried.position.y = this.holdOffset().y;
-        }
-        carryParaTrooper() {
-            this.paratrooperBeingCarried.position.x = this.holdOffset().x;
-            this.paratrooperBeingCarried.position.y = this.holdOffset().y;
-        }
+        carryPerson(personIndex: number) {
 
-        dropPerson() {
-            this.isCarryingPerson = false;
-            this.personBeingCarried = null;
+            if (personIndex == 0) {
+                this.peopleBeingCarried[0].rotate();
+            }            
+            this.peopleBeingCarried[personIndex].position.x = this.position.x + this.clipPositions[personIndex].x * (this.level.playerShip.isGoingRight ? 1 : -1);
+            this.peopleBeingCarried[personIndex].position.y = this.position.y + this.clipPositions[personIndex].y;
+        }        
+
+        dropPerson(personIndex: number) {
+            this.isFullyLoaded = false;
+            this.peopleBeingCarried[personIndex] = null;
+            for (var i: number = 1; i < this.maxClipSize; i++){
+                if (this.peopleBeingCarried[i] != null) {
+                    this.peopleBeingCarried[i - 1] = this.peopleBeingCarried[i];
+                    this.peopleBeingCarried[i] = null;
+                }
+            }
+
             this.level.soundManager.playSound(SoundFX.Abduct);
         }
 
-        dropParaTrooper() {
-            this.isCarryingPerson = false;
-            this.paratrooperBeingCarried = null;
-            this.level.soundManager.playSound(SoundFX.Abduct);
-        }
+        //dropParaTrooper() {
+        //    this.isFullyLoaded = false;
+        //    this.paratrooperBeingCarried = null;
+        //    this.level.soundManager.playSound(SoundFX.Abduct);
+        //}
 
         flingPerson() {
             var launchVelocity: Phaser.Point = new Phaser.Point(this.level.playerShip.body.velocity.x, this.level.playerShip.body.velocity.y);
-            this.personBeingCarried.getFlung(launchVelocity);
-            this.dropPerson();
+            this.peopleBeingCarried[0].getFlung(launchVelocity);
+            this.dropPerson(0);
         }
 
-        flingParatrooper() {
-            var launchVelocity: Phaser.Point = new Phaser.Point(this.level.playerShip.body.velocity.x, this.level.playerShip.body.velocity.y);
-            this.paratrooperBeingCarried.getFlung(launchVelocity);
-            this.dropParaTrooper();
-        }
+        //flingParatrooper() {
+        //    var launchVelocity: Phaser.Point = new Phaser.Point(this.level.playerShip.body.velocity.x, this.level.playerShip.body.velocity.y);
+        //    this.paratrooperBeingCarried.getFlung(launchVelocity);
+        //    this.dropParaTrooper();
+        //}
 
-        collectPerson(person: Person) {
-            this.personBeingCarried = person;
-            this.isCarryingPerson = true;
+        collectPerson(person: Person) {            
+            var clipIndex = 0;
+            for (var i: number = 0; i < this.maxClipSize; i++){
+                if (this.peopleBeingCarried[i] == null) {
+                    clipIndex = i;
+                    break;
+                }
+            }
+
+            if (clipIndex != 0) {
+                person.angle = 90;
+            }
+
+            this.peopleBeingCarried[clipIndex] = person;
+            if (clipIndex == this.maxClipSize) {
+                this.isFullyLoaded = true;
+            }
+
             person.getGrabbed();
+
             this.level.soundManager.playSound(SoundFX.Abduct);
         }
 
-        collectParaTrooper(paratrooper: ParaTrooper) {
-            paratrooper.removeChild(paratrooper.parachute);
-            this.paratrooperBeingCarried = paratrooper;
-            this.isCarryingPerson = true;
-            paratrooper.getGrabbed();
-            this.level.soundManager.playSound(SoundFX.Abduct);
-        }
+        //collectParaTrooper(paratrooper: ParaTrooper) {
+        //    paratrooper.removeChild(paratrooper.parachute);
+        //    this.paratrooperBeingCarried = paratrooper;
+        //    this.isFullyLoaded = true;
+        //    paratrooper.getGrabbed();
+        //    this.level.soundManager.playSound(SoundFX.Abduct);
+        //}
 
         isOverlapping(spriteA, spriteB) {
             var boundsA = spriteA.getBounds();
