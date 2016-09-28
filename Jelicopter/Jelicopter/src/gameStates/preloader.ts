@@ -34,7 +34,7 @@
             this.load.image('PlayerBullet', './assets/sprites/Shots/Shot_2.png');
             this.load.image('UFOBullet', './assets/sprites/Shots/Shot_3.png');
             this.load.image('Missile', './assets/sprites/Shots/Bomb.png');
-            
+
 
             ///VISUAL FX
             //LASER
@@ -54,7 +54,7 @@
             //this.load.spritesheet('ship_death', 'assets/ship_death_sprite.png', 115, 115);
             //this.load.spritesheet('ship_smoke', 'assets/smoke_sprite.png', 115, 104);
             //TRACTOR BEAM PULSE
-            this.load.image('tractorBeamPulse', 'assets/sprites/VisualFX/downward-tractor-pulse.png');
+            this.load.atlasJSONHash('abduction_beam', 'assets/sprites/VisualFX/abduction_beam.png', 'assets/sprites/VisualFX/abduction_beam.json');
 
 
             //SCORE
@@ -63,7 +63,7 @@
             this.load.image('invisibleDot', 'assets/sprites/Ship/invisibleDot.png');
             this.load.atlasJSONHash('Heli', './assets/sprites/Ship/Heli.png', './assets/sprites/Ship/Heli.json');
             this.load.atlasJSONHash('PlayerShip', './assets/sprites/Ship/PlayerShip.png', './assets/sprites/Ship/PlayerShip.json');
-            this.load.spritesheet('heli_death_sprite', './assets/sprites/VisualFX/heli_death_sprite.png',115, 115);
+            this.load.spritesheet('heli_death_sprite', './assets/sprites/VisualFX/heli_death_sprite.png', 115, 115);
 
             //People
             this.load.atlasJSONHash('Male1', './assets/sprites/People/Male1.png', './assets/sprites/People/Male1.json');

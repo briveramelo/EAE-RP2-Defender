@@ -77,7 +77,7 @@
 
             //CREATE OBJECTS
             this.allObjects = [];
-            var i:number = 0;
+            var i: number = 0;
             //i = this.createBuildings(i);
             i = this.createPlayerShipAndBullets(i);
             i = this.createPeople(i);
@@ -91,7 +91,7 @@
             this.personSpawner = new PersonSpawner(this.game, this);
             this.heliSpawner = new HeliSpawner(this.game, this);
             this.vehicleSpawner = new VehicleSpawner(this.game, this);
-            this.paratrooperSpawner = new ParatrooperSpawner(this.game,this);
+            this.paratrooperSpawner = new ParatrooperSpawner(this.game, this);
 
             //CREATE SINGLETONS
             this.gamepadManager = new GamepadManager(this.game, this);
@@ -108,7 +108,7 @@
             this.peopleExplosionManager = new PeopleExplosionManager(this.game, this);
             this.shipTrailManager = new ShipTrailManager(this.game, this);
             this.laserManager = new LaserManager(this.game, this);
-            this.tractorBeamParticleManager = new TractorBeamParticleManager(this.game, this);
+            //this.tractorBeamParticleManager = new TractorBeamParticleManager(this.game, this);
             //this.playerShip.addChild(this.tractorBeam);
 
             //HANDLE CAMERA
@@ -119,7 +119,7 @@
 
             this.soundManager.playSound(SoundFX.Background);
             //this.paraTrooper = new ParaTrooper(this.game, this.game.world.centerX, 0, this);
-        }        
+        }
 
         createBackgrounds() {
             this.backgrounds = this.add.group();
@@ -142,7 +142,7 @@
                 background.position.x = this.game.world.centerX - this.backgroundImageWidth + i * this.backgroundImageWidth;
                 background.position.y = -50;
                 background.revive();
-            }            
+            }
         }
 
         createCityMid() {
@@ -218,7 +218,7 @@
             }, this);
             return objStartIndex;
         }
-        createEnemyBullets(objStartIndex:number) {
+        createEnemyBullets(objStartIndex: number) {
             this.enemyBullets = this.game.add.group();
             this.enemyBullets.enableBody = true;
             this.enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
@@ -231,7 +231,7 @@
             }, this);
 
             this.enemyBullets.setAll('checkWorldBounds', true);
-            this.enemyBullets.setAll('outOfBoundsKill', true);                        
+            this.enemyBullets.setAll('outOfBoundsKill', true);
             return objStartIndex;
         }
         createEnemyMissiles(objStartIndex: number) {
@@ -253,16 +253,16 @@
 
         createDropShips(objStartIndex: number) {
             this.helis = this.game.add.group();
-            for (var i = 0; i < 30; i++){
+            for (var i = 0; i < 30; i++) {
                 this.helis.add(new Heli(this.game, this));
             }
             this.helis.forEach(function (ufo) {
                 this.allObjects[objStartIndex] = ufo;
                 objStartIndex++;
             }, this);
-            
+
             return objStartIndex;
-        }    
+        }
 
         createParaTroopers(objStartIndex: number) {
             this.paratroopers = this.game.add.group();
@@ -274,7 +274,7 @@
                 objStartIndex++;
             }, this);
             return objStartIndex;
-        } 
+        }
 
         createVehicles(objStartIndex: number) {
             this.vehicles = this.game.add.group();
@@ -287,11 +287,11 @@
             }, this);
             return objStartIndex;
         }
-            
+
 
         update() {
-                                  
-        }        
+
+        }
 
     }
 

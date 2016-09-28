@@ -23,11 +23,14 @@
         stretchAnim: Phaser.Animation;
         contractAnim: Phaser.Animation;
         camTarget: Phaser.Sprite;
-        scaleMult: number;        
+        scaleMult: number;
         isStretched: boolean;
         tailOffset(): number {
             return (!this.isStretched ? 70 : 150);
         }
+
+        shield: Phaser.Sprite;
+        shieldAnimation;
 
         constructor(game: Phaser.Game, level: MainGame, bullets: Bullet) {
             super(game, game.world.centerX, game.world.centerY, 'PlayerShip', 0);
@@ -47,15 +50,22 @@
             this.camTarget.position.x = this.position.x;// + (this.isGoingRight ? 1 : -1) * this.camOffset;
             this.camTarget.position.y = this.position.y;
 
+            //this.shield = this.game.add.sprite(0, 0, 'shield_hit');
+            //this.shield.anchor.set(.5);
+            //this.shield.pivot.set(0, 0);
+            //this.camTarget.position.x = this.position.x;// + (this.isGoingRight ? 1 : -1) * this.camOffset;
+            //this.camTarget.position.y = this.position.y;
+            //this.addChild(this.shield);
+
 
             this.myCollider = new CircleCollider(this, 30, new Phaser.Point(0, 0));
-            
+
 
             this.body.setCircle(20);
             this.bullets = bullets;
             this.health = 3;
             this.maxHeight = this.level.gameSize.y - 180;
-            this.minHeight = this.level.heightOffset + 85;  
+            this.minHeight = this.level.heightOffset + 85;
         }
 
         camOffset: number = 300;
@@ -68,8 +78,8 @@
                 this.isFast = !this.isFast;
                 this.shipSpeed.x = this.isFast ? 3000 : 600;
             }
-            this.wasJustDown = isDown; 
-        }        
+            this.wasJustDown = isDown;
+        }
 
         update() {
             if (this.alive) {
@@ -84,9 +94,9 @@
 
                 if (!this.level.gamepadManager.joyStickIsActive) {
                     this.move(this.isGoingRight);
-                    this.animate(this.isGoingRight);   
+                    this.animate(this.isGoingRight);
                     this.checkAction();
-                }            
+                }
             }
         }
 
@@ -112,7 +122,7 @@
 
             if (this.bullets.bullet) {
                 this.level.soundManager.playSound(SoundFX.FireShot);
-                
+
                 var spawnChoice: Phaser.Point = this.isStretched ? this.stretchSpawnOffset : this.bulletSpawnOffset;
                 var bulletSpawnPoint: Phaser.Point = new Phaser.Point(this.body.x + (this.isGoingRight ? 1 : -1) * spawnChoice.x, this.body.y + spawnChoice.y);
 
@@ -120,7 +130,7 @@
                 this.bullets.bullet.reset(bulletSpawnPoint.x, bulletSpawnPoint.y);
                 this.bullets.bullet.scale.x = this.isGoingRight ? 1 : -1;
                 this.game.physics.arcade.velocityFromAngle((this.isGoingRight ? 0 : 180), this.bullets.bulletSpeed, this.bullets.bullet.body.velocity);
-                this.level.laserManager.fireLaserBurst(bulletSpawnPoint, this.isGoingRight);               
+                this.level.laserManager.fireLaserBurst(bulletSpawnPoint, this.isGoingRight);
             }
         }
 
@@ -131,9 +141,9 @@
             }
         }
 
-        kill() {            
+        kill() {
             this.game.state.start('GameOver', true, false);
-            super.kill();            
+            super.kill();
             return this;
         }
 
@@ -144,8 +154,8 @@
 
         move(isGoingRight: boolean) {
             this.body.velocity.x = (isGoingRight ? 1 : -1) * (this.baseSpeed);
-            this.body.velocity.y = 0;            
-            
+            this.body.velocity.y = 0;
+
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
                 this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) ||
                 this.game.input.keyboard.isDown(Phaser.Keyboard.UP) ||
@@ -167,20 +177,20 @@
                 if (this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
                     if (this.position.y < this.maxHeight) {
                         this.body.velocity.y = this.shipSpeed.y;
-                    } 
+                    }
                 }
                 else if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
                     if (this.position.y > this.minHeight) {
                         this.body.velocity.y = -this.shipSpeed.y;
-                    } 
+                    }
                 }
-            }            
+            }
         }
 
         wasJustFacingRight: boolean;
 
-        animate(isGoingRight:boolean){
-            
+        animate(isGoingRight: boolean) {
+
             var isMoving: boolean = this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT);
 
             if (isMoving) {
@@ -191,14 +201,14 @@
                     this.contractAnim.play();
                 }
             }
-            else{
-                if (this.animations.frame == this.maxVelocityFrame) {                    
+            else {
+                if (this.animations.frame == this.maxVelocityFrame) {
                     this.contractAnim.play();
                 }
             }
 
             this.wasJustFacingRight = isGoingRight;
 
-        }            
+        }
     }
 }

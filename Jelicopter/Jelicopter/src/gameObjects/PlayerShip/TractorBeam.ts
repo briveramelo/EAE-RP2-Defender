@@ -5,7 +5,7 @@
         game: Phaser.Game;
         level: MainGame;
         people: Phaser.Group;
-        positionOffset: Phaser.Point = new Phaser.Point(102, 50);
+        positionOffset: Phaser.Point = new Phaser.Point(103, 50);
         clipPositions: Phaser.Point[];
         isFullyLoaded: boolean = false;
         peopleBeingCarried: Person[];
@@ -15,52 +15,83 @@
         isWaitingToEmitPulse: boolean;
         baseLaunch: number = 100;
         maxLaunch: number = 800;
+        startAbduction: Phaser.Animation;
+        loopAbduction: Phaser.Animation;
+        endAbduction: Phaser.Animation;
+
+        startFrameData;
+        loopFrameData;
+        endFrameData;
 
         constructor(game: Phaser.Game, level: MainGame, people: Phaser.Group) {
-            super(game, 0, 0, 'invisibleDot');
+            super(game, 0, 0, 'abduction_beam', 0);
+
+            this.startFrameData = this.getFrameArray([0, 29]);
+            this.loopFrameData = this.getFrameArray([29, 39]);
+            this.endFrameData = this.getFrameArray([49, 100]);
+            console.log(this.startFrameData);
+            console.log(this.loopFrameData);
+            console.log(this.endFrameData);
+
+            this.pivot.set(0, 0);
+
+            this.startAbduction = this.animations.add('start-abduct', this.startFrameData, 60, false);
+            this.loopAbduction = this.animations.add('loop-abduct', this.loopFrameData, 60, true);
+            this.endAbduction = this.animations.add('end-abduct', this.endFrameData, 60, false);
+
             this.game = game;
             this.level = level;
             this.people = people;
             game.add.existing(this);
             game.physics.enable(this, Phaser.Physics.ARCADE);
-            this.myCollider = new CircleCollider(this, 40, new Phaser.Point(0, 0));
+            this.myCollider = new CircleCollider(this, 40, new Phaser.Point(110, 50));
             this.peopleBeingCarried = [];
             this.clipPositions = [];
             for (var i: number = 0; i < this.maxClipSize; i++) {
                 this.peopleBeingCarried[i] = null;
-                this.clipPositions[i] = new Phaser.Point(0, i * 30);
+                this.clipPositions[i] = new Phaser.Point(110, i * 30 + 50);
             }
-            
+
+        }
+
+        getFrameArray(frameRange) {
+            var frameData = [];
+            for (var i: number = 0; i < frameRange[1] - frameRange[0]; i++) {
+                frameData[i] = i + frameRange[0];
+            }
+            return frameData;
         }
 
         update() {
             if (this.level.playerShip.alive) {
                 this.setPosition();
                 this.carryDropPeople();
+                this.handleAnimations();
                 if (!this.isFullyLoaded) {
                     this.checkToCollectPeople();
-                    if (!this.isWaitingToEmitPulse) {
-                        this.emitPulse();
-                    }
+                    //if (!this.isWaitingToEmitPulse) {
+                    //    this.emitPulse();
+                    //}
                 }
             }
         }
 
-        emitPulse() {
-            this.isWaitingToEmitPulse = true;
-            var vel: Phaser.Point = new Phaser.Point(this.level.playerShip.baseSpeed * (this.level.playerShip.isGoingRight ? 1 : -1), this.level.playerShip.body.velocity.y);
-            var pointOfOrigin: Phaser.Point = new Phaser.Point(this.position.x, this.position.y - 50);
-            this.level.tractorBeamParticleManager.pulseEmitter(pointOfOrigin, vel);
-            this.game.time.events.add(100, this.allowEmittingPulses, this);
-        }
+        handleAnimations() {
+            if (this.isFullyLoaded && this.animations.frame < this.endFrameData[0]) {
+                this.endAbduction.play();
+            }
+            else if (!this.isFullyLoaded && (this.animations.frame == 0 || this.animations.frame >= this.endFrameData[1])) {
+                this.startAbduction.play();
+            }
+            else if (this.animations.frame == this.loopFrameData[0] - 1) {
+                this.loopAbduction.play();
+            }
 
-        allowEmittingPulses() {
-            this.isWaitingToEmitPulse = false;
         }
 
         setPosition() {
-            this.position.x = this.level.playerShip.position.x + (this.level.playerShip.scale.x === this.level.playerShip.scaleMult ? 1 : -1) * this.positionOffset.x;
-            this.position.y = this.level.playerShip.position.y + this.positionOffset.y;
+            this.position.x = this.level.playerShip.position.x + (this.level.playerShip.isGoingRight ? 1 : -1) * this.positionOffset.x - 110;
+            this.position.y = this.level.playerShip.position.y + this.positionOffset.y - 50;
         }
 
         checkToCollectPeople() {
@@ -68,7 +99,7 @@
             this.people.forEach(function (person: Person) {
                 if (person.alive && !person.isPausedForFlinging && !person.isBeingHeld) {
                     if (person.myCollider.isColliding(this.myCollider)) {
-                        if (!this.isFullyLoaded){
+                        if (!this.isFullyLoaded) {
                             this.collectPerson(person);
                         }
                     }
@@ -91,7 +122,7 @@
             //}, this);
         }
 
-        carryDropPeople() {            
+        carryDropPeople() {
             var i: number = 0;
             for (var i: number = 0; i < this.maxClipSize; i++) {
                 if (this.peopleBeingCarried[i] != null) {
@@ -109,15 +140,15 @@
 
             if (personIndex == 0) {
                 this.peopleBeingCarried[0].rotate();
-            }            
-            this.peopleBeingCarried[personIndex].position.x = this.position.x + this.clipPositions[personIndex].x * (this.level.playerShip.isGoingRight ? 1 : -1);
+            }
+            this.peopleBeingCarried[personIndex].position.x = this.position.x + this.clipPositions[personIndex].x;
             this.peopleBeingCarried[personIndex].position.y = this.position.y + this.clipPositions[personIndex].y;
-        }        
+        }
 
         dropPerson(personIndex: number) {
             this.isFullyLoaded = false;
             this.peopleBeingCarried[personIndex] = null;
-            for (var i: number = 1; i < this.maxClipSize; i++){
+            for (var i: number = 1; i < this.maxClipSize; i++) {
                 if (this.peopleBeingCarried[i] != null) {
                     this.peopleBeingCarried[i - 1] = this.peopleBeingCarried[i];
                     this.peopleBeingCarried[i] = null;
@@ -132,7 +163,7 @@
         //    this.paratrooperBeingCarried = null;
         //    this.level.soundManager.playSound(SoundFX.Abduct);
         //}
-        
+
         flingPerson() {
             var isGoingRightMult: number = this.level.playerShip.isGoingRight ? 1 : -1;
             var xLaunch: number = (this.baseLaunch * isGoingRightMult) + this.level.playerShip.body.velocity.x;
@@ -150,9 +181,9 @@
         //    this.dropParaTrooper();
         //}
 
-        collectPerson(person: Person) {            
+        collectPerson(person: Person) {
             var clipIndex = 0;
-            for (var i: number = 0; i < this.maxClipSize; i++){
+            for (var i: number = 0; i < this.maxClipSize; i++) {
                 if (this.peopleBeingCarried[i] == null) {
                     clipIndex = i;
                     break;
@@ -164,7 +195,7 @@
             }
 
             this.peopleBeingCarried[clipIndex] = person;
-            if (clipIndex == this.maxClipSize-1) {
+            if (clipIndex == this.maxClipSize - 1) {
                 this.isFullyLoaded = true;
             }
 
