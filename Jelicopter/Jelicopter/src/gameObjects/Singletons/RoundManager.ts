@@ -26,6 +26,8 @@
         minPeopleOnScreen: number[];        
         maxParaTroopersOnScreen: number[];
         minParaTroopersOnScreen: number[];
+        maxVehiclesOnScreen: number[];
+        minVehiclesOnScreen: number[];
 
         constructor(game: Phaser.Game, level: MainGame, people: Phaser.Group) {
             super(game, 0, 0, 'invisibleDot');
@@ -42,6 +44,8 @@
             this.minParaTroopersOnScreen = [];
             this.maxPeopleOnScreen = [];
             this.minPeopleOnScreen = [];
+            this.maxVehiclesOnScreen = [];
+            this.minVehiclesOnScreen = [];
 
             for (var i: number = 0; i < 100; i++) {
                 this.maxHelisOnScreen[i] = 1 + Math.ceil(i / 4);
@@ -53,11 +57,15 @@
 
                 this.maxPeopleOnScreen[i] = 4 + Math.ceil(i / 8);
                 this.minPeopleOnScreen[i] = 4 + Math.ceil(i / 12);
-            }
 
+                this.maxVehiclesOnScreen[i] = 1;
+                this.minVehiclesOnScreen[i] = 1;
+            }
+            
             this.level.heliSpawner.spawn(this.maxHelisOnScreen[0]);
             this.level.personSpawner.spawn(10);
-            this.level.paratrooperSpawner.spawn(this.maxParaTroopersOnScreen[i]);
+            this.level.paratrooperSpawner.spawn(this.maxParaTroopersOnScreen[0]);
+            this.level.vehicleSpawner.spawn(this.maxVehiclesOnScreen[0]);
         }
 
         checkToRespawn(enemyType: EnemyType) {
@@ -69,11 +77,12 @@
                         var numHelisToSpawn = this.maxHelisOnScreen[this.currentChallengeIndex] - this.level.helis.countLiving();
                         var numPeopleToSpawn = this.maxPeopleOnScreen[this.currentChallengeIndex] - this.level.allPeople.countLiving();
                         var numParaTroopersToSpawn = this.maxParaTroopersOnScreen[this.currentChallengeIndex] - this.level.paratroopers.countLiving();
+                        var numVehiclesToSpawn = this.maxVehiclesOnScreen[this.currentChallengeIndex] - this.level.vehicles.countLiving();
 
                         this.level.heliSpawner.spawn(numHelisToSpawn);
                         this.level.personSpawner.spawn(numPeopleToSpawn);
                         this.level.paratrooperSpawner.spawn(numParaTroopersToSpawn);
-
+                        this.level.vehicleSpawner.spawn(numVehiclesToSpawn);
                     }
                     break;
                 case EnemyType.Paratrooper:

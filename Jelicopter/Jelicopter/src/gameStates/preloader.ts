@@ -73,6 +73,9 @@
             this.load.spritesheet('Bob', './assets/sprites/People/bob.png', 128, 128);
             this.load.image('Parachute', './assets/sprites/People/parachute.png');
 
+            //Vehicle
+            this.load.atlasJSONHash('Tank', './assets/sprites/Vehicles/Tank.png', './assets/sprites/Vehicles/Tank.json');
+
             // Hospital
             //this.load.atlasJSONHash('Hospital', './assets/sprites/Buildings/safe_place.png', './assets/sprites/Buildings/safe_place.json');
 

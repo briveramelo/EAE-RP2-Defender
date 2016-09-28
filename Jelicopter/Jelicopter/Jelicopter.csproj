@@ -42,6 +42,7 @@
     <TypeScriptCompile Include="src\Components\collider.ts" />
     <TypeScriptCompile Include="src\gameObjects\Enemies\Heli.ts" />
     <TypeScriptCompile Include="src\gameObjects\Enemies\ParaTrooper.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Enemies\Vehicle.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\ParticleManagers\HeliExplosionManager.ts" />
     <TypeScriptCompile Include="src\game.ts" />
     <TypeScriptCompile Include="src\gameObjects\BackgroundLayer.ts" />

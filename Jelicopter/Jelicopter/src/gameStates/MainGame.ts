@@ -11,6 +11,7 @@
         music: Phaser.Sound;
         helis: Phaser.Group;
         paratroopers: Phaser.Group;
+        vehicles: Phaser.Group;
         enemyBullets: Phaser.Group;
         enemyMissiles: Phaser.Group;
         allPeople: Phaser.Group;
@@ -84,6 +85,7 @@
             i = this.createEnemyMissiles(i);
             i = this.createDropShips(i);
             i = this.createParaTroopers(i);
+            i = this.createVehicles(i);
 
             //CREATE SPAWNERS
             this.personSpawner = new PersonSpawner(this.game, this);
@@ -272,7 +274,19 @@
                 objStartIndex++;
             }, this);
             return objStartIndex;
-        }    
+        } 
+
+        createVehicles(objStartIndex: number) {
+            this.vehicles = this.game.add.group();
+            for (var i = 0; i < 30; i++) {
+                this.vehicles.add(new Vehicle(this.game, this));
+            }
+            this.vehicles.forEach(function (vehicle) {
+                this.allObjects[objStartIndex] = vehicle;
+                objStartIndex++;
+            }, this);
+            return objStartIndex;
+        }
             
 
         update() {
