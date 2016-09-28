@@ -7,7 +7,6 @@
         emitter_laser: Phaser.Particles.Arcade.Emitter;
         randomNumber: number;
         minMaxSpeed: Phaser.Point = new Phaser.Point(500, 2000);
-        maxEmitters: number = 8;
         shotIndex:number;
 
         constructor(game: Phaser.Game, level: MainGame) {

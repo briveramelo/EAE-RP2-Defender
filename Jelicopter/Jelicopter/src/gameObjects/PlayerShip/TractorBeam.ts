@@ -5,13 +5,16 @@
         game: Phaser.Game;
         level: MainGame;
         people: Phaser.Group;
-        positionOffset: Phaser.Point = new Phaser.Point(96, 50);
+        positionOffset: Phaser.Point = new Phaser.Point(102, 50);
         clipPositions: Phaser.Point[];
         isFullyLoaded: boolean = false;
         peopleBeingCarried: Person[];
         paratrooperBeingCarried: ParaTrooper;
         myCollider: CircleCollider;
         maxClipSize: number = 5;
+        isWaitingToEmitPulse: boolean;
+        baseLaunch: number = 100;
+        maxLaunch: number = 800;
 
         constructor(game: Phaser.Game, level: MainGame, people: Phaser.Group) {
             super(game, 0, 0, 'invisibleDot');
@@ -36,8 +39,23 @@
                 this.carryDropPeople();
                 if (!this.isFullyLoaded) {
                     this.checkToCollectPeople();
-                }                
+                    if (!this.isWaitingToEmitPulse) {
+                        this.emitPulse();
+                    }
+                }
             }
+        }
+
+        emitPulse() {
+            this.isWaitingToEmitPulse = true;
+            var vel: Phaser.Point = new Phaser.Point(this.level.playerShip.baseSpeed * (this.level.playerShip.isGoingRight ? 1 : -1), this.level.playerShip.body.velocity.y);
+            var pointOfOrigin: Phaser.Point = new Phaser.Point(this.position.x, this.position.y - 50);
+            this.level.tractorBeamParticleManager.pulseEmitter(pointOfOrigin, vel);
+            this.game.time.events.add(100, this.allowEmittingPulses, this);
+        }
+
+        allowEmittingPulses() {
+            this.isWaitingToEmitPulse = false;
         }
 
         setPosition() {
@@ -112,9 +130,14 @@
         //    this.paratrooperBeingCarried = null;
         //    this.level.soundManager.playSound(SoundFX.Abduct);
         //}
-
+        
         flingPerson() {
-            var launchVelocity: Phaser.Point = new Phaser.Point(this.level.playerShip.body.velocity.x, this.level.playerShip.body.velocity.y);
+            var isGoingRightMult: number = this.level.playerShip.isGoingRight ? 1 : -1;
+            var xLaunch: number = (this.baseLaunch * isGoingRightMult) + this.level.playerShip.body.velocity.x;
+            if (Math.abs(xLaunch) > this.maxLaunch) {
+                xLaunch = this.maxLaunch * isGoingRightMult;
+            }
+            var launchVelocity: Phaser.Point = new Phaser.Point(xLaunch, this.level.playerShip.body.velocity.y);
             this.peopleBeingCarried[0].getFlung(launchVelocity);
             this.dropPerson(0);
         }

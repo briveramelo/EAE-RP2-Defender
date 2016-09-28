@@ -65,7 +65,8 @@
         handleFiring() {
             var isPressed = this.joystick.isDown(Phaser.Gamepad.BUTTON_0);
             if (isPressed && !this.shootWasJustPressed) {
-                if (this.level.tractorBeam.isFullyLoaded) {
+
+                if (this.level.tractorBeam.peopleBeingCarried[0] != null) {
                     this.level.tractorBeam.flingPerson();
                 }
                 else {

@@ -39,6 +39,7 @@
         shipTrailManager: ShipTrailManager;
         soundManager: SoundManager;
         laserManager: LaserManager;
+        tractorBeamParticleManager: TractorBeamParticleManager;
 
         //SPAWNERS
         heliSpawner: HeliSpawner;
@@ -97,12 +98,15 @@
             this.wrapManager = new WrapManager(this.game, this);
             this.overlapManager = new OverlapManager(this.game, this, this.allPeople);
             this.roundManager = new RoundManager(this.game, this, this.allPeople);
+            this.soundManager = new SoundManager(this.game);
+            this.scoreboard = new ScoreBoard(this.game);
+
+            //CREATE PARTICLE MANAGERS
             this.heliExplosionManager = new HeliExplosionManager(this.game, this);
             this.peopleExplosionManager = new PeopleExplosionManager(this.game, this);
             this.shipTrailManager = new ShipTrailManager(this.game, this);
-            this.soundManager = new SoundManager(this.game);
             this.laserManager = new LaserManager(this.game, this);
-            this.scoreboard = new ScoreBoard(this.game);
+            this.tractorBeamParticleManager = new TractorBeamParticleManager(this.game, this);
             //this.playerShip.addChild(this.tractorBeam);
 
             //HANDLE CAMERA

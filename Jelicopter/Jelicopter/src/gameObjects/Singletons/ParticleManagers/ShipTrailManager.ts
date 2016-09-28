@@ -22,10 +22,6 @@
             this.emitter_trail.setAlpha(1, 0, 1500);
             this.emitter_trail.setScale(1.8, .1, 1.8, .1, 1500);
             this.emitter_trail.start(false, 1500, 9);
-
-            //this.emitter_trail.minRotation = 0;
-            //this.emitter_trail.maxRotation = 100;
-
         }
 
         update() {

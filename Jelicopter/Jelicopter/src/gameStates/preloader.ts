@@ -39,8 +39,6 @@
             ///VISUAL FX
             //LASER
             this.game.load.spritesheet('laser', 'assets/sprites/VisualFX/laser.png', 32, 32);
-
-            
             //Blue UFO Explosion
             this.load.spritesheet('blue_fire', './assets/sprites/VisualFX/blue_sprite.png', 115, 104);
             this.load.spritesheet('ship_smoke', './assets/sprites/VisualFX/smoke_sprite.png', 115, 104);
@@ -55,11 +53,12 @@
             this.load.spritesheet('player-ship-trail', 'assets/sprites/VisualFX/ship-trail_2.png', 32, 32);
             //this.load.spritesheet('ship_death', 'assets/ship_death_sprite.png', 115, 115);
             //this.load.spritesheet('ship_smoke', 'assets/smoke_sprite.png', 115, 104);
-            //BuildingExplosion
-            //
+            //TRACTOR BEAM PULSE
+            this.load.image('tractorBeamPulse', 'assets/sprites/VisualFX/downward-tractor-pulse.png');
+
+
             //SCORE
             this.load.spritesheet('score_feedback', './assets/sprites/VisualFX/score_sprite.png', 90, 90);
-
             //Ships
             this.load.image('invisibleDot', 'assets/sprites/Ship/invisibleDot.png');
             this.load.atlasJSONHash('Heli', './assets/sprites/Ship/Heli.png', './assets/sprites/Ship/Heli.json');
