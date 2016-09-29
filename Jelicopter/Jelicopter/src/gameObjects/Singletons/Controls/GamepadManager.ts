@@ -40,40 +40,14 @@
             }
         }
 
-        animate(xAxis:number) {
-            
+        animate(xAxis:number) {            
             var isMoving: boolean = Math.abs(xAxis)>0;
-
-            if (isMoving) {
-                if (this.level.playerShip.animations.frame == 0) {
-                    this.level.playerShip.stretchAnim.play();
-                }
-                if (this.level.playerShip.wasJustFacingRight != this.level.playerShip.isGoingRight) {
-                    this.level.playerShip.contractAnim.play();
-                }
-            }
-            else {
-                if (this.level.playerShip.animations.frame == this.level.playerShip.maxVelocityFrame) {
-                    this.level.playerShip.contractAnim.play();
-                }
-            }
-
-            this.level.playerShip.wasJustFacingRight = this.level.playerShip.isGoingRight;
-
+            this.level.playerShip.animate(isMoving);
         }
 
         handleFiring() {
             var isPressed = this.joystick.isDown(Phaser.Gamepad.BUTTON_0);
-            if (isPressed && !this.shootWasJustPressed) {
-
-                if (this.level.tractorBeam.peopleBeingCarried[0] != null) {
-                    this.level.tractorBeam.flingPerson(0);
-                }
-                else {
-                    this.level.playerShip.fireBullet();
-                }
-            }
-            this.shootWasJustPressed = isPressed;
+            this.level.playerShip.checkAction(isPressed);
         }
 
         toggleInputDevice() {

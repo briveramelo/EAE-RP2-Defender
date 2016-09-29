@@ -130,13 +130,15 @@
                 this.camTarget.position.y = this.position.y;
                 if (!this.level.gamepadManager.joyStickIsActive) {
                     this.move(this.isGoingRight);
-                    this.animate(this.isGoingRight);
-                    this.checkAction();
+                    var isMoving: boolean = this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT);
+                    this.animate(isMoving);
+                    var isPressed = this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR);
+                    this.checkAction(isPressed);
                 }
             }
         }
-        checkAction() {
-            var isPressed = this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR);
+        checkAction(isPressed) {
+            
             if (isPressed && !this.wasJustPressed) {
                 if (this.level.tractorBeam.peopleBeingCarried[0] != null) {
                     this.level.tractorBeam.flingPerson(0);
@@ -242,8 +244,8 @@
             }
         }
         wasJustFacingRight: boolean;
-        animate(isGoingRight: boolean) {
-            var isMoving: boolean = this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT);
+        animate(isMoving) {
+            
             if (isMoving) {
                 if (this.animations.frame == 0) {
                     this.stretchAnim.play();
@@ -255,7 +257,7 @@
                         this.shield1StretchAnim.play();                        
                     }
                 }
-                if (this.wasJustFacingRight != isGoingRight) {
+                if (this.wasJustFacingRight != this.isGoingRight) {
                     this.contractAnim.play();
                     if (this.health == 3) {
                         this.shield1ContractAnim.play();
@@ -278,7 +280,7 @@
                     }
                 }
             }
-            this.wasJustFacingRight = isGoingRight;
+            this.wasJustFacingRight = this.isGoingRight;
         }
     }
 }

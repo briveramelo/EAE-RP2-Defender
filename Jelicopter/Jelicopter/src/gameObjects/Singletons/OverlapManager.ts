@@ -239,7 +239,19 @@
                         heli.kill();
 
                     }
-                }, this);                
+                }, this);
+
+                this.level.vehicles.forEachAlive(function (vehicle: Vehicle) {
+                    if (vehicle.alive && !vehicle.isBeingHeld && vehicle.isFlying) {
+                        if (this.isOverlapping(vehicle, bullet)) {
+
+                            this.level.scoreboard.giveFeedbackOfScore(bullet.position, Points.Vehicle);
+                            vehicle.kill();
+                            bullet.kill();
+
+                        }
+                    }
+                }, this);
 
             }, this);
         }
