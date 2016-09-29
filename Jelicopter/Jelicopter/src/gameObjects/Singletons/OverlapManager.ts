@@ -198,7 +198,7 @@
                 this.level.paratroopers.forEachAlive(function (paratrooper: ParaTrooper) {
                     if (!paratrooper.isOnParachute) {
                         if (paratrooper.myCollider.isColliding(bullet.myCollider)) {
-                            this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Paratrooper);
+                            this.level.scoreboard.giveFeedbackOfScore(paratrooper.position, Points.Paratrooper);
                             paratrooper.kill();
                             bullet.kill();
                         }
