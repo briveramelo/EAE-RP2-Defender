@@ -58,8 +58,8 @@
                 this.maxPeopleOnScreen[i] = 4 + Math.ceil(i / 8);
                 this.minPeopleOnScreen[i] = 4 + Math.ceil(i / 12);
 
-                this.maxVehiclesOnScreen[i] = 1;
-                this.minVehiclesOnScreen[i] = 1;
+                this.maxVehiclesOnScreen[i] = 1 + Math.ceil(i / 4);
+                this.minVehiclesOnScreen[i] = 1 + Math.ceil(i / 6);
             }
             
             this.level.heliSpawner.spawn(this.maxHelisOnScreen[0]);

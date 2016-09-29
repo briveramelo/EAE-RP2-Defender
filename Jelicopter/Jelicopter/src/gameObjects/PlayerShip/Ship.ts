@@ -140,7 +140,7 @@
         takeDamage() {
             //this.health--;
             //if (this.health <= 0) {
-                this.kill();
+                //this.kill();
             //}
         }
 

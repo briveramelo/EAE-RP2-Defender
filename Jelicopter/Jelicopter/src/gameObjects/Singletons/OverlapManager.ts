@@ -21,6 +21,65 @@
             this.checkPlayerBulletOverlaps();
             this.checkEnemyBulletOverlaps();
             this.checkParaTrooperOverlaps();
+            this.checkVehicleOverlaps();
+        }
+
+
+        checkVehicleOverlaps() {
+            this.level.vehicles.forEachAlive(function (vehicle: Vehicle) {
+                this.people.forEach(function (person2: Person) {
+
+                    if (person2.alive && !vehicle.isBeingHeld && !person2.isBeingHeld && person2.isFlying) {
+                        if (this.isOverlapping(vehicle, person2)) {
+                            var velDiff: number = new Phaser.Point(vehicle.body.velocity.x - person2.body.velocity.x, vehicle.body.velocity.y - person2.body.velocity.y).getMagnitude();
+                            if (velDiff > vehicle.maxTotalSpeedBeforeDeath) {
+
+                                this.level.scoreboard.giveFeedbackOfScore(vehicle.position, Points.HumanToVehicle);
+                                vehicle.kill();
+                                person2.kill();
+
+                            }
+                        }
+                    }
+                }, this);
+
+
+                this.level.helis.forEachAlive(function (heli: Heli) {
+
+                    if (vehicle.alive && !vehicle.isBeingHeld && vehicle.isFlying) {
+                        if (heli.myCollider.isColliding(vehicle.myCollider)) {
+
+                            this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.VehicleToHeli);
+                                vehicle.kill();
+                                heli.kill();
+
+                            }
+                        }
+                    }, this);
+                 
+
+          
+                
+                    if (vehicle.alive && vehicle.isFlying && !vehicle.isBeingHeld) {
+                        this.level.vehicles.forEachAlive(function (vehicle2: Vehicle) {
+                            if (vehicle2.alive && !vehicle2.isBeingHeld) {
+                                if (vehicle.myCollider.isColliding(vehicle2.myCollider)) {
+                                    var velDiff: number = new Phaser.Point(vehicle.body.velocity.x - vehicle2.body.velocity.x, vehicle.body.velocity.y - vehicle2.body.velocity.y).getMagnitude();
+                                    if (velDiff > vehicle.maxTotalSpeedBeforeDeath) {
+
+                                        this.level.scoreboard.giveFeedbackOfScore(vehicle.position, Points.VehicleToVehicle);
+                                        vehicle.kill();
+                                        vehicle2.kill();
+
+                                    }
+                                }
+                            }
+                        }, this);
+
+                    }
+               
+
+            }, this); 
         }
 
         checkParaTrooperOverlaps() {
@@ -41,6 +100,16 @@
                     }
                 }, this);
 
+
+                this.level.vehicles.forEachAlive(function (vehicle: Vehicle) {
+                    if (vehicle.alive && !vehicle.isBeingHeld && vehicle.isFlying) {
+                        if (this.isOverlapping(vehicle, paratrooper)) {
+                            this.level.scoreboard.giveFeedbackOfScore(this.position, Points.VehicleToVehicle);
+                            vehicle.kill();
+                            paratrooper.kill();
+                        }
+                    }
+                }, this);
 
                 if (paratrooper.myCollider.isColliding(this.level.playerShip.myCollider)) {
                     //this.level.playerShip.takeDamage();
