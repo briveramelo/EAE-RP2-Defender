@@ -19,6 +19,8 @@
         loopAbduction: Phaser.Animation;
         endAbduction: Phaser.Animation;
 
+        vehicle: Vehicle;
+
         startFrameData;
         loopFrameData;
         endFrameData;
@@ -63,6 +65,7 @@
             if (this.level.playerShip.alive) {
                 this.setPosition();
                 this.carryDropPeople();
+                this.carryDropVehicle();
                 this.handleAnimations();
                 if (!this.isFullyLoaded) {
                     this.checkToCollectPeople();
@@ -109,14 +112,16 @@
             //////////////////
 
             //i = 0;
-            //this.level.paratroopers.forEach(function (paratrooper: ParaTrooper) {
-            //    if (paratrooper.alive && !paratrooper.isPausedForFlinging && !this.isCarryingPerson) {
-            //        if (paratrooper.myCollider.isColliding(this.myCollider)) {
-            //            this.collectParaTrooper(paratrooper);
-            //        }
-            //    }
-            //    i++;
-            //}, this);
+            this.level.vehicles.forEach(function (vehicle: Vehicle) {
+                if (vehicle.alive && !vehicle.isPausedForFlinging && !this.isCarryingPerson) {
+                    if (vehicle.myCollider.isColliding(this.myCollider)) {
+                        if (!this.isFullyLoaded) {
+                            this.collectVehicle(vehicle);
+                        }
+                    }
+                }
+                i++;
+            }, this);
         }
 
         carryDropPeople() {
@@ -130,6 +135,19 @@
                         this.dropPerson(i);
                     }
                 }
+
+            }
+        }
+
+        carryDropVehicle() {
+            var i: number = 0;
+            if (this.vehicle != null) {
+                if (this.vehicle.alive) {
+                    this.carryVehicle(this.vehicle);
+                }
+                else {
+                    this.dropVehicle(this.vehicle);
+                }
             }
         }
 
@@ -142,6 +160,12 @@
             this.peopleBeingCarried[personIndex].position.y = this.position.y + this.clipPositions[personIndex].y;
         }
 
+        carryVehicle(vehicle:Vehicle) {            
+                vehicle.rotate();
+                vehicle.position.x = this.position.x + this.clipPositions[0].x;
+                vehicle.position.y = this.position.y + this.clipPositions[0].y;
+        }
+
         dropPerson(personIndex: number) {
             this.isFullyLoaded = false;
             this.peopleBeingCarried[personIndex] = null;
@@ -152,6 +176,13 @@
                 }
             }
 
+            this.level.soundManager.playSound(SoundFX.Abduct);
+        }
+
+        dropVehicle(vehicle: Vehicle) {
+            this.isFullyLoaded = false;
+            this.vehicle.body.gravity.y = 600;
+            this.vehicle = null;            
             this.level.soundManager.playSound(SoundFX.Abduct);
         }
 
@@ -170,6 +201,17 @@
             var launchVelocity: Phaser.Point = new Phaser.Point(xLaunch, this.level.playerShip.body.velocity.y);
             this.peopleBeingCarried[0].getFlung(launchVelocity);
             this.dropPerson(0);
+        }
+
+        flingVehicle() {
+            var isGoingRightMult: number = this.level.playerShip.isGoingRight ? 1 : -1;
+            var xLaunch: number = (this.baseLaunch * isGoingRightMult) + this.level.playerShip.body.velocity.x;
+            if (Math.abs(xLaunch) > this.maxLaunch) {
+                xLaunch = this.maxLaunch * isGoingRightMult;
+            }
+            var launchVelocity: Phaser.Point = new Phaser.Point(xLaunch, this.level.playerShip.body.velocity.y);
+            this.vehicle.getFlung(launchVelocity);
+            this.dropVehicle(this.vehicle);
         }
 
         //flingParatrooper() {
@@ -208,6 +250,18 @@
         //    paratrooper.getGrabbed();
         //    this.level.soundManager.playSound(SoundFX.Abduct);
         //}
+
+        collectVehicle(vehicle: Vehicle) {
+            if (this.peopleBeingCarried[0] == null) {
+                console.debug("Vehicle carried");
+                this.vehicle = vehicle;
+                this.isFullyLoaded = true;
+                vehicle.getGrabbed();
+                vehicle.rotate();
+                this.level.soundManager.playSound(SoundFX.Abduct);
+            }
+
+        }
 
         isOverlapping(spriteA, spriteB) {
             var boundsA = spriteA.getBounds();
