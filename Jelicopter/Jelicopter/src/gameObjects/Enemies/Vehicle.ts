@@ -59,7 +59,7 @@
                 }
                 else if ((this.isPausedForFlinging && this.body.velocity.y > 0) || !this.isPausedForFlinging) {
 
-                    console.debug('hello?');this.standOnFloor();
+                    this.standOnFloor();
                 }
             }
             else {
@@ -99,7 +99,6 @@
         }
 
         checkToShoot() {
-            console.debug('yes?');
             if (this.level.playerShip.alive) {
                 if (this.myPosition().distance(this.level.playerShip.myPosition()) < this.maxMissileShootDistance &&
                     this.missileTimerAllowsShooting &&

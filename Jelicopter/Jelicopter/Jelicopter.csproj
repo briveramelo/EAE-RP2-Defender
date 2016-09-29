@@ -22,9 +22,15 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="build\assets\sounds\SoundFX\Shots\Laser_Shoot2.wav" />
+    <Content Include="build\assets\sounds\SoundFX\Shots\Laser_Shoot3.wav" />
+    <Content Include="build\assets\sounds\SoundFX\Shots\Laser_Shoot8.wav" />
+    <Content Include="build\assets\sounds\SoundFX\TractorBeam\Abduction.wav" />
     <Content Include="build\assets\sprites\Explosions\blue_sprite.png" />
     <Content Include="build\assets\sprites\Explosions\Explosion.png" />
     <Content Include="build\assets\sprites\Explosions\smoke_sprite.png" />
+    <Content Include="build\assets\sprites\Ship\ship_shield.png" />
+    <Content Include="build\assets\sprites\VisualFX\player_ship_parts_sprite.png" />
     <Content Include="build\styles\default.css" />
     <Content Include="build\assets\ui\gameLogo.png" />
     <Content Include="build\assets\ui\titlePage.png" />
@@ -76,6 +82,9 @@
     <TypeScriptCompile Include="tsDefinitions\pixi.comments.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="build\assets\sprites\Ship\ship_shield.json" />
+    <Content Include="build\assets\sounds\SoundFX\Collision\Splat.ogg" />
+    <Content Include="build\assets\sounds\SoundFX\TractorBeam\TractorBeam.ogg" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
