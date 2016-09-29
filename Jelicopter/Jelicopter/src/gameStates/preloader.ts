@@ -47,8 +47,9 @@
             this.load.image('EnemyBullet', './assets/sprites/Shots/EnemyBullet.png');
             this.load.image('Bullet', './assets/sprites/Shots/bullet02.png');
             this.load.image('PlayerBullet', './assets/sprites/Shots/Shot_2.png');
-            this.load.image('UFOBullet', './assets/sprites/Shots/Shot_3.png');
+            this.load.image('UFOBullet_Demo', './assets/sprites/Shots/Shot_3.png');
             this.load.image('Missile', './assets/sprites/Shots/Bomb.png');
+            this.load.atlasJSONHash('UFOBullet', './assets/sprites/Shots/bullet.png', './assets/sprites/Shots/bullet.json');
             //Ships
             this.load.image('invisibleDot', 'assets/sprites/Ship/invisibleDot.png');
             this.load.atlasJSONHash('Heli', './assets/sprites/Ship/Heli.png', './assets/sprites/Ship/Heli.json');

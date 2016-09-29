@@ -234,6 +234,8 @@
 
             this.enemyBullets.setAll('checkWorldBounds', true);
             this.enemyBullets.setAll('outOfBoundsKill', true);
+            this.enemyBullets.callAll('animations.add', 'animations', 'bullet_blast', [0, 1, 2, 3,4], 16, true);
+            this.enemyBullets.callAll('play', null, 'bullet_blast');
             return objStartIndex;
         }
         createEnemyMissiles(objStartIndex: number) {
