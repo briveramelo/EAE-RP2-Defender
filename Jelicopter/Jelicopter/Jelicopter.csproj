@@ -62,6 +62,7 @@
     <TypeScriptCompile Include="src\gameObjects\Enemies\Person.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\Controls\Pauser.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\ParticleManagers\PersonExplosionManager.ts" />
+    <TypeScriptCompile Include="src\gameObjects\Singletons\ParticleManagers\PlayerShipExplosionManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\ParticleManagers\TractorBeamParticleManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\ParticleManagers\VehicleExplosionManager.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\RoundManager.ts" />
