@@ -41,6 +41,13 @@
                     }
                 }, this);
 
+
+                if (paratrooper.myCollider.isColliding(this.level.playerShip.myCollider)) {
+                    this.level.playerShip.takeDamage();
+                    this.level.scoreboard.giveFeedbackOfScore(paratrooper.position, Points.Paratrooper);
+                    paratrooper.kill();
+                }
+
                 if (!paratrooper.isOnParachute) { 
 
                     this.level.helis.forEachAlive(function (heli: Heli) {
@@ -49,7 +56,6 @@
                             this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.ParatrooperToHeli);                            
                             paratrooper.kill();
                             heli.kill();
-                            console.log('ghost kill?');
                                               
                         }
                     }, this); 
@@ -82,6 +88,13 @@
 
         checkHumanToHeliOverlaps() {
             this.level.helis.forEachAlive(function (heli: Heli) {
+                if (heli.myCollider.isColliding(this.level.playerShip.myCollider)) {
+                    this.level.playerShip.takeDamage();
+                    this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.Heli);
+                    heli.kill();
+                }
+
+
                 this.people.forEach(function (person: Person) {
                     if (person.alive && !person.isBeingHeld && person.isFlying) {
                         if (heli.myCollider.isColliding(person.myCollider)) {
@@ -110,8 +123,16 @@
         checkPlayerBulletOverlaps() {
             this.level.playerBullets.forEachAlive(function (bullet) {
 
-
+                
+                 
                 this.level.paratroopers.forEachAlive(function (paratrooper: ParaTrooper) {
+                    if (!paratrooper.isOnParachute) {
+                        if (paratrooper.myCollider.isColliding(bullet.myCollider)) {
+                            this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Paratrooper);
+                            paratrooper.kill();
+                            bullet.kill();
+                        }
+                    }
                     if (this.isOverlapping(paratrooper.parachute, bullet)) {
 
                         paratrooper.removeChild(paratrooper.parachute);

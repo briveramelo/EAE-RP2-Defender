@@ -17,7 +17,6 @@
                 var playerX: number = this.level.playerShip.position.x;
                 var spawnX: number = this.game.rnd.between(playerX - this.level.backgroundImageWidth / 2, playerX + this.level.backgroundImageWidth / 2);
                 var spawnY: number = this.level.gameSize.y-120;
-                console.debug("Vehicle position " + spawnX);
                 vehicle.reset(spawnX, spawnY);
             }
         }

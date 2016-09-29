@@ -16,10 +16,12 @@
 
             //Audio
             this.load.audio('Aliens', './assets/sounds/BackgroundTunes/Aliens.mp3', true);
-
             this.load.audio('personDeath', './assets/sounds/SoundFX/Explosion5.wav', true);
             this.load.audio('fireShot', './assets/sounds/SoundFX/Hit_Hurt2.wav', true);
             this.load.audio('abduct', './assets/sounds/SoundFX/Abduction.wav', true);
+            this.load.audio('heliExplode', './assets/sounds/SoundFX/Explosion8.wav', true);
+            this.load.audio('heliExplode', './assets/sounds/SoundFX/Explosion8.wav', true);
+            this.load.audio('heliExplode', './assets/sounds/SoundFX/Explosion8.wav', true);
             this.load.audio('heliExplode', './assets/sounds/SoundFX/Explosion8.wav', true);
 
             //Backgrounds

@@ -67,9 +67,6 @@
                 this.handleAnimations();
                 if (!this.isFullyLoaded) {
                     this.checkToCollectPeople();
-                    //if (!this.isWaitingToEmitPulse) {
-                    //    this.emitPulse();
-                    //}
                 }
             }
             else {
@@ -114,20 +111,6 @@
                 }
                 i++;
             }, this);
-
-            //////////////////
-            //AJAY, LETS GET PARATROOPERS IN THIS SAME LIST OF PEOPLE
-            //////////////////
-
-            //i = 0;
-            //this.level.paratroopers.forEach(function (paratrooper: ParaTrooper) {
-            //    if (paratrooper.alive && !paratrooper.isPausedForFlinging && !this.isCarryingPerson) {
-            //        if (paratrooper.myCollider.isColliding(this.myCollider)) {
-            //            this.collectParaTrooper(paratrooper);
-            //        }
-            //    }
-            //    i++;
-            //}, this);
         }
 
         carryDropPeople() {
@@ -152,7 +135,6 @@
                 this.peopleBeingCarried[i] = null;
             };
             this.isFullyLoaded = false;
-
         }
 
         carryPerson(personIndex: number) {
@@ -177,12 +159,6 @@
             this.level.soundManager.playSound(SoundFX.Abduct);
         }
 
-        //dropParaTrooper() {
-        //    this.isFullyLoaded = false;
-        //    this.paratrooperBeingCarried = null;
-        //    this.level.soundManager.playSound(SoundFX.Abduct);
-        //}
-
         flingPerson(personIndex: number, isForAll?:boolean) {
             var isGoingRightMult: number = this.level.playerShip.isGoingRight ? 1 : -1;
             var xLaunch: number = (this.baseLaunch * isGoingRightMult) + this.level.playerShip.body.velocity.x;
@@ -196,11 +172,6 @@
             }
         }
 
-        //flingParatrooper() {
-        //    var launchVelocity: Phaser.Point = new Phaser.Point(this.level.playerShip.body.velocity.x, this.level.playerShip.body.velocity.y);
-        //    this.paratrooperBeingCarried.getFlung(launchVelocity);
-        //    this.dropParaTrooper();
-        //}
 
         collectPerson(person: Person) {
             var clipIndex = 0;
@@ -224,15 +195,7 @@
 
             this.level.soundManager.playSound(SoundFX.Abduct);
         }
-
-        //collectParaTrooper(paratrooper: ParaTrooper) {
-        //    paratrooper.removeChild(paratrooper.parachute);
-        //    this.paratrooperBeingCarried = paratrooper;
-        //    this.isFullyLoaded = true;
-        //    paratrooper.getGrabbed();
-        //    this.level.soundManager.playSound(SoundFX.Abduct);
-        //}
-
+      
         isOverlapping(spriteA, spriteB) {
             var boundsA = spriteA.getBounds();
             var boundsB = spriteB.getBounds();
