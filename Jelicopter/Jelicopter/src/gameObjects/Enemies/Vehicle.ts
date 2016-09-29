@@ -77,8 +77,9 @@
         dieOnFloor() {
             if (this.alive) {
                 this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Vehicle);
+                this.kill();
             }
-            this.kill();
+            
         }
 
         standOnFloor() {
@@ -91,10 +92,11 @@
         }
 
         kill() {
+            
             this.lifeCount++;
-           
+            this.level.vehicleExplosionManager.particleBurst(this.position);
             super.kill();
-
+            
             return this;
         }
 

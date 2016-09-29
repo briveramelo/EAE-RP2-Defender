@@ -41,6 +41,7 @@
         soundManager: SoundManager;
         laserManager: LaserManager;
         tractorBeamParticleManager: TractorBeamParticleManager;
+        vehicleExplosionManager: VehicleExplosionManager;
 
         //SPAWNERS
         heliSpawner: HeliSpawner;
@@ -108,6 +109,7 @@
             this.peopleExplosionManager = new PeopleExplosionManager(this.game, this);
             this.shipTrailManager = new ShipTrailManager(this.game, this);
             this.laserManager = new LaserManager(this.game, this);
+            this.vehicleExplosionManager = new VehicleExplosionManager(this.game, this);
             //this.tractorBeamParticleManager = new TractorBeamParticleManager(this.game, this);
             //this.playerShip.addChild(this.tractorBeam);
 

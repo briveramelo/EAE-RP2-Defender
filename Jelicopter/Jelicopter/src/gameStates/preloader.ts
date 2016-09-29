@@ -87,6 +87,8 @@
             this.load.atlasJSONHash('abduction_beam', 'assets/sprites/VisualFX/abduction_beam.png', 'assets/sprites/VisualFX/abduction_beam.json');
             //SCORE
             this.load.spritesheet('score_feedback', './assets/sprites/VisualFX/score_sprite.png', 90, 90);
+            //Tanks
+            this.load.spritesheet('tank_burst', './assets/sprites/VisualFX/tank_parts_sprite.png', 62, 62);
         }
         create() {
             //var tween = this.add.tween(this.loaderText).to({ alpha: 0 }, 2000,
