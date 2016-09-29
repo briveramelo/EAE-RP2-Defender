@@ -36,7 +36,6 @@
             }
             else {
                 if (this.alive) {
-                    console.log('killed it a');
                     this.emitter_trail.kill();
                     this.kill();
                 }

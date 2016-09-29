@@ -99,7 +99,6 @@
             if (!this.justDied) {
                 this.justDied = true;
                 this.endAbduction.play();
-                console.log('hitting it');
             }
         }
 
@@ -279,7 +278,6 @@
 
         collectVehicle(vehicle: Vehicle) {
             if (this.peopleBeingCarried[0] == null) {
-                console.debug("Vehicle carried");
                 this.vehicle = vehicle;
                 this.isFullyLoaded = true;
                 vehicle.getGrabbed();

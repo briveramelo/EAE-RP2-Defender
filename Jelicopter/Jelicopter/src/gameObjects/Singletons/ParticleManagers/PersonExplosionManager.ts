@@ -59,6 +59,7 @@
         }
 
         explodeBody(position: Phaser.Point, bodyType: PersonType, shootDir?: Phaser.Point) {
+
             //  Position the emitter where the mouse/touch event was
             this.emitterArray_bodyParts[bodyType].x = position.x;
             this.emitterArray_bodyParts[bodyType].y = position.y;

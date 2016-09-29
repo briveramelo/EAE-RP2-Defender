@@ -94,6 +94,7 @@
         kill() {
             
             this.lifeCount++;
+            this.level.soundManager.playSound(SoundFX.HeliExplode);
             this.level.vehicleExplosionManager.particleBurst(this.position);
             super.kill();
             
