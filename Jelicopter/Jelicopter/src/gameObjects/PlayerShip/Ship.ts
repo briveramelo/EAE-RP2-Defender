@@ -193,7 +193,7 @@
                     //second shield
                     break;
                 case 0:
-                  //  this.level.playerShipParticleManager.particleBurst(this.position);
+                    this.level.playerShipExplosionManager.burstParticles(this.position);
                     //ship explosion
                     break;
             }
