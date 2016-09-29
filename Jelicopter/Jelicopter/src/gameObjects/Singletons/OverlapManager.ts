@@ -43,7 +43,7 @@
 
 
                 if (paratrooper.myCollider.isColliding(this.level.playerShip.myCollider)) {
-                    this.level.playerShip.takeDamage();
+                    //this.level.playerShip.takeDamage();
                     this.level.scoreboard.giveFeedbackOfScore(paratrooper.position, Points.Paratrooper);
                     paratrooper.kill();
                 }
