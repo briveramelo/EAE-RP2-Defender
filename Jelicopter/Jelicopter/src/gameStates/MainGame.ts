@@ -41,6 +41,7 @@
         soundManager: SoundManager;
         laserManager: LaserManager;
         tractorBeamParticleManager: TractorBeamParticleManager;
+        vehicleExplosionManager: VehicleExplosionManager;
 
         //SPAWNERS
         heliSpawner: HeliSpawner;
@@ -108,6 +109,7 @@
             this.peopleExplosionManager = new PeopleExplosionManager(this.game, this);
             this.shipTrailManager = new ShipTrailManager(this.game, this);
             this.laserManager = new LaserManager(this.game, this);
+            this.vehicleExplosionManager = new VehicleExplosionManager(this.game, this);
             //this.tractorBeamParticleManager = new TractorBeamParticleManager(this.game, this);
             //this.playerShip.addChild(this.tractorBeam);
 
@@ -232,6 +234,8 @@
 
             this.enemyBullets.setAll('checkWorldBounds', true);
             this.enemyBullets.setAll('outOfBoundsKill', true);
+            this.enemyBullets.callAll('animations.add', 'animations', 'bullet_blast', [0, 1, 2, 3,4], 16, true);
+            this.enemyBullets.callAll('play', null, 'bullet_blast');
             return objStartIndex;
         }
         createEnemyMissiles(objStartIndex: number) {

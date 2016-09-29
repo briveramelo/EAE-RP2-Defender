@@ -157,10 +157,12 @@
 
         checkHumanToHeliOverlaps() {
             this.level.helis.forEachAlive(function (heli: Heli) {
-                if (heli.myCollider.isColliding(this.level.playerShip.myCollider)) {
-                    this.level.playerShip.takeDamage();
-                    this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.Heli);
-                    heli.kill();
+                if (this.level.playerShip.alive) {
+                    if (heli.myCollider.isColliding(this.level.playerShip.myCollider)) {
+                        this.level.playerShip.takeDamage();
+                        this.level.scoreboard.giveFeedbackOfScore(heli.position, Points.Heli);
+                        heli.kill();
+                    }
                 }
 
 

@@ -47,8 +47,9 @@
             this.load.image('EnemyBullet', './assets/sprites/Shots/EnemyBullet.png');
             this.load.image('Bullet', './assets/sprites/Shots/bullet02.png');
             this.load.image('PlayerBullet', './assets/sprites/Shots/Shot_2.png');
-            this.load.image('UFOBullet', './assets/sprites/Shots/Shot_3.png');
+            this.load.image('UFOBullet_Demo', './assets/sprites/Shots/Shot_3.png');
             this.load.image('Missile', './assets/sprites/Shots/Bomb.png');
+            this.load.atlasJSONHash('UFOBullet', './assets/sprites/Shots/bullet.png', './assets/sprites/Shots/bullet.json');
             //Ships
             this.load.image('invisibleDot', 'assets/sprites/Ship/invisibleDot.png');
             this.load.atlasJSONHash('Heli', './assets/sprites/Ship/Heli.png', './assets/sprites/Ship/Heli.json');
@@ -88,6 +89,8 @@
             this.load.atlasJSONHash('abduction_beam', 'assets/sprites/VisualFX/abduction_beam.png', 'assets/sprites/VisualFX/abduction_beam.json');
             //SCORE
             this.load.spritesheet('score_feedback', './assets/sprites/VisualFX/score_sprite.png', 90, 90);
+            //Tanks
+            this.load.spritesheet('tank_burst', './assets/sprites/VisualFX/tank_parts_sprite.png', 62, 62);
         }
         create() {
             //var tween = this.add.tween(this.loaderText).to({ alpha: 0 }, 2000,

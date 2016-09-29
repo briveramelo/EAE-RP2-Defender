@@ -77,8 +77,9 @@
         dieOnFloor() {
             if (this.alive) {
                 this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Vehicle);
+                this.kill();
             }
-            this.kill();
+            
         }
 
         standOnFloor() {
@@ -91,19 +92,19 @@
         }
 
         kill() {
+            
             this.lifeCount++;
-           
+            this.level.vehicleExplosionManager.particleBurst(this.position);
             super.kill();
-
+            
             return this;
         }
 
         checkToShoot() {
-            if (this.level.playerShip.alive) {
+            if (this.level.playerShip.alive && this.alive) {
                 if (this.myPosition().distance(this.level.playerShip.myPosition()) < this.maxMissileShootDistance &&
                     this.missileTimerAllowsShooting &&
                     !this.isBeingHeld) {
-
                     this.shootMissile();
                 }
             }
@@ -121,8 +122,10 @@
             var angleOfShotRadians = this.checkAngle(myBullet);
             myBullet.lifespan = 4500;
            // myBullet.angle = -135;
-            this.game.physics.arcade.velocityFromAngle(angleOfShotRadians, 400, myBullet.body.velocity);
-            this.resetMissileShooting();
+            
+                this.game.physics.arcade.velocityFromAngle(angleOfShotRadians, 400, myBullet.body.velocity);
+                this.resetMissileShooting();
+            
         }
 
         checkAngle(myBullet) {
@@ -152,7 +155,9 @@
 
         resetMissileShooting(): void {
             this.missileTimerAllowsShooting = false;
-            this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShootMissile, this.setMissileShootingToOk, this, this.lifeCount);
+            if (this.alive) {
+                this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShootMissile, this.setMissileShootingToOk, this, this.lifeCount);
+            }
         }
 
         setMissileShootingToOk(startingLifeCount): void {
