@@ -192,7 +192,7 @@
         kill() {
             this.lifeCount++;
             this.isOnParachute = true;
-            this.level.peopleExplosionManager.explodeBody(this.position, PersonType.Male1);
+            this.level.peopleExplosionManager.explodeBody(this.position, PersonType.Bob);
             this.level.soundManager.playSound(SoundFX.PersonDeath);          
             super.kill();
 

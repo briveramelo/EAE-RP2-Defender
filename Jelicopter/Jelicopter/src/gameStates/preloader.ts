@@ -4,7 +4,7 @@
         preload() {
             this.game.antialias = false;
             this.loaderText = this.game.add.text(this.world.centerX, 200, "Loading...",
-                { font: "18px Arial", fill: "#A9A91111", align: "center" });
+                { font: "18px Arial", fill: "#ffffff", align: "center" });
             this.loaderText.anchor.setTo(0.5);
             this.loadAudio();
             this.loadImages();
@@ -84,6 +84,7 @@
             this.load.spritesheet('Male2_Parts', 'assets/sprites/VisualFX/male2_parts_sprite.png', 124, 124);
             this.load.spritesheet('Female1_Parts', 'assets/sprites/VisualFX/female1_parts_sprite.png', 124, 124);
             this.load.spritesheet('Female2_Parts', 'assets/sprites/VisualFX/female2_parts_sprite.png', 124, 124);
+            this.load.spritesheet('Bob_Parts', './assets/sprites/VisualFX/Bob-parts.png', 128, 128);
             this.load.image('blood', 'assets/sprites/VisualFX/blood_drop.png');
             this.load.spritesheet('guts', 'assets/sprites/VisualFX/guts_sprite.png', 64, 64);
             //SHIP 

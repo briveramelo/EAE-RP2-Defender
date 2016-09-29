@@ -6,7 +6,7 @@
         }
 
         create() {
-            this.stage.setBackgroundColor("0xFFFFFF");
+            this.stage.setBackgroundColor("000");
 
             this.input.maxPointers = 1;
             this.stage.disableVisibilityChange = true;

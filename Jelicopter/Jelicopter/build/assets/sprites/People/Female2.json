@@ -99,10 +99,10 @@
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "Female2.png",
+	"image": "Ashley run.png",
 	"format": "RGBA8888",
 	"size": {"w":1536,"h":128},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b821d414f02b4d69b9a9d3a2291c0a15:0838592dc1ed32d904e8467639284fa8:071481a45c8b45af6f9a609b5a6b3988$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c5227677fbf2c8ce4c122b5d416a2a51:947373bff3e3f7aa15e2aa72f864803b:8808cd3f55a43f5e9fff26c1bfa543bc$"
 }
 }

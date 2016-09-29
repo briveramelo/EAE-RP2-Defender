@@ -4,7 +4,8 @@
         Male1 = 0,
         Male2 = 1,
         Female1 = 2,
-        Female2 =3
+        Female2 = 3,
+        Bob =4
     }
 
     export class PeopleExplosionManager {
@@ -23,13 +24,14 @@
             // BodyParts
             this.emitterArray_bodyParts = [];
 
-            for (var j: number = 0; j < 4; j++){
+            for (var j: number = 0; j < 5; j++){
                 var startScale = 0.6;
                 var endScale = 0.5;
-
+                var frameData = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+                
                 var bodyPartKey: string = PersonType[j] + "_Parts";
                 this.emitterArray_bodyParts[j] = this.game.add.emitter(0, 0, 900);
-                this.emitterArray_bodyParts[j].makeParticles(bodyPartKey, [0,1,2,3,4,5,6,7,8], 900, true, true);
+                this.emitterArray_bodyParts[j].makeParticles(bodyPartKey, frameData, 900, true, true);
                 this.emitterArray_bodyParts[j].gravity = 400;
                 this.emitterArray_bodyParts[j].setAlpha(1, 0, 4000);
                 this.emitterArray_bodyParts[j].setScale(endScale, startScale, endScale, startScale, 4000, Phaser.Easing.Quintic.Out);
@@ -50,7 +52,7 @@
             this.emitter_blood.setYSpeed(-400, 10);
             // Guts
             this.emitter_guts = game.add.emitter(0, 0, 900);
-            this.emitter_guts.makeParticles('guts', [0, 1, 2], 30, true, true);
+            this.emitter_guts.makeParticles('guts', [0, 1, 2], 60, true, true);
             this.emitter_guts.gravity = 800;
             this.emitter_guts.setAlpha(.8, 0, 4000);
             this.emitter_guts.setScale(.6, .5, .6, .5, 4000, Phaser.Easing.Quintic.Out);
