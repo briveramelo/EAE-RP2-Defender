@@ -29,10 +29,7 @@
             this.startFrameData = this.getFrameArray([0, 29]);
             this.loopFrameData = this.getFrameArray([29, 39]);
             this.endFrameData = this.getFrameArray([49, 100]);
-            console.log(this.startFrameData);
-            console.log(this.loopFrameData);
-            console.log(this.endFrameData);
-
+           
             this.pivot.set(0, 0);
 
             this.startAbduction = this.animations.add('start-abduct', this.startFrameData, 60, false);
