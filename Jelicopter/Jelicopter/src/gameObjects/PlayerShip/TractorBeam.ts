@@ -169,6 +169,12 @@
             this.isFullyLoaded = false;
         }
 
+        flingVehicles() {
+            if (this.vehicle!=null)
+            this.flingVehicle();           
+            this.isFullyLoaded = false;
+        }
+
         carryPerson(personIndex: number) {
 
             if (personIndex == 0) {

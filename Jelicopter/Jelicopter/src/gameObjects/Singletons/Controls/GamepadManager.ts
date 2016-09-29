@@ -67,7 +67,7 @@
             if (isPressed && !this.shootWasJustPressed) {
 
                 if (this.level.tractorBeam.peopleBeingCarried[0] != null) {
-                    this.level.tractorBeam.flingPerson();
+                    this.level.tractorBeam.flingPerson(0);
                 }
                 else {
                     this.level.playerShip.fireBullet();
