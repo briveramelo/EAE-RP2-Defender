@@ -31,7 +31,7 @@
             this.startFrameData = this.getFrameArray([0, 29]);
             this.loopFrameData = this.getFrameArray([29, 39]);
             this.endFrameData = this.getFrameArray([49, 100]);
-           
+
             this.pivot.set(0, 0);
 
             this.startAbduction = this.animations.add('start-abduct', this.startFrameData, 60, false);
@@ -50,6 +50,7 @@
                 this.peopleBeingCarried[i] = null;
                 this.clipPositions[i] = new Phaser.Point(110, i * 30 + 50);
             }
+            this.justDied = false;
 
         }
 
@@ -69,10 +70,10 @@
                 this.handleAnimations();
                 if (!this.isFullyLoaded) {
                     this.checkToCollectPeople();
-                    //if (!this.isWaitingToEmitPulse) {
-                    //    this.emitPulse();
-                    //}
                 }
+            }
+            else {
+                this.endAnimation();
             }
         }
 
@@ -86,7 +87,14 @@
             else if (this.animations.frame == this.loopFrameData[0] - 1) {
                 this.loopAbduction.play();
             }
-
+        }
+        justDied: boolean;
+        endAnimation() {
+            if (!this.justDied) {
+                this.justDied = true;
+                this.endAbduction.play();
+                console.log('hitting it');
+            }
         }
 
         setPosition() {
@@ -151,6 +159,16 @@
             }
         }
 
+        flingAllPeople() {
+            for (var i: number = 0; i < this.maxClipSize; i++) {
+                if (this.peopleBeingCarried[i] != null) {
+                    this.flingPerson(i, true);
+                }
+                this.peopleBeingCarried[i] = null;
+            };
+            this.isFullyLoaded = false;
+        }
+
         carryPerson(personIndex: number) {
 
             if (personIndex == 0) {
@@ -186,21 +204,17 @@
             this.level.soundManager.playSound(SoundFX.Abduct);
         }
 
-        //dropParaTrooper() {
-        //    this.isFullyLoaded = false;
-        //    this.paratrooperBeingCarried = null;
-        //    this.level.soundManager.playSound(SoundFX.Abduct);
-        //}
-
-        flingPerson() {
+        flingPerson(personIndex: number, isForAll?:boolean) {
             var isGoingRightMult: number = this.level.playerShip.isGoingRight ? 1 : -1;
             var xLaunch: number = (this.baseLaunch * isGoingRightMult) + this.level.playerShip.body.velocity.x;
             if (Math.abs(xLaunch) > this.maxLaunch) {
                 xLaunch = this.maxLaunch * isGoingRightMult;
             }
             var launchVelocity: Phaser.Point = new Phaser.Point(xLaunch, this.level.playerShip.body.velocity.y);
-            this.peopleBeingCarried[0].getFlung(launchVelocity);
-            this.dropPerson(0);
+            this.peopleBeingCarried[personIndex].getFlung(launchVelocity);
+            if (!isForAll) {
+                this.dropPerson(personIndex);
+            }
         }
 
         flingVehicle() {

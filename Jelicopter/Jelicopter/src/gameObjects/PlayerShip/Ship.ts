@@ -105,7 +105,7 @@
             if (isPressed && !this.wasJustPressed) {
 
                 if (this.level.tractorBeam.peopleBeingCarried[0] != null) {
-                    this.level.tractorBeam.flingPerson();
+                    this.level.tractorBeam.flingPerson(0);
                 }
                 else if (this.level.tractorBeam.vehicle != null) {
                     this.level.tractorBeam.flingVehicle();
@@ -138,14 +138,16 @@
         }
 
         takeDamage() {
-            this.health--;
-            if (this.health <= 0) {
+            //this.health--;
+            //if (this.health <= 0) {
                 this.kill();
-            }
+            //}
         }
 
         kill() {
-            this.game.state.start('GameOver', true, false);
+            this.game.time.events.add(Phaser.Timer.SECOND * 4, this.level.endGame, this.level);
+            this.level.tractorBeam.flingAllPeople();
+
             super.kill();
             return this;
         }
