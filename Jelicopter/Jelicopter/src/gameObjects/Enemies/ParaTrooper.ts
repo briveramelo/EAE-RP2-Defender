@@ -90,7 +90,7 @@
                     }
                     else {
                         this.position.y += 8;
-                        this.isOnParachute = false;
+                        this.isOnParachute = false;                       
                     }
                 }
                 else {

@@ -110,8 +110,17 @@
         checkPlayerBulletOverlaps() {
             this.level.playerBullets.forEachAlive(function (bullet) {
 
-
+                
+                 
                 this.level.paratroopers.forEachAlive(function (paratrooper: ParaTrooper) {
+                    if (!paratrooper.isOnParachute) {
+                        if (paratrooper.myCollider.isColliding(bullet.myCollider)) {
+                            console.debug('hi');
+                            this.level.scoreboard.giveFeedbackOfScore(this.position, Points.Paratrooper);
+                            paratrooper.kill();
+                            bullet.kill();
+                        }
+                    }
                     if (this.isOverlapping(paratrooper.parachute, bullet)) {
 
                         paratrooper.removeChild(paratrooper.parachute);
