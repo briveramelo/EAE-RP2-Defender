@@ -37,7 +37,7 @@
             this.startAbduction = this.animations.add('start-abduct', this.startFrameData, 60, false);
             this.loopAbduction = this.animations.add('loop-abduct', this.loopFrameData, 60, true);
             this.endAbduction = this.animations.add('end-abduct', this.endFrameData, 60, false);
-
+            console.log(this.loopFrameData[0] - 1);
             this.game = game;
             this.level = level;
             this.people = people;
@@ -77,17 +77,23 @@
             }
         }
 
-        handleAnimations() {
+        handleAnimations() {            
+
             if (this.isFullyLoaded && this.animations.frame < this.endFrameData[0]) {
                 this.endAbduction.play();
             }
             else if (!this.isFullyLoaded && (this.animations.frame == 0 || this.animations.frame >= this.endFrameData[1])) {
                 this.startAbduction.play();
             }
-            else if (this.animations.frame == this.loopFrameData[0] - 1) {
+            else if (
+                this.startAbduction.isFinished && (
+                    (this.animations.frame == this.loopFrameData[0] - 1) ||
+                    (this.animations.frame == this.loopFrameData[0] - 2 && !this.loopAbduction.isPlaying))) {
+
                 this.loopAbduction.play();
             }
         }
+
         justDied: boolean;
         endAnimation() {
             if (!this.justDied) {
