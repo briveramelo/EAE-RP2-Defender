@@ -293,6 +293,10 @@
 
         }
 
+        endGame() {
+            this.game.state.start('GameOver', true, false);
+        }
+
     }
 
 }

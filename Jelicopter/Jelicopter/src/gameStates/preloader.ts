@@ -27,6 +27,7 @@
             this.load.image('CityBack', './assets/sprites/Background/City-Back.png');
             this.load.image('CityMid', './assets/sprites/Background/City-Mid.png');
             this.load.image('Foreground', './assets/sprites/Background/Foreground.png');
+            this.load.image('GameOver', './assets/sprites/Background/GameOver_Screen.jpg');
 
             //Bullets
             this.load.image('EnemyBullet', './assets/sprites/Shots/EnemyBullet.png');

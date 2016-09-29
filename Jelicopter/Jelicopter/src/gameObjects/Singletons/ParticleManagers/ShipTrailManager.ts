@@ -29,10 +29,17 @@
                 var trailVelocity: Phaser.Point = new Phaser.Point(-this.level.playerShip.body.velocity.x * this.velocityMultiplier, -this.level.playerShip.body.velocity.y * this.velocityMultiplier);
 
                 this.emitter_trail.minParticleSpeed.set(trailVelocity.x, trailVelocity.y);
-                this.emitter_trail.maxParticleSpeed.set(trailVelocity.x, trailVelocity.y);              
+                this.emitter_trail.maxParticleSpeed.set(trailVelocity.x, trailVelocity.y);
 
                 this.emitter_trail.emitX = this.level.playerShip.position.x + (this.level.playerShip.isGoingRight ? -1 : 1) * this.level.playerShip.tailOffset();
-                this.emitter_trail.emitY = this.level.playerShip.position.y+5;
+                this.emitter_trail.emitY = this.level.playerShip.position.y + 5;
+            }
+            else {
+                if (this.alive) {
+                    console.log('killed it a');
+                    this.emitter_trail.kill();
+                    this.kill();
+                }
             }
         }
     }
