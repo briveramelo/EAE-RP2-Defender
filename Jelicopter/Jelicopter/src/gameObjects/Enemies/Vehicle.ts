@@ -89,8 +89,8 @@
             //this.checkToShoot();
             //this.position.x -= 4;
             if (!this.justLanded) {
-                console.log('started it 1');
                 this.justLanded = true;
+                this.game.time.events.remove(this.pauseForShootingEvent);
                 this.pauseForShootingEvent = this.game.time.events.add(Phaser.Timer.SECOND * 1, this.setMissileShootingToOk, this, this.lifeCount);
             }
             this.position.y = this.floorHeight+2;
@@ -167,8 +167,8 @@
         }
 
         resetMissileShooting(): void {
-            console.log('started it 2');
             this.missileTimerAllowsShooting = false;
+            this.game.time.events.remove(this.pauseForShootingEvent);
             this.pauseForShootingEvent = this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShootMissile, this.setMissileShootingToOk, this, this.lifeCount);
         }
 

@@ -118,18 +118,19 @@
             this.body.velocity.x = 0;
             this.body.velocity.y = 0;
             this.angle = 0;
-            
+            this.game.time.events.remove(this.pauseForCatchingEvent);
             this.position.x = startPosition.x;
             this.position.y = startPosition.y;
             this.body.velocity.x = this.runSpeed;
         }
 
+        pauseForCatchingEvent;
         getFlung(launchVelocity: Phaser.Point) {
             this.body.velocity.x = launchVelocity.x * this.launchSpeedMultiplier;
             this.body.velocity.y = launchVelocity.y * this.launchSpeedMultiplier;
             this.isPausedForFlinging = true;
             this.isBeingHeld = false;
-            this.game.time.events.add(Phaser.Timer.SECOND * 1, this.allowForCatching, this);
+            this.pauseForCatchingEvent = this.game.time.events.add(Phaser.Timer.SECOND * 1, this.allowForCatching, this);
         }
 
         allowForCatching() {
