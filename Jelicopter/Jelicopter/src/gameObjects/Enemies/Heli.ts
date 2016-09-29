@@ -123,7 +123,7 @@
             this.game.physics.arcade.velocityFromAngle(angleOfShotRadians * 180 / Math.PI, 400, myBullet.body.velocity);
             myBullet.lifespan = 4500;
             myBullet.rotation = angleOfShotRadians;
-
+            this.level.soundManager.playSound(SoundFX.FireRocket);
             this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShoot, this.setShootingToOk, this, this.lifeCount);            
         }        
 

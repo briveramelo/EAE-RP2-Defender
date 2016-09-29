@@ -68,6 +68,7 @@
             this.addChild(this.person);
             this.body.gravity.y = 0;
             super.reset(x, y);
+            this.revive();
             return this;
         }
 
@@ -181,6 +182,7 @@
                 }
             }
 
+            this.level.soundManager.playSound(SoundFX.FireRocket);
             myBullet.lifespan = 4500;
             myBullet.angle = angleOfShotRadians;
             this.game.physics.arcade.velocityFromAngle(angleOfShotRadians, 400, myBullet.body.velocity);

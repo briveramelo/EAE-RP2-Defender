@@ -37,7 +37,6 @@
             this.startAbduction = this.animations.add('start-abduct', this.startFrameData, 60, false);
             this.loopAbduction = this.animations.add('loop-abduct', this.loopFrameData, 60, true);
             this.endAbduction = this.animations.add('end-abduct', this.endFrameData, 60, false);
-            console.log(this.loopFrameData[0] - 1);
             this.game = game;
             this.level = level;
             this.people = people;

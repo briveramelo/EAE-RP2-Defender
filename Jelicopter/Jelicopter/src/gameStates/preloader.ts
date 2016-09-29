@@ -21,17 +21,21 @@
             this.load.audio('personDeath2', './assets/sounds/SoundFX/Collision/Splat.ogg', true);
             this.load.audio('personDeath3', './assets/sounds/SoundFX/Collision/Explosion5.wav', true);
             this.load.audio('tankExplode', './assets/sounds/SoundFX/Collision/TankExplosion.ogg', true);
+            this.load.audio('shieldHit', './assets/sounds/SoundFX/Collision/shield_hit.ogg', true);
             //SHOTS
             this.load.audio('fireShot1', './assets/sounds/SoundFX/Shots/Laser_Shoot2.wav', true);
             this.load.audio('fireShot2', './assets/sounds/SoundFX/Shots/Laser_Shoot3.wav', true);
             this.load.audio('fireShot3', './assets/sounds/SoundFX/Shots/Laser_Shoot8.wav', true);
             this.load.audio('fireShot4', './assets/sounds/SoundFX/Collision/Hit_Hurt2.wav', true);
+            this.load.audio('fireShot5', './assets/sounds/SoundFX/Shots/laser_fire.ogg', true);
             this.load.audio('fireRocket1', './assets/sounds/SoundFX/Shots/PossibleRocketShot.wav', true);
             this.load.audio('fireRocket2', './assets/sounds/SoundFX/Shots/RocketShotPart1.wav', true);
             this.load.audio('fireRocket3', './assets/sounds/SoundFX/Shots/RocketShotPart2.wav', true);
             //TRACTOR BEAM
             this.load.audio('abduct1', './assets/sounds/SoundFX/TractorBeam/Abduction.wav', true);
             this.load.audio('abduct2', './assets/sounds/SoundFX/TractorBeam/TractorBeam.ogg', true);
+            //END GAME
+            this.load.audio('gameOver', './assets/sounds/SoundFX/death_game_over.ogg', true);
         }
         loadImages() {
             //TitleScreenery

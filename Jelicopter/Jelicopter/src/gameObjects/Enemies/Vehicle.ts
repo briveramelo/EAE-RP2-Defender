@@ -18,6 +18,7 @@
         maxYSpeedBeforeDeath: number = 500;
         maxTotalSpeedBeforeDeath: number = 599;
         launchSpeedMultiplier: number = 1.75;
+        pauseForShootingEvent;
 
         constructor(game: Phaser.Game, level: MainGame) {
             super(game, 0, 0, null, 0);
@@ -41,6 +42,7 @@
             //this.body.gravity.y = 600;
             this.floorHeight = this.level.gameSize.y - 52;
             this.lifeCount = 0;
+            this.isPausedForFlinging = false;
             super.kill();
         }
 
@@ -49,27 +51,28 @@
         }
 
         update() {
-           
-            if ((this.position.y) > this.floorHeight && !this.isBeingHeld) {
-                this.checkToShoot();
-                this.position.x -= 4;
-                this.isFlying = false;
-                if (this.body.velocity.y > this.maxYSpeedBeforeDeath) {
-                    this.dieOnFloor();
-                }
-                else if ((this.isPausedForFlinging && this.body.velocity.y > 0) || !this.isPausedForFlinging) {
+            if (this.alive) {
+                if ((this.position.y) > this.floorHeight && !this.isBeingHeld) {
+                    this.checkToShoot();
+                    this.position.x -= 4;
+                    this.isFlying = false;
+                    if (this.body.velocity.y > this.maxYSpeedBeforeDeath) {
+                        this.dieOnFloor();
+                    }
+                    else if ((this.isPausedForFlinging && this.body.velocity.y > 0) || !this.isPausedForFlinging) {
 
-                    this.standOnFloor();
-                }
-            }
-            else {
-                this.isFlying = true;
-                if (this.isBeingHeld) {
-                    this.body.velocity.y = this.level.playerShip.body.velocity.y;
-                    this.body.velocity.x = this.level.playerShip.body.velocity.x;
+                        this.standOnFloor();
+                    }
                 }
                 else {
-                    this.rotate();
+                    this.isFlying = true;
+                    if (this.isBeingHeld) {
+                        this.body.velocity.y = this.level.playerShip.body.velocity.y;
+                        this.body.velocity.x = this.level.playerShip.body.velocity.x;
+                    }
+                    else {
+                        this.rotate();
+                    }
                 }
             }
         }
@@ -85,17 +88,25 @@
         standOnFloor() {
             //this.checkToShoot();
             //this.position.x -= 4;
+            if (!this.justLanded) {
+                console.log('started it 1');
+                this.justLanded = true;
+                this.pauseForShootingEvent = this.game.time.events.add(Phaser.Timer.SECOND * 1, this.setMissileShootingToOk, this, this.lifeCount);
+            }
             this.position.y = this.floorHeight+2;
             this.body.velocity.x = 0;
             this.body.velocity.y = 0;
             this.angle = 0;
         }
 
+        justLanded: boolean;
+
         kill() {
             
             this.lifeCount++;
             this.level.soundManager.playSound(SoundFX.HeliExplode);
             this.level.vehicleExplosionManager.particleBurst(this.position);
+
             super.kill();
             
             return this;
@@ -106,6 +117,7 @@
                 if (this.myPosition().distance(this.level.playerShip.myPosition()) < this.maxMissileShootDistance &&
                     this.missileTimerAllowsShooting &&
                     !this.isBeingHeld) {
+
                     this.shootMissile();
                 }
             }
@@ -114,6 +126,7 @@
         rotate() {
            // this.position.y += 3;
             this.angle += this.rotationSpeed;
+            this.missileTimerAllowsShooting = false;
         }
 
 
@@ -123,10 +136,9 @@
             var angleOfShotRadians = this.checkAngle(myBullet);
             myBullet.lifespan = 4500;
            // myBullet.angle = -135;
-            
-                this.game.physics.arcade.velocityFromAngle(angleOfShotRadians, 400, myBullet.body.velocity);
-                this.resetMissileShooting();
-            
+            this.level.soundManager.playSound(SoundFX.FireRocket);
+            this.game.physics.arcade.velocityFromAngle(angleOfShotRadians, 400, myBullet.body.velocity);
+            this.resetMissileShooting();            
         }
 
         checkAngle(myBullet) {
@@ -155,10 +167,9 @@
         }
 
         resetMissileShooting(): void {
+            console.log('started it 2');
             this.missileTimerAllowsShooting = false;
-            if (this.alive) {
-                this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShootMissile, this.setMissileShootingToOk, this, this.lifeCount);
-            }
+            this.pauseForShootingEvent = this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShootMissile, this.setMissileShootingToOk, this, this.lifeCount);
         }
 
         setMissileShootingToOk(startingLifeCount): void {
@@ -169,11 +180,18 @@
 
         reset(x: number, y: number) {
             super.reset(x, y);
+            this.missileTimerAllowsShooting = false;
+            this.game.time.events.remove(this.pauseForShootingEvent);
+            this.isPausedForFlinging = false;
+            //console.log('started it 3');
+            //this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShootMissile, this.setMissileShootingToOk, this, this.lifeCount);
+            super.revive();
             return this;
         }
 
         getGrabbed() {
             this.isBeingHeld = true;
+            this.justLanded = false;
         }
 
         getFlung(launchVelocity: Phaser.Point) {
@@ -181,11 +199,20 @@
             this.body.velocity.y = launchVelocity.y * this.launchSpeedMultiplier;
             this.isPausedForFlinging = true;
             this.isBeingHeld = false;
-            this.game.time.events.add(Phaser.Timer.SECOND * 1, this.allowForCatching, this);
+            this.game.time.events.remove(this.pauseForShootingEvent);
+            this.game.time.events.add(Phaser.Timer.SECOND * 1, this.allowForCatching, this, this.lifeCount);            
         }
 
-        allowForCatching() {
-            this.isPausedForFlinging = false;
+        allowForCatching(startingLifeCount) {
+            if (this.lifeCount == startingLifeCount) {
+                this.isPausedForFlinging = false;
+            }
+        }
+
+        disAllowShooting(startingLifeCount) {
+            if (this.lifeCount == startingLifeCount) {
+                this.missileTimerAllowsShooting = false;
+            }
         }
     }
 }

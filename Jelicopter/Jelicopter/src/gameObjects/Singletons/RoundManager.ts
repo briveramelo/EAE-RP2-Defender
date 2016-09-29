@@ -51,17 +51,21 @@
                 this.maxHelisOnScreen[i] = 1 + Math.ceil(i / 4);
                 this.minHelisOnScreen[i] = 1 + Math.floor(i / 6);
 
-                this.maxParaTroopersOnScreen[i] = 1 + Math.ceil(i / 4);
-                this.minParaTroopersOnScreen[i] = 1 + Math.ceil(i / 6);
+                this.maxParaTroopersOnScreen[i] = 0 + Math.ceil(i / 4);
+                this.minParaTroopersOnScreen[i] = 0 + Math.ceil(i / 6);
 
 
-                this.maxPeopleOnScreen[i] = 4 + Math.ceil(i / 8);
-                this.minPeopleOnScreen[i] = 4 + Math.ceil(i / 12);
+                this.maxPeopleOnScreen[i] = 6 + Math.ceil(i / 7);
+                this.minPeopleOnScreen[i] = 6 + Math.ceil(i / 11);
 
-                this.maxVehiclesOnScreen[i] = 1 + Math.ceil(i / 4);
-                this.minVehiclesOnScreen[i] = 1 + Math.ceil(i / 6);
+                this.maxVehiclesOnScreen[i] = 0 + Math.ceil(i / 4);
+                this.minVehiclesOnScreen[i] = 0+ Math.ceil(i / 6);
             }
-            
+
+            this.spawnFirstBatch();
+        }
+
+        spawnFirstBatch() {
             this.level.heliSpawner.spawn(this.maxHelisOnScreen[0]);
             this.level.personSpawner.spawn(10);
             this.level.paratrooperSpawner.spawn(this.maxParaTroopersOnScreen[0]);
