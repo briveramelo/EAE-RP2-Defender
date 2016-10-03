@@ -19,6 +19,7 @@
 
             this.gameOver = new GameOver(this.mainGame);
             this.state.add('GameOver', this.gameOver, false);
+            this.state.add('Credits', Credits, false);
 
             this.state.start('Boot');
 

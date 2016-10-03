@@ -1,7 +1,7 @@
 ﻿module Jelicopter.Client {
     export class Ship extends Phaser.Sprite {
         myPosition(): Phaser.Point {
-            return new Phaser.Point(this.position.x, this.position.y);
+            return new Phaser.Point(this.position.x + (this.isGoingRight ? 1 :-1)*32, this.position.y + 32);
         }
         level: MainGame;
         myCollider: CircleCollider;

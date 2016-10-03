@@ -34,15 +34,21 @@
             this.restartText = this.game.add.text(0, 445, "Restart", restartStyle);
             this.restartText.x = this.camera.position.x + this.camera.width / 2 - this.restartText.width / 2;
         }
-        actionOnClick() {
+        loadNewGame() {
             this.mainGame.soundManager.stopBackground();
             this.game.state.start('MainGame', true, false);
         }
+        loadCredits() {
+            this.game.state.start('Credits', true, false);
+        }
         update() {
             if (this.game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR) ||
-                this.joystick.isDown(Phaser.Gamepad.BUTTON_0) ||
-                this.game.input.activePointer.leftButton.isDown) {
-                this.actionOnClick();
+                this.joystick.isDown(Phaser.Gamepad.BUTTON_0)) {
+
+                this.loadNewGame();
+            }
+            else if (this.game.input.activePointer.leftButton.isDown) {
+                this.loadCredits();
             }
         }
     }

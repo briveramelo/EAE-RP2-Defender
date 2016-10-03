@@ -2,7 +2,7 @@
     export class Preloader extends Phaser.State {
         loaderText: Phaser.Text;
         preload() {
-            this.game.load.text('PixelFont', 'assets/fonts/Kemco_Pixel_Bold.ttf', true);
+            
             this.game.antialias = false;
             this.loaderText = this.game.add.text(this.world.centerX, 200, "Loading...",
                 { font: "18px PixelFont", fill: "#ffffff", align: "center" });
