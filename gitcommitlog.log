@@ -1,0 +1,101 @@
+Thu Sep 29 03:37:00 2016 -0600 - u1089885: fixed the joystick!
+Thu Sep 29 03:21:24 2016 -0600 - u1089885: FINAL BUILD UP
+Thu Sep 29 03:20:46 2016 -0600 - u1089885: bob and ashley explosions are in
+Thu Sep 29 03:00:30 2016 -0600 - u1089885: really fixed it. Also fixed the catching people bug
+Thu Sep 29 02:54:19 2016 -0600 - u1089885: tuned spawning. FIXED TANK SHOOTING! Hi five ajay ;)
+Thu Sep 29 01:04:16 2016 -0600 - u1089885: PlayerShip explosion in
+Thu Sep 29 00:52:43 2016 -0600 - u1089885: small fixes. removed some comments, got the bullet collisions showing on screen
+Thu Sep 29 00:51:40 2016 -0600 - u1089885: small fixes. removed some comments, got the tank collisions showing on screen
+Thu Sep 29 00:19:36 2016 -0600 - u1089885: Merge branch 'master' of https://github.com/briveramelo/EAE-RP2-Defender
+Thu Sep 29 00:19:32 2016 -0600 - u1089885: fixed the abductor animation and got the shield animations in!
+Wed Sep 28 23:56:58 2016 -0600 - AjayBS: Added bullet animation for enemies.
+Wed Sep 28 23:03:36 2016 -0600 - AjayBS: Sorted the bullet from shooting after tank is dead
+Wed Sep 28 22:56:34 2016 -0600 - AjayBS: Tank animation is set in
+Wed Sep 28 22:31:15 2016 -0600 - AjayBS: Prevented the game from falling apart, finalbuild1.0
+Wed Sep 28 22:15:20 2016 -0600 - AjayBS: Added tank collisions.
+Wed Sep 28 21:38:49 2016 -0600 - AjayBS: Colliding with bob, made sure to not lose health
+Wed Sep 28 21:36:08 2016 -0600 - AjayBS: Sorted merge
+Wed Sep 28 21:31:13 2016 -0600 - AjayBS: Merged code
+Wed Sep 28 21:28:52 2016 -0600 - AjayBS: Added tank and finished pickup and kill of tank
+Wed Sep 28 20:10:09 2016 -0600 - u1089885:  resolved commits
+Wed Sep 28 20:03:00 2016 -0600 - u1089885: Game over taken care of and all the checks with people getting flung out
+Wed Sep 28 20:00:30 2016 -0600 - AjayBS: Gains points and takes damage when clashed with enemies and also removed cosole.debug commands.
+Wed Sep 28 19:51:46 2016 -0600 - AjayBS: Able to shoot bob when he is in air
+Wed Sep 28 16:57:54 2016 -0600 - BRANDON RIVERA-MELO: tractor beam animations in
+Wed Sep 28 16:40:32 2016 -0600 - BRANDON RIVERA-MELO: testing commit
+Wed Sep 28 11:13:03 2016 -0600 - AjayBS: Bullets can be fired from tank.
+Wed Sep 28 10:09:54 2016 -0600 - AjayBS: Added tank in game.
+Wed Sep 28 00:30:12 2016 -0600 - u1089885: updated the .csproj file
+Tue Sep 27 23:06:39 2016 -0600 - u1089885: fixed paratrooper collision logic. Also their respawn logic. Also the heli movement logic. Discovered that game.time.events pauses when a sprite is dead and resumes when revived
+Tue Sep 27 22:00:15 2016 -0600 - u1089885: tractor beam and gamepad support meshing
+Tue Sep 27 20:22:52 2016 -0600 - u1089885: PEOPLE CLIP
+Tue Sep 27 17:49:33 2016 -0600 - u1089885: fixed spawning helicopters
+Tue Sep 27 17:45:02 2016 -0600 - u1089885: resolving conflicts
+Tue Sep 27 17:34:59 2016 -0600 - u1089885: paratrooper falling fixed. stretching laser and trail accounted. New ship is in. New backgrounds. New screen size. html background color to black. some overlap manager things repaired. maybe more
+Tue Sep 27 16:10:38 2016 -0600 - AjayBS: Changed method name in paratrooper spawner class.
+Tue Sep 27 16:06:12 2016 -0600 - AjayBS: Fixed some bugs of paratrooper
+Tue Sep 27 13:21:15 2016 -0600 - u1089885: merge resolved
+Tue Sep 27 12:40:26 2016 -0600 - u1089885: building removed, optimized particle emitters
+Tue Sep 27 12:34:22 2016 -0600 - AjayBS: Can hit enemiess with bob.
+Tue Sep 27 10:50:57 2016 -0600 - AjayBS: Throw and kill bob.
+Tue Sep 27 10:19:28 2016 -0600 - AjayBS: Able to carry  paratroopers
+Tue Sep 27 10:09:12 2016 -0600 - AjayBS: Can shoot paratrooper on ground
+Tue Sep 27 00:25:31 2016 -0600 - AjayBS: Added paratrooper spawner
+Mon Sep 26 23:23:48 2016 -0600 - u1089885: merged the initial paratrooper code into master
+Mon Sep 26 23:02:23 2016 -0600 - u1089885: unlimited rounds. Proper heli spawn height
+Mon Sep 26 22:59:04 2016 -0600 - u1089885: rename things properly. dropship => heli, paraglider=>heli
+Mon Sep 26 22:15:59 2016 -0600 - u1089885: Updated score display emitter for efficiency. Updated helicopter explosions. Updated playership and smoke trails
+Mon Sep 26 19:04:47 2016 -0600 - u1089885: +points visual feedback integrated
+Sun Sep 25 19:56:24 2016 -0600 - u1089885: reworked the body explosions to proper emitter settings that dont destroy the game. Fun lasers are now ingit add --a
+Sun Sep 25 13:26:37 2016 -0600 - u1089885: Camera jitter removed and camera follow is set to be ahead of the player
+Sun Sep 25 00:08:42 2016 -0600 - u1089885: fixed the round display bug
+Sun Sep 25 00:03:35 2016 -0600 - u1089885: more folder reorganization. renamed humanmanager to tractor beam. cleaned this code to eliminate a 'ghost carrying' bug from using the body positions instead of the direct sprite positions. Spawners in place for other objects with the round manager handling the triggering of these spawners. There is a bug where the round stays displaying though
+Sat Sep 24 20:57:22 2016 -0600 - u1089885: Reorganized .ts files into folders
+Sat Sep 24 19:46:34 2016 -0600 - u1089885: Collide people to people, drop them and they die. Sound Effects Ingit add --a MUSIC INgit add --a Need more appropriate sound effects though. Points System in place too!
+Sat Sep 24 02:35:02 2016 -0600 - u1089885: You can grab and throw PEOPLE! Will not let you shoot while holding (intended). Person does not collide with the world ceiling. Guts fall into place properly. bullet collisions working properly. Works with both keyboard and joystick
+Thu Sep 22 22:35:26 2016 -0600 - u1089885: fixed a pauser bug
+Thu Sep 22 22:31:16 2016 -0600 - u1089885: Person explosion effects added!
+Thu Sep 22 22:25:56 2016 -0600 - u1089885: Hospital Bugs fixed! Particle effects from ship tail fixed! reversed shooting bugs fixed! BUGS QUASHED!
+Thu Sep 22 21:26:25 2016 -0600 - u1089885: JELICOPTER JELLIES! Also, fire and smoke come out of the tail!
+Thu Sep 22 10:56:08 2016 -0600 - u1089885: Merge remote-tracking branch 'origin/Ajay'
+Thu Sep 22 10:54:41 2016 -0600 - u1089885: Added FrontGround
+Thu Sep 22 10:53:38 2016 -0600 - AjayBS: Added effects for blast of ufo's
+Thu Sep 22 09:55:44 2016 -0600 - u1089885: commented out bullet collisions
+Thu Sep 22 09:54:29 2016 -0600 - AjayBS: Merge remote-tracking branch 'refs/remotes/origin/master' into Ajay
+Thu Sep 22 03:34:28 2016 -0600 - u1089885: Full loop in effect. UFO waves come when all the humans get into the buildings. They can damage the building. we really need to tighten up the dimensions of the game. everything is much too large. Also, there's a few bugs - hospital image doesn't reset properly at the start of a new round, but it will once the first person is returned to it in that next round. Also, you should lose sooner if you kill too many people and you won't be able to return them all. This should also be a clear visual indicator or somehow the player should know the importance of how many 'extra' people they have left. Super pumped about the joystick too. Still need to add many of the art assets and sfx as well
+Thu Sep 22 01:25:36 2016 -0600 - u1089885: JOYSTICK SUPPORT ADDED. Press 's' to 'switch' into joystick mode and 's' again to get back to keyboard controls
+Wed Sep 21 23:16:40 2016 -0600 - u1089885: Fixed hospital positioning by remving collidewith world bounds true in the constructor!
+Wed Sep 21 23:11:45 2016 -0600 - u1089885: Merging Hospital filling and round management
+Wed Sep 21 22:47:04 2016 -0600 - u1089885: BomberUFOs attack the hospital. Also a roundmanager manages which round we are in
+Wed Sep 21 21:43:11 2016 -0600 - AjayBS: Hospital health goes on bullet hit and saving patient lights up windows
+Wed Sep 21 19:45:45 2016 -0600 - AjayBS: PAtient saved changes state of hospital
+Wed Sep 21 13:54:01 2016 -0600 - BRANDON RIVERA-MELO: restored proper .csproj linking so you don't need to worry about silly 'includes' and file locations with some .ts files at the start. Also removed some unnecessary comments from the HumanManager class
+Tue Sep 20 22:10:09 2016 -0600 - u1089885: Collision and bugs all resolved! All is well with this world. Except the Game Over Screen
+Tue Sep 20 21:12:50 2016 -0600 - u1089885: Incorporated paralaxing into the master
+Tue Sep 20 20:14:01 2016 -0600 - u1089885: Reorganized Folder structure and the level01 ts file into several singleton managers. Physics detection works with enemy bullets, humans, you. With playerBullets, humans, ufos, AND FINALLY it also works with ufos and you
+Tue Sep 20 02:03:07 2016 -0600 - u1089885: Ensuring commits in master branch are up to date. They are!
+Tue Sep 20 01:47:11 2016 -0600 - u1089885: Rebasing Brandon's branch
+Tue Sep 20 01:45:18 2016 -0600 - u1089885: test edit again
+Mon Sep 19 23:57:34 2016 -0600 - AjayBS: Merge branch 'master' of https://github.com/briveramelo/EAE-RP2-Defender.git
+Mon Sep 19 23:57:21 2016 -0600 - AjayBS: Added enemy hi and points scored of it.
+Mon Sep 19 23:40:01 2016 -0600 - u1089885: test edit
+Mon Sep 19 23:30:55 2016 -0600 - AjayBS: Changed the bullet speed.
+Mon Sep 19 23:28:07 2016 -0600 - AjayBS: Added exit screen
+Mon Sep 19 22:18:41 2016 -0600 - AjayBS: Added extra people in the world along with the text fixed at a particular position on camera
+Mon Sep 19 20:33:01 2016 -0600 - u1089885: merging to master
+Mon Sep 19 20:28:15 2016 -0600 - u1089885: first attempt to remerge
+Mon Sep 19 17:39:58 2016 -0600 - AjayBS: Added points for placing player in hospital
+Mon Sep 19 17:02:01 2016 -0600 - AjayBS: Added building
+Mon Sep 19 11:45:24 2016 -0600 - AjayBS: Deleted duplicate class
+Mon Sep 19 11:31:07 2016 -0600 - AjayBS: Carrying the player when in contact
+Sun Sep 18 15:22:03 2016 -0600 - AjayBS: Added score text
+Sun Sep 18 15:07:37 2016 -0600 - AjayBS: Added sprite in group
+Sun Sep 18 14:07:55 2016 -0600 - AjayBS: Checked for collision detection between ship and a person.
+Thu Sep 15 20:11:30 2016 -0600 - AjayBS: Enabled bullet from player.
+Thu Sep 15 13:29:28 2016 -0600 - AjayBS: Branch submit
+Thu Sep 15 01:04:22 2016 -0600 - u1089885: Ship can move on the background!
+Wed Sep 14 22:43:38 2016 -0600 - u1089885: Added Readme file with development and testing instructions
+Wed Sep 14 22:16:51 2016 -0600 - u1089885: Files ready for building. Will test this by pulling
+Wed Sep 14 22:13:29 2016 -0600 - u1089885: Fixed gitignore
+Wed Sep 14 22:09:21 2016 -0600 - u1089885: Set Gitignore
+Tue Sep 13 23:56:58 2016 -0600 - Brandon Rivera-Melo: Initial commit

@@ -48,18 +48,17 @@
             this.minVehiclesOnScreen = [];
 
             for (var i: number = 0; i < 100; i++) {
-                this.maxHelisOnScreen[i] = 1 + Math.ceil(i / 4);
-                this.minHelisOnScreen[i] = 1 + Math.floor(i / 6);
-
-                this.maxParaTroopersOnScreen[i] = 0 + Math.ceil(i / 4);
-                this.minParaTroopersOnScreen[i] = 0 + Math.ceil(i / 6);
-
-
                 this.maxPeopleOnScreen[i] = 6 + Math.ceil(i / 7);
                 this.minPeopleOnScreen[i] = 6 + Math.ceil(i / 11);
 
-                this.maxVehiclesOnScreen[i] = 0 + Math.ceil(i / 4);
-                this.minVehiclesOnScreen[i] = 0+ Math.ceil(i / 6);
+                this.maxHelisOnScreen[i] = 3 + Math.ceil(i / 4);
+                this.minHelisOnScreen[i] = 1 + Math.floor(i / 6);
+
+                this.maxParaTroopersOnScreen[i] = 0 + Math.floor(i / 4);
+                this.minParaTroopersOnScreen[i] = 0 + Math.floor(i / 6);
+
+                this.maxVehiclesOnScreen[i] = 0 + Math.floor((i+2)/ 4);
+                this.minVehiclesOnScreen[i] = 0 + Math.floor((i+2)/ 6);
             }
 
             this.spawnFirstBatch();
@@ -74,7 +73,7 @@
 
         checkToRespawn(enemyType: EnemyType) {
             switch (enemyType) {
-                case EnemyType.Heli:
+                case EnemyType.Heli:                    
                     if (this.level.helis.countLiving() <= this.minHelisOnScreen[this.currentChallengeIndex]) {
                         this.currentChallengeIndex++;
 

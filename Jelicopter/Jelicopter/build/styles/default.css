@@ -6,3 +6,8 @@
 span {
     font-style: italic;
 }
+
+@font-face {	
+    font-family: 'PixelFont';
+    src: url('/assets/fonts/Kemco_Pixel_Bold.ttf') format('truetype');
+}

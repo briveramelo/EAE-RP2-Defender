@@ -77,7 +77,6 @@
         }
 
         handleAnimations() {            
-
             if (this.isFullyLoaded && this.animations.frame < this.endFrameData[0]) {
                 this.endAbduction.play();
             }

@@ -1,7 +1,7 @@
 ﻿module Jelicopter.Client {
     export class GameOver extends Phaser.State {
         background: Phaser.Sprite;
-        scoreText;
+        scoreText: Phaser.Text;
         gameOverText;
         restartText;
         quitText;
@@ -22,15 +22,17 @@
             this.joystick = this.game.input.gamepad.pad1;
         }
         loadScoreText() {
-            var scoreStyle = { font: "bold 128px Arial", fill: "#fff", align: "center" };
+            var scoreStyle = { font: "125px PixelFont", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
             var score: string = this.mainGame.scoreboard.score.toString();
-            this.scoreText = this.game.add.text(835, 275, score, scoreStyle);
+            this.scoreText = this.game.add.text(0, 275, score, scoreStyle);
+            this.scoreText.x = this.camera.position.x + this.camera.width / 2 - this.scoreText.width/2;
             this.scoreText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
             this.scoreText.fixedToCamera = true;
         }
         loadRestartText() {
-            var restartStyle = { font: "bold 64px Arial", fill: "#fff", align: "center" };
-            this.restartText = this.game.add.text(835, 445, "Restart", restartStyle);
+            var restartStyle = { font: "100px PixelFont", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+            this.restartText = this.game.add.text(0, 445, "Restart", restartStyle);
+            this.restartText.x = this.camera.position.x + this.camera.width / 2 - this.restartText.width / 2;
         }
         actionOnClick() {
             this.mainGame.soundManager.stopBackground();

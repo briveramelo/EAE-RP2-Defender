@@ -91,10 +91,10 @@
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "Person_2.png",
+	"image": "Ryan jump.png",
 	"format": "RGBA8888",
 	"size": {"w":1408,"h":128},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:bceb4249150de187ec821a4a9a419901:c4cde93730bee1ff03d3e87e7fb1fa18:e40dfe59971412116a376b1f711dce6e$"
+	"smartupdate": "$TexturePacker:SmartUpdate:ea62b829ac8885da8e6d5998a5678d44:14fd6f0bbc0bc46c8944ddcbfc01b41e:b2aa2e8a5b9f6e5df7a0a65e9aea5d58$"
 }
 }

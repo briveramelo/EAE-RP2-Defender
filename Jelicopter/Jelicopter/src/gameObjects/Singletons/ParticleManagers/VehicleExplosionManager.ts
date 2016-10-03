@@ -13,14 +13,14 @@
             this.emitter_tankParts.makeParticles('tank_burst', [0, 1, 2, 3, 4, 5], 200, false, false);
             this.emitter_tankParts.gravity = 300;
             this.emitter_tankParts.setAlpha(.8, 0, 1500);
-            this.emitter_tankParts.setScale(.8, .2, .8, .2, 4000, Phaser.Easing.Quintic.Out);
-            this.emitter_tankParts.setXSpeed(-500, 500);
-            this.emitter_tankParts.setYSpeed(-500, 500);
+            this.emitter_tankParts.setScale(1.3, .8, 1.3, .8, 4000, Phaser.Easing.Quintic.Out);
+            this.emitter_tankParts.setXSpeed(-600, 600);
+            this.emitter_tankParts.setYSpeed(-700, 700);
             this.emitter_tankParts.lifespan = 3000;
 
             // Explosion smoke
             this.emitter_smoke = game.add.emitter(game.world.centerX, 650, 900);
-            this.emitter_smoke.makeParticles('ship_smoke', [0, 1, 2], 30, false, false);
+            this.emitter_smoke.makeParticles('ship_smoke', [0, 1, 2], 60, false, false);
             this.emitter_smoke.gravity = 10;
             this.emitter_smoke.setAlpha(.2, 0, 2000);
             this.emitter_smoke.setScale(1, .5, 1, .5, 5000, Phaser.Easing.Quintic.Out);
@@ -29,15 +29,15 @@
 
         particleBurst(position) {
             //  Position the emitter where the mouse/touch event was
-            for (var i: number = 0; i < 17; i++) {
-                this.emitter_tankParts.emitParticle(position.x, position.y, 'tank_burst', i);
+            for (var j: number = 0; j < 3; j++) {                
+                for (var i: number = 0; i < 6; i++) {
+                    this.emitter_tankParts.emitParticle(position.x, position.y, 'tank_burst', i);
+                }
             }
-            //this.emitter_smoke.x = ;
-            //this.emitter_smoke.y = position.y;
-            for (var i: number = 0; i < 4; i++) {
+
+            for (var i: number = 0; i < 10; i++) {
                 this.emitter_smoke.emitParticle(position.x, position.y, 'ship_smoke');
             }
-            //this.emitter_smoke.start(true, 2000, null, 4);           
 
         }
     }

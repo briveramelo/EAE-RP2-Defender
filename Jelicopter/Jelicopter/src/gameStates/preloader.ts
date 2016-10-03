@@ -2,13 +2,15 @@
     export class Preloader extends Phaser.State {
         loaderText: Phaser.Text;
         preload() {
+            this.game.load.text('PixelFont', 'assets/fonts/Kemco_Pixel_Bold.ttf', true);
             this.game.antialias = false;
             this.loaderText = this.game.add.text(this.world.centerX, 200, "Loading...",
-                { font: "18px Arial", fill: "#ffffff", align: "center" });
+                { font: "18px PixelFont", fill: "#ffffff", align: "center" });
             this.loaderText.anchor.setTo(0.5);
             this.loadAudio();
             this.loadImages();
             this.loadVisualFX();
+            this.loadText();
         }
         loadAudio() {
             //AUDIO
@@ -39,8 +41,8 @@
         }
         loadImages() {
             //TitleScreenery
-            this.load.image('titlepage', './assets/ui/titlePage.png');
-            this.load.image('logo', './assets/ui/Jelicopter.png');
+            this.load.image('TitleScreen', './assets/ui/TitleScreen.jpg');
+            this.load.image('logo', './assets/ui/offender-logo.png');
             //Backgrounds
             this.load.image('GameBackground', './assets/sprites/Background/background.jpg');
             this.load.image('CityBack', './assets/sprites/Background/City-Back.png');
@@ -71,6 +73,8 @@
             //Vehicle
             this.load.spritesheet('heli_death_sprite', './assets/sprites/VisualFX/heli_death_sprite.png', 115, 115);
             this.load.atlasJSONHash('Tank', './assets/sprites/Vehicles/Tank.png', './assets/sprites/Vehicles/Tank.json');
+
+            
         }
         loadVisualFX() {
             ///VISUAL FX
@@ -97,11 +101,13 @@
             //Tanks
             this.load.spritesheet('tank_burst', './assets/sprites/VisualFX/tank_parts_sprite.png', 62, 62);
         }
+        loadText() {
+        }
         create() {
             //var tween = this.add.tween(this.loaderText).to({ alpha: 0 }, 2000,
             //    Phaser.Easing.Linear.None, true);
             //tween.onComplete.add(this.startMainMenu, this);
-            this.startLevel();
+            this.startMainMenu();
         }
         startMainMenu() {
             this.game.state.start('MainMenu', true, false);

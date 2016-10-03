@@ -2,15 +2,17 @@
 
     export class Heli extends Phaser.Sprite {
 
-        lifeCount: number;
         enemyType: EnemyType;
         goStraight: boolean;
         myCollider: CircleCollider;
         level: MainGame;
         shipSpeed: Phaser.Point;
-        timeToMoveStraight: number = 1;
-        timeToShoot: number = 3;
-        timeMoving: number = 0;
+        timeToMoveStraight(): number {
+            return this.game.rnd.integerInRange(1, 30) * 0.01 + 1;
+        }
+        timeToShoot(): number {
+            return this.game.rnd.integerInRange(1, 100) * 0.01 + 2.75;
+        }
         shootSpeed: number = 100;
         maxShootDistance: number = 900;
         positionOffset: Phaser.Point = new Phaser.Point(0, 0);
@@ -19,6 +21,8 @@
         myPosition(): Phaser.Point {
             return new Phaser.Point(this.position.x, this.position.y);
         }
+        shootTimerEvent;
+        moveUpDownEvent;
 
         constructor(game: Phaser.Game, level: MainGame) {
             super(game, 0, 0, 'Heli');
@@ -33,7 +37,6 @@
             this.body.setCircle(20);
             this.shipSpeed = new Phaser.Point(this.game.rnd.sign() * 250, 100);
             this.enemyType = EnemyType.Heli;
-            this.lifeCount = 0;
             super.kill();      
         }
 
@@ -69,9 +72,10 @@
         comeAlive() :void{
             this.revive();
             this.timerAllowsShooting = false;
-            this.game.time.events.add(Phaser.Timer.SECOND * 1, this.setShootingToOk, this, this.lifeCount);
+            this.game.time.events.remove(this.shootTimerEvent);
+            this.shootTimerEvent = this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShoot(), this.setShootingToOk, this);
             this.moveStraight();
-            this.alternateUpDown(this.lifeCount);
+            this.alternateUpDown();
         }
 
         kill(): Phaser.Sprite {
@@ -79,7 +83,6 @@
             this.level.soundManager.playSound(SoundFX.HeliExplode);
             this.level.roundManager.checkToRespawn(this.enemyType);
             this.timerAllowsShooting = false;
-            this.lifeCount++;
             super.kill();            
             return this;
         }
@@ -89,29 +92,28 @@
             this.body.velocity.x = this.shipSpeed.x;
         }
 
-        alternateUpDown(startingLifeCount): void {
-            if (this.lifeCount == startingLifeCount) {
-                this.goStraight = !this.goStraight;
+        alternateUpDown(): void {
+            this.goStraight = !this.goStraight;
 
-                if (this.goStraight) {
-                    this.body.velocity.y = 0;
+            if (this.goStraight) {
+                this.body.velocity.y = 0;
+            }
+            else {
+                var goUp: boolean = false;
+                if (this.position.y > (this.game.height + this.level.heightOffset - this.worldHeightShiftPadding)) {
+                    goUp = true;
+                }
+                else if (this.position.y < (this.level.heightOffset + this.worldHeightShiftPadding)) {
+                    goUp = false;
                 }
                 else {
-                    var goUp: boolean = false;
-                    if (this.position.y > (this.game.height + this.level.heightOffset - this.worldHeightShiftPadding)) {
-                        goUp = true;
-                    }
-                    else if (this.position.y < (this.level.heightOffset + this.worldHeightShiftPadding)) {
-                        goUp = false;
-                    }
-                    else {
-                        goUp = this.game.rnd.sign() == 1;
-                    }
-                    this.body.velocity.y = (goUp ? -1 : 1) * this.shipSpeed.y;
+                    goUp = this.game.rnd.sign() == 1;
                 }
-                if (this.alive) {
-                    this.game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight, this.alternateUpDown, this, this.lifeCount);
-                }
+                this.body.velocity.y = (goUp ? -1 : 1) * this.shipSpeed.y;
+            }
+            if (this.alive) {
+                this.game.time.events.remove(this.moveUpDownEvent);
+                this.moveUpDownEvent = this.game.time.events.add(Phaser.Timer.SECOND * this.timeToMoveStraight(), this.alternateUpDown, this);
             }
         }
 
@@ -124,13 +126,13 @@
             myBullet.lifespan = 4500;
             myBullet.rotation = angleOfShotRadians;
             this.level.soundManager.playSound(SoundFX.FireRocket);
-            this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShoot, this.setShootingToOk, this, this.lifeCount);            
+
+            this.game.time.events.remove(this.shootTimerEvent);
+            this.shootTimerEvent = this.game.time.events.add(Phaser.Timer.SECOND * this.timeToShoot(), this.setShootingToOk, this);            
         }        
 
-        setShootingToOk(startingLifeCount): void {
-            if (this.lifeCount == startingLifeCount) {
-                this.timerAllowsShooting = true;
-            }
+        setShootingToOk(): void {
+            this.timerAllowsShooting = true;
         }
 
     }

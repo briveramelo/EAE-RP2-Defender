@@ -29,7 +29,14 @@
             this.soundLibrary[SoundFX.FlingPerson] = this.game.add.audio('flingPerson');
         }
         playSound(soundFX: SoundFX) {
-            this.soundLibrary[soundFX].play();
+            if (soundFX == SoundFX.Background) {
+                if (!this.soundLibrary[soundFX].isPlaying) {
+                    this.soundLibrary[soundFX].play();
+                }
+            }
+            else {
+                this.soundLibrary[soundFX].play();
+            }
         }
         stopBackground() {
             this.soundLibrary[SoundFX.Background].stop();

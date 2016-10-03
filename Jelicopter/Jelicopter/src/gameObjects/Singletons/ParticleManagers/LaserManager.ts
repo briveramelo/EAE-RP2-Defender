@@ -14,7 +14,7 @@
             this.level = level;
             //this.emitter_laser = [];
             this.emitter_laser = game.add.emitter(0, 0, 900);
-            this.emitter_laser.makeParticles('laser', [0,1,2,3], 250, true, false);
+            this.emitter_laser.makeParticles('laser', [0,1,2,3], 250, false, false);
             this.emitter_laser.gravity = 0;
             this.emitter_laser.setAlpha(1, 0, 1300);
             this.emitter_laser.setScale(2.5, 2.5, 2.5, 2.5, 1300, Phaser.Easing.Quintic.Out);

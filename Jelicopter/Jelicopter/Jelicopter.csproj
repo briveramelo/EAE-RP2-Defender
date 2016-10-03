@@ -88,6 +88,8 @@
     <Content Include="build\assets\sprites\Ship\ship_shield.json" />
     <Content Include="build\assets\sounds\SoundFX\Collision\Splat.ogg" />
     <Content Include="build\assets\sounds\SoundFX\TractorBeam\TractorBeam.ogg" />
+    <Content Include="build\assets\fonts\Kemco_Pixel_Bold.ttf" />
+    <Content Include="build\assets\fonts\Kemco_Pixel_Bold.woff" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

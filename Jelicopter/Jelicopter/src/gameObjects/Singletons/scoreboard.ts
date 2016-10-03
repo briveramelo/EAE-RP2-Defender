@@ -33,20 +33,20 @@
             this.scoreLibrary = [];
             this.scoreLibrary[0] = 100;
             this.scoreLibrary[1] = 200;
-            this.scoreLibrary[2] = 300;
-            this.scoreLibrary[3] = 300;
+            this.scoreLibrary[2] = 200;
+            this.scoreLibrary[3] = 200;
 
-            this.scoreLibrary[4] = 300;
-            this.scoreLibrary[5] = 500;
+            this.scoreLibrary[4] = 700;
+            this.scoreLibrary[5] = 800;
             this.scoreLibrary[6] = 500;
-            this.scoreLibrary[7] = 700;
+            this.scoreLibrary[7] = 500;
 
-            this.scoreLibrary[8] = 600;
-            this.scoreLibrary[9] = 700;
-            this.scoreLibrary[10] = 800;
+            this.scoreLibrary[8] = 2000;
+            this.scoreLibrary[9] = 1000;
+            this.scoreLibrary[10] = 2000;
 
-            this.scoreLibrary[11] = 1000;
-            this.scoreLibrary[12] = 1500;
+            this.scoreLibrary[11] = 1500;
+            this.scoreLibrary[12] = 1000;
 
             this.createScoreParticleEmitter();
             this.displayScore();
@@ -67,26 +67,17 @@
         }
 
         displayScore() {
-            var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+            var style = { font: "30px PixelFont", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
-            //  The Text is positioned at 0, 100
-            this.scoreText = this.game.add.text(0, 0, "Score: 0", style);
+            this.scoreText = this.game.add.text(20, 20, "Score: 0", style);
             this.scoreText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
             this.scoreText.fixedToCamera = true;
-            //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
-            // this.scoreText.setTextBounds(0, 100, 800, 100);
-        }       
+        }
 
         giveFeedbackOfScore(position, pointsToAdd: Points) {
             this.score += this.scoreLibrary[pointsToAdd];
+            this.score_animationEmitter.emitParticle(position.x, position.y, 'score_feedback', this.pointsToFrame(this.scoreLibrary[pointsToAdd]) );            
             this.scoreText.text = 'Score: ' + this.score;
-            this.score_animationEmitter.emitParticle(position.x, position.y, 'score_feedback', this.pointsToFrame(this.scoreLibrary[pointsToAdd]) );
-
-            //  The first parameter sets the effect to "explode" which means all particles are emitted at once
-            //  The second gives each particle a 2000ms lifespan
-            //  The third is ignored when using burst/explode mode
-            //  The final parameter (10) is how many particles will be emitted in this single burst
-            
         }
 
         pointsToFrame(points) {
