@@ -76,6 +76,7 @@
     <TypeScriptCompile Include="src\gameObjects\Singletons\Spawners\VehicleSpawner.ts" />
     <TypeScriptCompile Include="src\gameObjects\Singletons\WrapManager.ts" />
     <TypeScriptCompile Include="src\gameStates\Boot.ts" />
+    <TypeScriptCompile Include="src\gameStates\Credits.ts" />
     <TypeScriptCompile Include="src\gameStates\GameOver.ts" />
     <TypeScriptCompile Include="src\gameStates\MainGame.ts" />
     <TypeScriptCompile Include="src\gameStates\MainMenu.ts" />
