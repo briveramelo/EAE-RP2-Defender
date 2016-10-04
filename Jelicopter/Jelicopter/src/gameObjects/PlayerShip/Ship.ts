@@ -116,19 +116,19 @@
 
         }
         camOffset: number = 300;
-        isFast: boolean;
-        wasJustDown: boolean;
-        toggleShipSpeed() {
-            var isDown: boolean = this.game.input.keyboard.isDown(Phaser.KeyCode.F);
-            if (isDown && !this.wasJustDown) {
-                this.isFast = !this.isFast;
-                this.shipSpeed.x = this.isFast ? 3000 : 600;
-            }
-            this.wasJustDown = isDown;
-        }
+        //isFast: boolean;
+        //wasJustDown: boolean;
+        //toggleShipSpeed() {
+        //    var isDown: boolean = this.game.input.keyboard.isDown(Phaser.KeyCode.F);
+        //    if (isDown && !this.wasJustDown) {
+        //        this.isFast = !this.isFast;
+        //        this.shipSpeed.x = this.isFast ? 3000 : 600;
+        //    }
+        //    this.wasJustDown = isDown;
+        //}
         update() {
             if (this.alive) {
-                this.toggleShipSpeed();//for debugging -- take out in release
+                //this.toggleShipSpeed();//for debugging -- take out in release
                 this.isGoingRight = this.scale.x === this.scaleMult;
                 this.isStretched = this.animations.frame >= 3 && this.animations.frame <= this.maxVelocityFrame;
                 this.camTarget.position.x = this.position.x;// + (this.isGoingRight ? 1 : -1) * this.camOffset;

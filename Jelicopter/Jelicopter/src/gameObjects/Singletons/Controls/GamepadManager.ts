@@ -10,7 +10,7 @@
         switchWasJustPressed: boolean;
 
         constructor(game: Phaser.Game, level: MainGame) {
-            super(game, 0,0, 'EnemyBullet');
+            super(game, 0,0, 'invisibleDot');
             this.level = level;
             this.game = game;
             game.input.gamepad.start();
@@ -24,7 +24,7 @@
         }
 
         update() {
-            this.toggleInputDevice();
+            //this.toggleInputDevice();
 
             if (this.joyStickIsActive) {
                 if (this.level.playerShip.alive) {

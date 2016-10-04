@@ -14,7 +14,9 @@
 
             if (this.game.device.desktop) {
                 this.scale.pageAlignHorizontally = true;
-                //this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+                //this.scale.pageAlignVertically = true;
+                
+                //this.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
             } else {
                 // mobile
                 //this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;

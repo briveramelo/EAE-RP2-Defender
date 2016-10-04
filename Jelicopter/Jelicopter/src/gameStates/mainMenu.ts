@@ -1,9 +1,15 @@
 ﻿module Jelicopter.Client {
 
     export class MainMenu extends Phaser.State {
-        
+
+        gameEngine: GameEngine;
         background: Phaser.Sprite;
         logo: Phaser.Sprite;
+
+        constructor(gameEngine: GameEngine) {
+            super();
+            this.gameEngine = gameEngine;
+        }
 
         create() {
             this.background = this.add.sprite(0, 0, 'TitleScreen');
@@ -17,7 +23,8 @@
 
 
             this.input.onDown.addOnce(this.fadeOut, this);
-            this.input.keyboard.addCallbacks(this, this.startGameKeyboard);//.addOnce(this.fadeOut, this);
+            this.input.keyboard.addCallbacks(this, this.startGameKeyboard);
+            this.gameEngine.resizeGame();
         }
 
         fadeOut() {            
