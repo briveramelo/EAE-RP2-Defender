@@ -41,6 +41,8 @@
         shield2Hit: Phaser.Sprite;
         shield2HitAnim: Phaser.Animation;
 
+        screenFlash: Phaser.Sprite;        
+
         constructor(game: Phaser.Game, level: MainGame, bullets: Bullet) {
             super(game, game.world.centerX, game.world.centerY, 'PlayerShip', 0);
             this.position.y = 600;
@@ -57,6 +59,9 @@
             this.contractAnim = this.animations.add('contract', contractFrames, 60, false);
             game.add.existing(this);
             game.physics.enable(this, Phaser.Physics.ARCADE);
+
+            this.screenFlash = this.game.add.sprite(0, 0, 'hit-indicator');
+            this.screenFlash.alpha = 0;
 
             this.camTarget = this.game.add.sprite(0, 0, 'invisibleDot');
             this.camTarget.position.x = this.position.x;// + (this.isGoingRight ? 1 : -1) * this.camOffset;
@@ -128,6 +133,7 @@
                 this.isStretched = this.animations.frame >= 3 && this.animations.frame <= this.maxVelocityFrame;
                 this.camTarget.position.x = this.position.x;// + (this.isGoingRight ? 1 : -1) * this.camOffset;
                 this.camTarget.position.y = this.position.y;
+                this.screenFlash.position.x = this.game.camera.x;
                 if (!this.level.gamepadManager.joyStickIsActive) {
                     this.move(this.isGoingRight);
                     var isMoving: boolean = this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT);
@@ -182,16 +188,23 @@
                 this.level.soundManager.playSound(SoundFX.ShieldLost);
             }
         }
+        endShieldHitScale: number = 3;
         animateDamage(health: number) {
+            this.screenFlash.alpha = 1;
+            var tween = this.game.add.tween(this.screenFlash).to({ alpha: 0 }, 2000, Phaser.Easing.Linear.None, true);
+
             switch (health) {
-                case 2:
+                case 2:                    
+                    var tween = this.game.add.tween(this.shield2Hit.scale).to({ x: this.endShieldHitScale, y: this.endShieldHitScale }, 6000, Phaser.Easing.Linear.None, true);
                     this.shield2Hit.revive();
-                    this.shield2HitAnim.play(60, false, true);
+                    this.shield2HitAnim.play(30, false, true);
                     //first shield
                     break;
                 case 1:
+                    //this.shield1Hit.scale.set(1);
+                    var tween = this.game.add.tween(this.shield1Hit.scale).to({ x: this.endShieldHitScale, y: this.endShieldHitScale }, 6000, Phaser.Easing.Linear.None, true);
                     this.shield1Hit.revive();
-                    this.shield1HitAnim.play(60, false, true);
+                    this.shield1HitAnim.play(30, false, true);
                     //second shield
                     break;
                 case 0:
@@ -200,6 +213,9 @@
                     break;
             }
         }
+
+
+
         kill() {
             this.game.time.events.add(Phaser.Timer.SECOND * 4, this.level.endGame, this.level);
             this.level.tractorBeam.flingAllPeople();

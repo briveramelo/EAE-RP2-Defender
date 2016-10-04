@@ -6,7 +6,7 @@
         
         create() {
             //swap this out for another credits screenpppp
-            this.background = this.add.sprite(0, 0, 'GameOver');
+            this.background = this.add.sprite(0, 0, 'Credits');
 
             this.game.input.gamepad.start();
             this.joystick = this.game.input.gamepad.pad1;

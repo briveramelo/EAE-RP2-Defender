@@ -18,13 +18,13 @@
             this.game = game;
             this.soundLibrary = [];
             this.soundLibrary[SoundFX.Background] = this.game.add.audio('Aliens', .7, true);
-            this.soundLibrary[SoundFX.PersonDeath] = this.game.add.audio('personDeath1');
-            this.soundLibrary[SoundFX.FireShot] = this.game.add.audio('fireShot5');
-            this.soundLibrary[SoundFX.Abduct] = this.game.add.audio('abduct1');
-            this.soundLibrary[SoundFX.HeliExplode] = this.game.add.audio('heliExplode2');
-            this.soundLibrary[SoundFX.FireRocket] = this.game.add.audio('fireRocket2');
+            this.soundLibrary[SoundFX.PersonDeath] = this.game.add.audio('personDeath');
+            this.soundLibrary[SoundFX.FireShot] = this.game.add.audio('fireShot');
+            this.soundLibrary[SoundFX.Abduct] = this.game.add.audio('abduct');
+            this.soundLibrary[SoundFX.HeliExplode] = this.game.add.audio('heliExplode');
+            this.soundLibrary[SoundFX.FireRocket] = this.game.add.audio('fireRocket');
             this.soundLibrary[SoundFX.ShieldLost] = this.game.add.audio('shieldHit', 1.3);
-            this.soundLibrary[SoundFX.PlayerShipDeath] = this.game.add.audio('personDeath3');
+            this.soundLibrary[SoundFX.PlayerShipDeath] = this.game.add.audio('personDeath');
             this.soundLibrary[SoundFX.GameOver] = this.game.add.audio('gameOver');
             this.soundLibrary[SoundFX.FlingPerson] = this.game.add.audio('flingPerson');
         }

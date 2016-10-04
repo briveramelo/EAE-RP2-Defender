@@ -225,7 +225,7 @@
             this.enemyBullets = this.game.add.group();
             this.enemyBullets.enableBody = true;
             this.enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
-            this.enemyBullets.createMultiple(50, 'UFOBullet');
+            this.enemyBullets.createMultiple(50, 'EnemyBullet');
             this.enemyBullets.forEach(function (bullet) {
                 bullet.myCollider = new CircleCollider(bullet, 10, new Phaser.Point(0, 0));
                 bullet.scale.set(0.5);
@@ -243,7 +243,7 @@
             this.enemyMissiles = this.game.add.group();
             this.enemyMissiles.enableBody = true;
             this.enemyMissiles.physicsBodyType = Phaser.Physics.ARCADE;
-            this.enemyMissiles.createMultiple(100, 'Missile');
+            this.enemyMissiles.createMultiple(100, 'EnemyBullet');
             this.enemyMissiles.forEach(function (missile) {
                 missile.myCollider = new CircleCollider(missile, 20, new Phaser.Point(0, 0));
                 this.allObjects[objStartIndex] = missile;
@@ -291,11 +291,6 @@
                 objStartIndex++;
             }, this);
             return objStartIndex;
-        }
-
-
-        update() {
-
         }
 
         endGame() {
