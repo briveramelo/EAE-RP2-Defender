@@ -9,5 +9,11 @@ span {
 
 @font-face {	
     font-family: 'PixelFont';
-    src: url('/assets/fonts/Kemco_Pixel_Bold.eot?') format('eot'), url('/assets/fonts/Kemco_Pixel_Bold.woff') format('woff'), url('/assets/fonts/Kemco_Pixel_Bold.ttf') format('truetype');
+    src: url('/assets/fonts/Kemco_Pixel_Bold.eot?') format('eot'),
+         url('/assets/fonts/Kemco_Pixel_Bold.woff') format('woff'),
+         url('/assets/fonts/Kemco_Pixel_Bold.ttf') format('truetype'),
+         url('/assets/fonts/Kemco_Pixel_Bold.otf') format('opentype'),
+         url('/assets/fonts/Kemco_Pixel_Bold.svg') format('svg');
 }
+
+
