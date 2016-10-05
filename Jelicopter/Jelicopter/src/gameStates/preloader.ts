@@ -46,6 +46,7 @@
             this.load.atlasJSONHash('ship-shield', './assets/sprites/Ship/ship_shield.png', './assets/sprites/Ship/ship_shield.json');
             this.load.atlasJSONHash('ship-shield-outer', './assets/sprites/Ship/ship_shield_outer.png', './assets/sprites/Ship/ship_shield_outer.json');
             this.load.atlasJSONHash('ship-shield-hit', 'assets/sprites/VisualFX/shield_hit.png', 'assets/sprites/VisualFX/shield_hit.json');
+            this.load.spritesheet('health-bar', 'assets/sprites/Ship/health-bar.png', 80, 64);
             //People
             this.load.atlasJSONHash('Male1', './assets/sprites/People/Male1.png', './assets/sprites/People/Male1.json');
             this.load.atlasJSONHash('Male2', './assets/sprites/People/Male2.png', './assets/sprites/People/Male2.json');

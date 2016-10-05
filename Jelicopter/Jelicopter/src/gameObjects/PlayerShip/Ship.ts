@@ -43,6 +43,9 @@
 
         screenFlash: Phaser.Sprite;        
 
+        healthBarIndicator: Phaser.Sprite;
+
+
         constructor(game: Phaser.Game, level: MainGame, bullets: Bullet) {
             super(game, game.world.centerX, game.world.centerY, 'PlayerShip', 0);
             this.position.y = 600;
@@ -66,6 +69,13 @@
             this.camTarget = this.game.add.sprite(0, 0, 'invisibleDot');
             this.camTarget.position.x = this.position.x;// + (this.isGoingRight ? 1 : -1) * this.camOffset;
             this.camTarget.position.y = this.position.y;
+
+            //ATTACH HEALTHBAR
+            
+            var healthText = this.game.add.text(20, 70, "HEALTH: ", { font: "30px PixelFont", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" });
+            healthText.fixedToCamera = true;
+            this.healthBarIndicator = this.game.add.sprite(190, 55, 'health-bar', 0);
+            this.healthBarIndicator.fixedToCamera = true;
 
             this.addShieldChildren(stretchFrames, contractFrames);
 
@@ -131,9 +141,10 @@
                 //this.toggleShipSpeed();//for debugging -- take out in release
                 this.isGoingRight = this.scale.x === this.scaleMult;
                 this.isStretched = this.animations.frame >= 3 && this.animations.frame <= this.maxVelocityFrame;
-                this.camTarget.position.x = this.position.x;// + (this.isGoingRight ? 1 : -1) * this.camOffset;
+                this.camTarget.position.x = this.position.x;
                 this.camTarget.position.y = this.position.y;
-                this.screenFlash.position.x = this.game.camera.x;
+                this.screenFlash.position.x = this.game.camera.x;                
+
                 if (!this.level.gamepadManager.joyStickIsActive) {
                     this.move(this.isGoingRight);
                     var isMoving: boolean = this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT);
@@ -197,6 +208,7 @@
                     var tween = this.game.add.tween(this.shield2Hit.scale).to({ x: this.endShieldHitScale, y: this.endShieldHitScale }, 6000, Phaser.Easing.Linear.None, true);
                     this.shield2Hit.revive();
                     this.shield2HitAnim.play(30, false, true);
+                    this.healthBarIndicator.frame = 1;
                     //first shield
                     break;
                 case 1:
@@ -204,10 +216,12 @@
                     var tween = this.game.add.tween(this.shield1Hit.scale).to({ x: this.endShieldHitScale, y: this.endShieldHitScale }, 6000, Phaser.Easing.Linear.None, true);
                     this.shield1Hit.revive();
                     this.shield1HitAnim.play(30, false, true);
+                    this.healthBarIndicator.frame = 2;
                     //second shield
                     break;
                 case 0:
                     this.level.playerShipExplosionManager.burstParticles(this.position);
+                    this.healthBarIndicator.kill();
                     //ship explosion
                     break;
             }
