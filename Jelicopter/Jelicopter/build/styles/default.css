@@ -9,5 +9,5 @@ span {
 
 @font-face {	
     font-family: 'PixelFont';
-    src: url('/assets/fonts/Kemco_Pixel_Bold.woff') format('woff');
+    src: url('/assets/fonts/Kemco_Pixel_Bold.eot?') format('eot'), url('/assets/fonts/Kemco_Pixel_Bold.woff') format('woff'), url('/assets/fonts/Kemco_Pixel_Bold.ttf') format('truetype');
 }
