@@ -180,8 +180,7 @@
                 this.removeChild(this.shield1Stretch);
             }
             this.animateDamage(this.health);
-            if (this.health <= 0) {
-                this.level.soundManager.playSound(SoundFX.PlayerShipDeath);
+            if (this.health <= 0) {                
                 this.kill();
             }
             else {
@@ -220,7 +219,9 @@
             this.game.time.events.add(Phaser.Timer.SECOND * 4, this.level.endGame, this.level);
             this.level.tractorBeam.flingAllPeople();
             this.level.tractorBeam.flingVehicles();
+            this.level.soundManager.playSound(SoundFX.PlayerShipDeath);
             this.level.soundManager.playSound(SoundFX.GameOver);
+            this.level.soundManager.stopBackground();
             super.kill();
             return this;
         }

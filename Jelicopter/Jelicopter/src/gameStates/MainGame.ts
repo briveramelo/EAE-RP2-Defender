@@ -24,10 +24,7 @@
         playerBullets: Bullet;
         playerShip: Ship;
 
-        paraTrooper: ParaTrooper;
-
         //SINGELTONS
-        //hospital: Hospital;
         scoreboard: ScoreBoard;
         pauser: Pauser;
         roundManager: RoundManager;
@@ -67,8 +64,6 @@
             this.game.world.setBounds(0, this.heightOffset, 10000000000, this.gameSize.y);
             this.physics.startSystem(Phaser.Physics.ARCADE);
             this.physics.arcade.gravity.y = 100;
-            this.scale.pageAlignHorizontally = true;
-            this.scale.pageAlignVertically = true;
 
             //CREATE BACKGROUNDS
             this.allBackgrounds = this.add.group();
@@ -112,14 +107,12 @@
             this.laserManager = new LaserManager(this.game, this);
             this.vehicleExplosionManager = new VehicleExplosionManager(this.game, this);
             this.playerShipExplosionManager = new PlayerShipExplosionManager(this.game, this);                
-            //this.tractorBeamParticleManager = new TractorBeamParticleManager(this.game, this);
-            //this.playerShip.addChild(this.tractorBeam);
 
             //HANDLE CAMERA
             this.game.camera.roundPx = false;
             this.game.renderer.renderSession.roundPixels = false;
             this.game.camera.setPosition(this.playerShip.camTarget.x, this.playerShip.camTarget.y);
-            this.game.camera.follow(this.playerShip.camTarget, Phaser.Camera.FOLLOW_LOCKON);//, 0.05);
+            this.game.camera.follow(this.playerShip.camTarget, Phaser.Camera.FOLLOW_LOCKON);
             
             this.soundManager.playSound(SoundFX.Background);
         }
@@ -171,12 +164,6 @@
             }
         }
 
-        //createBuildings(objStartIndex: number) {
-        //    this.hospital = new Hospital(this.game, this);
-        //    this.allObjects[objStartIndex] = this.hospital;
-        //    objStartIndex++;
-        //    return objStartIndex;
-        //}
         createPlayerShipAndBullets(objStartIndex: number) {
             this.playerBullets = new Bullet(this.game);
             this.playerShip = new Ship(this.game, this, this.playerBullets);

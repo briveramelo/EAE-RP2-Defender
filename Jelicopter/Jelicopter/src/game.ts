@@ -6,7 +6,6 @@
         mainGame: MainGame;
         gameOver: GameOver;
         gameSize: Phaser.Point = new Phaser.Point(1880, 850);
-        resizeScale: number = .99;
 
         constructor() {
             super(1880, 850, Phaser.AUTO, 'content', null);            
@@ -40,8 +39,6 @@
             else if (height_constrained > height) {
                 width = width_constrained;
             }
-            width *= this.resizeScale;
-            height *= this.resizeScale;
 
             this.scale.setMinMax(0, 0, width, height);
             this.scale.refresh();
